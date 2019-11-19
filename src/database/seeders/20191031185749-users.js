@@ -9,6 +9,8 @@ module.exports = {
           password:
             '$2b$10$UsfkamXYROf8rEYT8QR.D.M7Ng9hv9zOZ.bJZQxSAJyoPI4ECk7q2',
           admin: true,
+          created_at: new Date(),
+          updated_at: new Date(),
         },
       ],
       {}

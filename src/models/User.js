@@ -2,10 +2,13 @@ const { Model, DataTypes } = require('sequelize');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
+// Fix virtual field
 class User extends Model {
   static init(sequelize) {
     super.init(
       {
+        avatar: DataTypes.STRING,
+        avatar_url: DataTypes.VIRTUAL,
         name: DataTypes.STRING,
         email: DataTypes.STRING,
         password: DataTypes.STRING,

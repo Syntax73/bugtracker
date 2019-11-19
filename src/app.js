@@ -11,6 +11,7 @@ class AppController {
 
   middleware() {
     this.express.use(express.json());
+    this.express.use(express.urlencoded({ extended: true }));
   }
 
   routes() {
