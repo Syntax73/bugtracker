@@ -12,6 +12,14 @@ class Project extends Model {
       }
     );
   }
+
+  static associate(models) {
+    this.belongsToMany(models.User, {
+      foreignKey: 'project_id',
+      through: 'project_users',
+      as: 'team',
+    });
+  }
 }
 
 module.exports = Project;

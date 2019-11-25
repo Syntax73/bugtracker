@@ -8,7 +8,7 @@ module.exports = {
           email: 'admin@adm.com',
           password:
             '$2b$10$UsfkamXYROf8rEYT8QR.D.M7Ng9hv9zOZ.bJZQxSAJyoPI4ECk7q2',
-          admin: true,
+          role: 'admin',
           created_at: new Date(),
           updated_at: new Date(),
         },

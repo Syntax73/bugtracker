@@ -12,7 +12,7 @@ class User extends Model {
         name: DataTypes.STRING,
         email: DataTypes.STRING,
         password: DataTypes.STRING,
-        admin: DataTypes.BOOLEAN,
+        role: DataTypes.ENUM('developer', 'test_lead', 'project_lead', 'admin'),
       },
       {
         sequelize,
@@ -26,13 +26,21 @@ class User extends Model {
     });
   }
 
+  static associate(models) {
+    this.belongsToMany(models.Project, {
+      foreignKey: 'user_id',
+      through: 'project_users',
+      as: 'projects',
+    });
+  }
+
   async checkPassword(password) {
     return bcrypt.compare(password, this.password);
   }
 
   generateToken() {
     return jwt.sign(
-      { id: this.id, email: this.email, admin: this.admin },
+      { id: this.id, email: this.email, role: this.role },
       process.env.APP_KEY,
       { expiresIn: '2 days' }
     );
