@@ -9,6 +9,8 @@ const FileController = require('./controllers/FileController');
 const UserController = require('./controllers/UserController');
 const ProjectController = require('./controllers/ProjectController');
 const TeamController = require('./controllers/TeamController');
+const BugController = require('./controllers/BugController');
+const BugAssignedController = require('./controllers/BugAssignedController');
 
 routes.post('/session', SessionController.store);
 routes.get('/files/:file', FileController.show);
@@ -36,5 +38,21 @@ routes.delete(
 );
 
 routes.get('/projects/:project_id/team', isAuth, TeamController.index);
+
+routes.post('/projects/:project_id/bugs', isAuth, BugController.store);
+routes.put('/projects/:project_id/bugs/:bug_id', isAuth, BugController.update);
+routes.get('/projects/:project_id/bugs', isAuth, BugController.index);
+routes.get('/projects/:project_id/bugs/:bug_id', isAuth, BugController.show);
+
+routes.post(
+  '/projects/:project_id/bugs/:bug_id/assigned',
+  isAuth,
+  BugAssignedController.store
+);
+routes.delete(
+  '/projects/:project_id/bugs/:bug_id/assigned',
+  isAuth,
+  BugAssignedController.destroy
+);
 
 module.exports = routes;

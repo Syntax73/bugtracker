@@ -14,9 +14,7 @@ class User extends Model {
         password: DataTypes.STRING,
         role: DataTypes.ENUM('developer', 'test_lead', 'project_lead', 'admin'),
       },
-      {
-        sequelize,
-      }
+      { sequelize }
     );
 
     super.addHook('beforeCreate', async user => {
@@ -32,6 +30,8 @@ class User extends Model {
       through: 'project_users',
       as: 'projects',
     });
+    this.hasMany(models.Bug, { foreignKey: 'user_id', as: 'bugs' });
+    this.hasMany(models.BugAssigned, { foreignKey: 'user_id', as: 'assigned' });
   }
 
   async checkPassword(password) {

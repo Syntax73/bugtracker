@@ -7,9 +7,7 @@ class Project extends Model {
         name: DataTypes.STRING,
         description: DataTypes.TEXT,
       },
-      {
-        sequelize,
-      }
+      { sequelize }
     );
   }
 
@@ -19,6 +17,7 @@ class Project extends Model {
       through: 'project_users',
       as: 'team',
     });
+    this.hasMany(models.Bug, { foreignKey: 'project_id', as: 'bugs' });
   }
 }
 
