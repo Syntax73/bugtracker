@@ -30,8 +30,15 @@ class User extends Model {
       through: 'project_users',
       as: 'projects',
     });
-    this.hasMany(models.Bug, { foreignKey: 'user_id', as: 'bugs' });
-    this.hasMany(models.BugAssigned, { foreignKey: 'user_id', as: 'assigned' });
+    this.hasMany(models.Issue, { foreignKey: 'user_id', as: 'issue' });
+    this.hasMany(models.IssueAssigned, {
+      foreignKey: 'user_id',
+      as: 'assigned',
+    });
+    this.hasMany(models.IssueComment, {
+      foreignKey: 'user_id',
+      as: 'comments',
+    });
   }
 
   async checkPassword(password) {

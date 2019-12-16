@@ -1,16 +1,16 @@
 const { Model, DataTypes } = require('sequelize');
 
-class BugPriority extends Model {
+class IssuePriority extends Model {
   static init(sequelize) {
     super.init(
       { priority: DataTypes.ENUM('low', 'medium', 'high') },
-      { sequelize, tableName: 'bug_priority' }
+      { sequelize, tableName: 'issue_priority' }
     );
   }
 
   static associate(models) {
-    this.belongsTo(models.Bug, { foreignKey: 'bug_id', as: 'bug' });
+    this.belongsTo(models.Issue, { foreignKey: 'issue_id', as: 'issue' });
   }
 }
 
-module.exports = BugPriority;
+module.exports = IssuePriority;

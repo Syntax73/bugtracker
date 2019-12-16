@@ -1,25 +1,29 @@
 module.exports = {
   up: (queryInterface, Sequelize) => {
-    return queryInterface.createTable('bug_assigneds', {
+    return queryInterface.createTable('issue_severity', {
       id: {
         type: Sequelize.INTEGER,
         primaryKey: true,
         autoIncrement: true,
         allowNull: false,
       },
-      user_id: {
+      issue_id: {
         type: Sequelize.INTEGER,
         allowNull: false,
-        references: { model: 'users', key: 'id' },
+        references: { model: 'issues', key: 'id' },
         onUpdate: 'CASCADE',
         onDelete: 'CASCADE',
       },
-      bug_id: {
-        type: Sequelize.INTEGER,
+      severity: {
+        type: Sequelize.ENUM(
+          'critical',
+          'major',
+          'moderate',
+          'minor',
+          'cosmect'
+        ),
+        defaultValue: 'minor',
         allowNull: false,
-        references: { model: 'bugs', key: 'id' },
-        onUpdate: 'CASCADE',
-        onDelete: 'CASCADE',
       },
       created_at: {
         type: Sequelize.DATE,
@@ -33,6 +37,6 @@ module.exports = {
   },
 
   down: queryInterface => {
-    return queryInterface.dropTable('bug_assigneds');
+    return queryInterface.dropTable('issue_severity');
   },
 };

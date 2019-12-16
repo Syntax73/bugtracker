@@ -17,7 +17,7 @@ class Project extends Model {
       through: 'project_users',
       as: 'team',
     });
-    this.hasMany(models.Bug, { foreignKey: 'project_id', as: 'bugs' });
+    this.hasMany(models.Issue, { foreignKey: 'project_id', as: 'issues' });
   }
 }
 

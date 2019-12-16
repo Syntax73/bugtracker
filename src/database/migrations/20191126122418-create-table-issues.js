@@ -1,6 +1,6 @@
 module.exports = {
   up: (queryInterface, Sequelize) => {
-    return queryInterface.createTable('bugs', {
+    return queryInterface.createTable('issues', {
       id: {
         type: Sequelize.INTEGER,
         primaryKey: true,
@@ -33,6 +33,7 @@ module.exports = {
         type: Sequelize.ENUM(
           'new',
           'open',
+          'in-progress',
           'rejected',
           'fixed',
           'reopen',
@@ -54,6 +55,6 @@ module.exports = {
   },
 
   down: queryInterface => {
-    return queryInterface.dropTable('bugs');
+    return queryInterface.dropTable('issues');
   },
 };

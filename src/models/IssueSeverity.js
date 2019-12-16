@@ -1,6 +1,6 @@
 const { Model, DataTypes } = require('sequelize');
 
-class BugSeverity extends Model {
+class IssueSeverity extends Model {
   static init(sequelize) {
     super.init(
       {
@@ -12,13 +12,13 @@ class BugSeverity extends Model {
           'cosmect'
         ),
       },
-      { sequelize, tableName: 'bug_severity' }
+      { sequelize, tableName: 'issue_severity' }
     );
   }
 
   static associate(models) {
-    this.belongsTo(models.Bug, { foreignKey: 'bug_id', as: 'bug' });
+    this.belongsTo(models.Issue, { foreignKey: 'issue_id', as: 'issue' });
   }
 }
 
-module.exports = BugSeverity;
+module.exports = IssueSeverity;

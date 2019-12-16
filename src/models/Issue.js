@@ -1,6 +1,6 @@
 const { Model, DataTypes } = require('sequelize');
 
-class Bug extends Model {
+class Issue extends Model {
   static init(sequelize) {
     super.init(
       {
@@ -8,6 +8,7 @@ class Bug extends Model {
         status: DataTypes.ENUM(
           'new',
           'open',
+          'in-progress',
           'rejected',
           'fixed',
           'reopen',
@@ -23,10 +24,24 @@ class Bug extends Model {
   static associate(models) {
     this.belongsTo(models.User, { foreignKey: 'user_id', as: 'reporter' });
     this.belongsTo(models.Project, { foreignKey: 'project_id', as: 'project' });
-    this.hasMany(models.BugAssigned, { foreignKey: 'bug_id', as: 'assigned' });
-    this.hasOne(models.BugSeverity, { foreignKey: 'bug_id', as: 'severity' });
-    this.hasOne(models.BugPriority, { foreignKey: 'bug_id', as: 'priority' });
+    this.hasMany(models.IssueAssigned, {
+      foreignKey: 'issue_id',
+      as: 'assigned',
+    });
+    this.hasOne(models.IssueSeverity, {
+      foreignKey: 'issue_id',
+      as: 'severity',
+    });
+    this.hasOne(models.IssuePriority, {
+      foreignKey: 'issue_id',
+      as: 'priority',
+    });
+    this.hasMany(models.IssueComment, {
+      foreignKey: 'issue_id',
+      as: 'comments',
+    });
+    this.hasOne(models.IssueType, { foreignKey: 'issue_id', as: 'type' });
   }
 }
 
-module.exports = Bug;
+module.exports = Issue;

@@ -1,13 +1,13 @@
 const Project = require('../models/Project');
-const BugAssigned = require('../models/BugAssigned');
+const IssueAssigned = require('../models/IssueAssigned');
 
-class BugAssignedController {
+class IssueAssignedController {
   async store(req, res) {
-    const { project_id: projecId, bug_id: bugId } = req.params;
+    const { project_id: projecId, issue_id: issueId } = req.params;
     const { assigned } = req.body;
 
     const project = await Project.findByPk(projecId, {
-      include: { association: 'bugs', where: { id: bugId } },
+      include: { association: 'issues', where: { id: issueId } },
     });
 
     if (!project) {
@@ -16,8 +16,8 @@ class BugAssignedController {
         .json({ message: 'Projeto ou Bug não encontrados' });
     }
 
-    const joj = await BugAssigned.create({
-      bug_id: bugId,
+    const joj = await IssueAssigned.create({
+      issue_id: issueId,
       user_id: assigned,
     });
 
@@ -25,11 +25,11 @@ class BugAssignedController {
   }
 
   async destroy(req, res) {
-    const { project_id: projecId, bug_id: bugId } = req.params;
+    const { project_id: projecId, issue_id: issueId } = req.params;
     const { assigned } = req.body;
 
     const project = await Project.findByPk(projecId, {
-      include: { association: 'bugs', where: { id: bugId } },
+      include: { association: 'issues', where: { id: issueId } },
     });
 
     if (!project) {
@@ -38,10 +38,12 @@ class BugAssignedController {
         .json({ message: 'Projeto ou Bug não encontrados' });
     }
 
-    await BugAssigned.destroy({ where: { bug_id: bugId, user_id: assigned } });
+    await IssueAssigned.destroy({
+      where: { issue_id: issueId, user_id: assigned },
+    });
 
     return res.send();
   }
 }
 
-module.exports = new BugAssignedController();
+module.exports = new IssueAssignedController();

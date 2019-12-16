@@ -9,8 +9,9 @@ const FileController = require('./controllers/FileController');
 const UserController = require('./controllers/UserController');
 const ProjectController = require('./controllers/ProjectController');
 const TeamController = require('./controllers/TeamController');
-const BugController = require('./controllers/BugController');
-const BugAssignedController = require('./controllers/BugAssignedController');
+const IssueController = require('./controllers/IssueController');
+const IssueAssignedController = require('./controllers/IssueAssignedController');
+const IssueCommentController = require('./controllers/IssueCommentController');
 
 routes.post('/session', SessionController.store);
 routes.get('/files/:file', FileController.show);
@@ -39,20 +40,54 @@ routes.delete(
 
 routes.get('/projects/:project_id/team', isAuth, TeamController.index);
 
-routes.post('/projects/:project_id/bugs', isAuth, BugController.store);
-routes.put('/projects/:project_id/bugs/:bug_id', isAuth, BugController.update);
-routes.get('/projects/:project_id/bugs', isAuth, BugController.index);
-routes.get('/projects/:project_id/bugs/:bug_id', isAuth, BugController.show);
+routes.post('/projects/:project_id/issues', isAuth, IssueController.store);
+routes.put(
+  '/projects/:project_id/issues/:issue_id',
+  isAuth,
+  IssueController.update
+);
+routes.get('/projects/:project_id/issues', isAuth, IssueController.index);
+routes.get(
+  '/projects/:project_id/issues/:issue_id',
+  isAuth,
+  IssueController.show
+);
 
 routes.post(
-  '/projects/:project_id/bugs/:bug_id/assigned',
+  '/projects/:project_id/issues/:issue_id/assigned',
   isAuth,
-  BugAssignedController.store
+  IssueAssignedController.store
 );
 routes.delete(
-  '/projects/:project_id/bugs/:bug_id/assigned',
+  '/projects/:project_id/issues/:issue_id/assigned',
   isAuth,
-  BugAssignedController.destroy
+  IssueAssignedController.destroy
+);
+
+routes.get(
+  '/projects/:project_id/issues/:issue_id/comment',
+  isAuth,
+  IssueCommentController.index
+);
+routes.get(
+  '/projects/:project_id/issues/:issue_id/comment/:comment_id',
+  isAuth,
+  IssueCommentController.show
+);
+routes.post(
+  '/projects/:project_id/issues/:issue_id/comment',
+  isAuth,
+  IssueCommentController.store
+);
+routes.put(
+  '/projects/:project_id/issues/:issue_id/comment/:comment_id',
+  isAuth,
+  IssueCommentController.update
+);
+routes.delete(
+  '/projects/:project_id/issues/:issue_id/comment/:comment_id',
+  isAuth,
+  IssueCommentController.destroy
 );
 
 module.exports = routes;
