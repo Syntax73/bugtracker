@@ -12,17 +12,17 @@
 </template>
 
 <script>
-import Toolbar from '@/components/template/Toolbar.vue';
-import Drawer from '@/components/template/Drawer.vue';
-import joasdf from '@/components/template/Footer.vue';
+import Toolbar from "@/components/template/Toolbar.vue";
+import Drawer from "@/components/template/Drawer.vue";
+import joasdf from "@/components/template/Footer.vue";
 
 export default {
-  name: 'Dashboard',
+  name: "Dashboard",
   components: {
     Toolbar,
     Drawer,
-    joasdf,
-  },
+    joasdf
+  }
 };
 </script>
 

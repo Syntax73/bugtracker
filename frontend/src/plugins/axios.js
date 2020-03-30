@@ -1,5 +1,5 @@
-import axios from 'axios';
+import axios from "axios";
 
 export default axios.create({
-  baseURL: process.env.VUE_APP_API,
+  baseURL: process.env.VUE_APP_API
 });

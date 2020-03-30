@@ -34,25 +34,25 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex';
+import { mapActions } from "vuex";
 
 export default {
-  name: 'AuthForm',
+  name: "AuthForm",
   data() {
     return {
       email: null,
-      password: null,
+      password: null
     };
   },
   methods: {
-    ...mapActions('auth', ['signin']),
+    ...mapActions("auth", ["signin"]),
     onSignin() {
       const { email, password } = this;
       this.signin({ email, password })
-        .then(joj => console.log(joj))
+        .then(() => this.$router.push("/dashboard"))
         .catch(err => console.log(err));
-    },
-  },
+    }
+  }
 };
 </script>
 

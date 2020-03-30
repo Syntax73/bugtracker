@@ -1,19 +1,19 @@
 const state = {
-  drawer: null,
+  drawer: null
 };
 
 const getters = {};
 
 const actions = {
   toggleDrawer({ commit, state }) {
-    commit('setDrawer', !state.drawer);
-  },
+    commit("setDrawer", !state.drawer);
+  }
 };
 
 const mutations = {
   setDrawer(state, drawer) {
     state.drawer = drawer;
-  },
+  }
 };
 
 export default {
@@ -21,5 +21,5 @@ export default {
   state,
   getters,
   actions,
-  mutations,
+  mutations
 };

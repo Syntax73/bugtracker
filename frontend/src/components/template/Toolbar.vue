@@ -6,17 +6,17 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex';
+import { mapActions } from "vuex";
 
 export default {
-  name: 'Toolbar',
+  name: "Toolbar",
   data: () => ({}),
   methods: {
-    ...mapActions('app', ['toggleDrawer']),
+    ...mapActions("app", ["toggleDrawer"]),
     drawer() {
       this.toggleDrawer();
-    },
-  },
+    }
+  }
 };
 </script>
 

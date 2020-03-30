@@ -26,21 +26,21 @@
 </template>
 
 <script>
-import { mapMutations } from 'vuex';
+import { mapMutations } from "vuex";
 
 export default {
-  name: 'Drawer',
+  name: "Drawer",
   data: () => ({
     item: 0,
     items: [
-      { text: 'Inicio', icon: 'mdi-view-dashboard' },
-      { text: 'Perfil', icon: 'mdi-account-card-details-outline' },
-      { text: 'Projetos', icon: 'mdi-notebook-outline' },
-      { text: 'Issues', icon: 'mdi-clipboard-check-multiple-outline' },
-    ],
+      { text: "Inicio", icon: "mdi-view-dashboard" },
+      { text: "Perfil", icon: "mdi-account-card-details-outline" },
+      { text: "Projetos", icon: "mdi-notebook-outline" },
+      { text: "Issues", icon: "mdi-clipboard-check-multiple-outline" }
+    ]
   }),
   methods: {
-    ...mapMutations('app', ['setDrawer']),
+    ...mapMutations("app", ["setDrawer"])
   },
   computed: {
     inputValue: {
@@ -49,9 +49,9 @@ export default {
       },
       set(val) {
         this.setDrawer(val);
-      },
-    },
-  },
+      }
+    }
+  }
 };
 </script>
 
