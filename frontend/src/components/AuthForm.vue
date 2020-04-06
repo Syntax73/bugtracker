@@ -1,7 +1,11 @@
 <template>
-  <v-layout align-center justify-center>
-    <v-flex xs12 sm8 md4>
-      <v-card>
+  <v-row align-content="center" justify="center">
+    <v-snackbar v-model="snackbar" :timeout="4000" top :color="alertType">
+      <span>{{ message }}</span>
+      <v-btn text color="white" @click="snackbar = false">Close</v-btn>
+    </v-snackbar>
+    <v-col cols="10" sm8 md4>
+      <v-card class="elevation-12">
         <v-toolbar>
           <v-toolbar-title>Bugtracker</v-toolbar-title>
           <v-spacer />
@@ -29,30 +33,37 @@
           <v-btn align-center justify-center @click="onSignin">Entrar</v-btn>
         </v-card-actions>
       </v-card>
-    </v-flex>
-  </v-layout>
+    </v-col>
+  </v-row>
 </template>
 
 <script>
-import { mapActions } from 'vuex';
+import { mapActions } from "vuex";
 
 export default {
-  name: 'AuthForm',
+  name: "AuthForm",
   data() {
     return {
       email: null,
       password: null,
+      message: "",
+      alertType: "",
+      snackbar: false
     };
   },
   methods: {
-    ...mapActions('auth', ['signin']),
+    ...mapActions("auth", ["signin"]),
     onSignin() {
       const { email, password } = this;
       this.signin({ email, password })
-        .then(joj => console.log(joj))
-        .catch(err => console.log(err));
-    },
-  },
+        .then(() => this.$router.push("/dashboard"))
+        .catch(err => {
+          this.message = err.message;
+          this.alertType = "warning";
+          this.snackbar = true;
+        });
+    }
+  }
 };
 </script>
 
