@@ -4,7 +4,9 @@
     <drawer />
     <v-content>
       <v-container class="fill-height" fluid>
-        <div>teste</div>
+        <v-fade-transition mode="out-in">
+          <router-view />
+        </v-fade-transition>
       </v-container>
     </v-content>
     <Footer />
@@ -21,8 +23,8 @@ export default {
   components: {
     Toolbar,
     Drawer,
-    Footer
-  }
+    Footer,
+  },
 };
 </script>
 

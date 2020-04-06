@@ -1,7 +1,8 @@
 import axios from "@/plugins/axios";
 
 const state = {
-  token: null
+  token: null,
+  userSession: {}
 };
 
 const getters = {};
@@ -12,9 +13,11 @@ const actions = {
       axios
         .post("/session", { email: userData.email, password: userData.password })
         .then(res => {
-          localStorage.setItem("token", res.data);
-          axios.defaults.headers.common.Authorization = `Bearer ${res.data}`;
-          commit("setToken", res.data);
+          const { token, user } = res.data;
+          localStorage.setItem("token", token);
+          axios.defaults.headers.common.Authorization = `Bearer ${token}`;
+          commit("setToken", token);
+          commit("setUserSession", user);
           resolve(res);
         })
         .catch(err => {
@@ -28,6 +31,9 @@ const actions = {
 const mutations = {
   setToken(state, token) {
     state.token = token;
+  },
+  setUserSession(state, user) {
+    state.userSession = user;
   }
 };
 

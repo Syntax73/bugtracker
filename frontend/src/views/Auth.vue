@@ -2,15 +2,20 @@
   <v-app dark>
     <v-content>
       <v-container fluid>
-        <router-view />
+        <AuthForm />
       </v-container>
     </v-content>
   </v-app>
 </template>
 
 <script>
+import AuthForm from "../components/AuthForm";
+
 export default {
-  name: "Auth"
+  name: "Auth",
+  components: {
+    AuthForm
+  }
 };
 </script>
 
