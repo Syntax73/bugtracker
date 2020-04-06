@@ -1,7 +1,7 @@
 <template>
   <v-app-bar app dark clipped-left>
     <v-app-bar-nav-icon @click="drawer" />
-    <v-toolbar-title>Application</v-toolbar-title>
+    <v-toolbar-title>BugTracker</v-toolbar-title>
   </v-app-bar>
 </template>
 

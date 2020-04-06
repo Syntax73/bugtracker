@@ -1,5 +1,5 @@
 <template>
-  <v-navigation-drawer v-model="inputValue" app dark persistent>
+  <v-navigation-drawer v-model="inputValue" app dark clipped>
     <v-list>
       <v-list-item link>
         <v-list-item-content>

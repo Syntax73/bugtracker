@@ -1,5 +1,5 @@
 <template>
-  <v-app light>
+  <v-app dark>
     <v-content>
       <v-container fluid>
         <router-view />

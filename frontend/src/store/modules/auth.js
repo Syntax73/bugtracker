@@ -19,7 +19,7 @@ const actions = {
         })
         .catch(err => {
           localStorage.removeItem("token");
-          reject(err);
+          reject(err.response.data);
         });
     });
   }

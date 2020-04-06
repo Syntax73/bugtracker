@@ -7,21 +7,21 @@
         <div>teste</div>
       </v-container>
     </v-content>
-    <joasdf />
+    <Footer />
   </v-app>
 </template>
 
 <script>
 import Toolbar from "@/components/template/Toolbar.vue";
 import Drawer from "@/components/template/Drawer.vue";
-import joasdf from "@/components/template/Footer.vue";
+import Footer from "@/components/template/Footer.vue";
 
 export default {
   name: "Dashboard",
   components: {
     Toolbar,
     Drawer,
-    joasdf
+    Footer
   }
 };
 </script>
