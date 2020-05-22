@@ -1,9 +1,9 @@
 <template>
-  <v-app light>
+  <v-app dark>
     <toolbar />
     <drawer />
     <v-content>
-      <v-container class="fill-height" fluid>
+      <v-container fluid>
         <v-fade-transition mode="out-in">
           <router-view />
         </v-fade-transition>
@@ -23,8 +23,8 @@ export default {
   components: {
     Toolbar,
     Drawer,
-    Footer,
-  },
+    Footer
+  }
 };
 </script>
 

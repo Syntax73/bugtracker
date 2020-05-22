@@ -1,4 +1,4 @@
-import axios from "@/plugins/axios";
+import axios from "@/services/axios";
 
 const state = {
   token: null,
@@ -8,13 +8,14 @@ const state = {
 const getters = {};
 
 const actions = {
-  signin({ commit }, userData) {
+  signin({ commit }, { email, password }) {
     return new Promise((resolve, reject) => {
       axios
-        .post("/session", { email: userData.email, password: userData.password })
+        .post("/session", { email, password })
         .then(res => {
           const { token, user } = res.data;
           localStorage.setItem("token", token);
+          localStorage.setItem("user", JSON.stringify(user));
           axios.defaults.headers.common.Authorization = `Bearer ${token}`;
           commit("setToken", token);
           commit("setUserSession", user);
@@ -22,9 +23,17 @@ const actions = {
         })
         .catch(err => {
           localStorage.removeItem("token");
+          localStorage.removeItem("user");
           reject(err.response.data);
         });
     });
+  },
+  validateToken({ commit }) {
+    const token = localStorage.getItem("token");
+    const user = JSON.parse(localStorage.getItem("user"));
+    axios.defaults.headers.common.Authorization = `Bearer ${token}`;
+    commit("setToken", token);
+    commit("setUserSession", user);
   }
 };
 
