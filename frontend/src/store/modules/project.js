@@ -2,7 +2,8 @@ import axios from "@/services/axios";
 
 const state = {
   projects: [],
-  project: {}
+  project: {},
+  projectDialog: false
 };
 
 const getters = {};
@@ -20,22 +21,32 @@ const actions = {
   },
   getItem({ commit }, project) {
     commit("setProject", project);
+    commit("setProjectDialog", true);
   },
-  create({ commit }, { name, description }) {
+  create({ commit }, { project, selectedUsers }) {
+    const { name, description } = project;
+
+    const team = selectedUsers.map(users => {
+      return users.id;
+    });
+
     axios
-      .post("/projects", { name, description })
+      .post("/projects", { name, description, team })
       .then(res => {
         commit("createProject", res.data);
+        commit("setProjectDialog", false);
       })
       .catch(err => {
         console.log(err);
       });
   },
+  //TODO passar id dos usuarios no update
   update({ commit }, { id, name, description }) {
     axios
       .put(`/projects/${id}`, { name, description })
       .then(res => {
         commit("updateProject", res.data);
+        commit("setProjectDialog", false);
       })
       .catch(err => {
         console.log(err);
@@ -48,6 +59,9 @@ const actions = {
         commit("deleteProject", id);
       })
       .catch(err => console.log(err));
+  },
+  projectDialog({ commit }, isOpen) {
+    commit("setProjectDialog", isOpen);
   }
 };
 
@@ -70,6 +84,9 @@ const mutations = {
   deleteProject(state, id) {
     const projects = state.projects.filter(p => p.id != id);
     state.projects = projects;
+  },
+  setProjectDialog(state, isOpen) {
+    state.projectDialog = isOpen;
   }
 };
 
