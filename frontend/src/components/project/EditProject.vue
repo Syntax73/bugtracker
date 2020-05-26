@@ -31,7 +31,7 @@
             <v-row>
               <v-col cols="12">
                 <v-data-table
-                  v-model="selectedUsers"
+                  v-model="teamMembers"
                   :headers="headers"
                   :items="users"
                   show-select
@@ -59,16 +59,16 @@ export default {
     headers: [
       { text: "Nome", value: "name" },
       { text: "Tipo", value: "role" }
-    ],
-    selectedUsers: []
+    ]
   }),
   methods: {
-    ...mapActions("project", ["create", "update", "projectDialog"]),
+    ...mapActions("project", ["create", "update", "projectDialog", "setTeam"]),
     ...mapActions("user", ["getUsers"]),
     ...mapMutations("project", ["setProject"]),
+
     createProject() {
-      const { project, selectedUsers } = this;
-      this.create({ project, selectedUsers });
+      const { project, teamMembers } = this;
+      this.create({ project, teamMembers });
     },
     reset() {
       /* this.$refs.form.reset();*/
@@ -81,7 +81,15 @@ export default {
       project: state => state.project.project,
       dialog: state => state.project.projectDialog,
       users: state => state.user.users
-    })
+    }),
+    teamMembers: {
+      get() {
+        return this.$store.getters.getTeam;
+      },
+      set(val) {
+        this.setTeam(val);
+      }
+    }
   },
   mounted() {
     this.getUsers();

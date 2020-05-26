@@ -13,7 +13,7 @@ class ProjectController {
     const project = await Project.findByPk(id, {
       include: {
         association: 'team',
-        attributes: ['avatar', 'name', 'email', 'role'],
+        attributes: ['id', 'avatar', 'name', 'email', 'role'],
         through: {
           attributes: [],
         },

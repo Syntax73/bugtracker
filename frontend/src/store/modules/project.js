@@ -3,10 +3,15 @@ import axios from "@/services/axios";
 const state = {
   projects: [],
   project: {},
-  projectDialog: false
+  projectDialog: false,
+  team: []
 };
 
-const getters = {};
+const getters = {
+  getTeam: state => {
+    return state.team;
+  }
+};
 
 const actions = {
   getProjects({ commit }) {
@@ -19,14 +24,19 @@ const actions = {
         console.log(err);
       });
   },
-  getItem({ commit }, project) {
+  async getItem({ commit }, project) {
+    const { data } = await axios.get(`/projects/${project.id}`);
     commit("setProject", project);
+    commit("setTeam", data.team);
     commit("setProjectDialog", true);
   },
-  create({ commit }, { project, selectedUsers }) {
+  setTeam({ commit }, newTeam) {
+    commit("setTeam", newTeam);
+  },
+  create({ commit }, { project, teamMembers }) {
     const { name, description } = project;
 
-    const team = selectedUsers.map(users => {
+    const team = teamMembers.map(users => {
       return users.id;
     });
 
@@ -87,6 +97,9 @@ const mutations = {
   },
   setProjectDialog(state, isOpen) {
     state.projectDialog = isOpen;
+  },
+  setTeam(state, newTeam) {
+    state.team = newTeam;
   }
 };
 
