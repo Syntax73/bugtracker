@@ -39,7 +39,6 @@ class ProjectController {
     return res.status(201).json(project);
   }
 
-  //TODO remover membro do time
   async update(req, res) {
     const { id } = req.params;
     const { name, description, team } = req.body;
@@ -52,7 +51,7 @@ class ProjectController {
 
     const project = await reqProject.update({ name, description });
 
-    if (team && team.length > 0) {
+    if (team) {
       project.setTeam(team);
     }
 
