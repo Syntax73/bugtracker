@@ -34,15 +34,17 @@
                   v-model="teamMembers"
                   :headers="headers"
                   :items="users"
+                  item-key="id"
                   show-select
-                ></v-data-table>
+                >
+                </v-data-table>
               </v-col>
             </v-row>
           </v-container>
         </v-form>
       </v-card-text>
       <v-card-actions>
-        <v-btn v-if="project.id" color="success" @click="update(project)">Editar</v-btn>
+        <v-btn v-if="project.id" color="success" @click="updateProject">Editar</v-btn>
         <v-btn v-else color="success" @click="createProject">Criar</v-btn>
         <v-btn class="ml-2" color="error" @click="reset">Cancelar</v-btn>
       </v-card-actions>
@@ -51,14 +53,15 @@
 </template>
 
 <script>
-import { mapActions, mapState, mapMutations } from "vuex";
+import { mapActions, mapState, mapMutations, mapGetters } from "vuex";
 export default {
   name: "EditProject",
   data: () => ({
     valid: false,
     headers: [
       { text: "Nome", value: "name" },
-      { text: "Tipo", value: "role" }
+      { text: "Tipo", value: "role" },
+      { text: "Selecione", value: "custom-select" }
     ]
   }),
   methods: {
@@ -70,9 +73,14 @@ export default {
       const { project, teamMembers } = this;
       this.create({ project, teamMembers });
     },
+    updateProject() {
+      const { project, teamMembers } = this;
+      this.update({ project, teamMembers });
+    },
     reset() {
       /* this.$refs.form.reset();*/
       this.setProject({});
+      this.setTeam([]);
       this.projectDialog(false);
     }
   },
@@ -82,9 +90,10 @@ export default {
       dialog: state => state.project.projectDialog,
       users: state => state.user.users
     }),
+    ...mapGetters("project", ["getTeam"]),
     teamMembers: {
       get() {
-        return this.$store.getters.getTeam;
+        return this.getTeam;
       },
       set(val) {
         this.setTeam(val);

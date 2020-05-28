@@ -50,10 +50,15 @@ const actions = {
         console.log(err);
       });
   },
-  //TODO passar id dos usuarios no update
-  update({ commit }, { id, name, description }) {
+  update({ commit }, { project, teamMembers }) {
+    const { id, name, description } = project;
+
+    const team = teamMembers.map(users => {
+      return users.id;
+    });
+
     axios
-      .put(`/projects/${id}`, { name, description })
+      .put(`/projects/${id}`, { name, description, team })
       .then(res => {
         commit("updateProject", res.data);
         commit("setProjectDialog", false);
