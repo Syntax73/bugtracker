@@ -1,4 +1,4 @@
-import axios from "@/services/axios";
+import axios from '@/services/axios';
 
 const state = {
   projects: [],
@@ -8,75 +8,73 @@ const state = {
 };
 
 const getters = {
-  getTeam: state => {
+  getTeam: (state) => {
     return state.team;
   }
 };
 
 const actions = {
-  getProjects({ commit }) {
-    axios
-      .get("/projects")
-      .then(res => {
-        commit("setProjects", res.data);
-      })
-      .catch(err => {
-        console.log(err);
-      });
+  async getProjects({ commit }) {
+    try {
+      const { data } = await axios.get('/projects');
+      commit('setProjects', data);
+    } catch (err) {
+      console.log(err);
+    }
   },
   async getItem({ commit }, project) {
-    const { data } = await axios.get(`/projects/${project.id}`);
-    commit("setProject", project);
-    commit("setTeam", data.team);
-    commit("setProjectDialog", true);
+    try {
+      const { data } = await axios.get(`/projects/${project.id}`);
+      commit('setProject', project);
+      commit('setTeam', data.team);
+      commit('setProjectDialog', true);
+    } catch (err) {
+      console.log(err);
+    }
   },
   setTeam({ commit }, newTeam) {
-    commit("setTeam", newTeam);
+    commit('setTeam', newTeam);
   },
-  create({ commit }, { project, teamMembers }) {
+  async create({ commit }, { project, teamMembers }) {
     const { name, description } = project;
 
-    const team = teamMembers.map(users => {
+    const team = teamMembers.map((users) => {
       return users.id;
     });
 
-    axios
-      .post("/projects", { name, description, team })
-      .then(res => {
-        commit("createProject", res.data);
-        commit("setProjectDialog", false);
-      })
-      .catch(err => {
-        console.log(err);
-      });
+    try {
+      const { data } = await axios.post('/projects', { name, description, team });
+      commit('createProject', data);
+      commit('setProjectDialog', false);
+    } catch (err) {
+      console.log(err);
+    }
   },
-  update({ commit }, { project, teamMembers }) {
+  async update({ commit }, { project, teamMembers }) {
     const { id, name, description } = project;
 
-    const team = teamMembers.map(users => {
+    const team = teamMembers.map((users) => {
       return users.id;
     });
 
-    axios
-      .put(`/projects/${id}`, { name, description, team })
-      .then(res => {
-        commit("updateProject", res.data);
-        commit("setProjectDialog", false);
-      })
-      .catch(err => {
-        console.log(err);
-      });
+    try {
+      const { data } = await axios.put(`/projects/${id}`, { name, description, team });
+      commit('updateProject', data);
+      commit('setProjectDialog', false);
+    } catch (err) {
+      console.log(err);
+    }
   },
-  destroy({ commit }, { id }) {
-    axios
-      .delete(`/projects/${id}`)
-      .then(() => {
-        commit("deleteProject", id);
-      })
-      .catch(err => console.log(err));
+  async destroy({ commit }, { id }) {
+    try {
+      await axios.delete(`/projects/${id}`);
+      commit('deleteProject', id);
+    } catch (err) {
+      console.log(err);
+    }
   },
   projectDialog({ commit }, isOpen) {
-    commit("setProjectDialog", isOpen);
+    commit('setProjectDialog', isOpen);
   }
 };
 
@@ -92,12 +90,12 @@ const mutations = {
   },
   updateProject(state, project) {
     const projects = state.projects;
-    const item = projects.find(i => i.id === project.id);
+    const item = projects.find((i) => i.id === project.id);
     const index = projects.indexOf(item);
     projects.splice(index, 1, project);
   },
   deleteProject(state, id) {
-    const projects = state.projects.filter(p => p.id != id);
+    const projects = state.projects.filter((p) => p.id != id);
     state.projects = projects;
   },
   setProjectDialog(state, isOpen) {

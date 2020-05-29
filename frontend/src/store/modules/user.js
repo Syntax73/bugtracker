@@ -1,4 +1,4 @@
-import axios from "@/services/axios";
+import axios from '@/services/axios';
 
 const state = {
   users: null
@@ -7,15 +7,13 @@ const state = {
 const getters = {};
 
 const actions = {
-  getUsers({ commit }) {
-    axios
-      .get("/users")
-      .then(res => {
-        commit("setUsers", res.data);
-      })
-      .catch(err => {
-        console.log(err);
-      });
+  async getUsers({ commit }) {
+    try {
+      const { data } = await axios.get('/users');
+      commit('setUsers', data);
+    } catch (err) {
+      console.log(err);
+    }
   }
 };
 
