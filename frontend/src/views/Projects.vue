@@ -13,11 +13,11 @@
 </template>
 
 <script>
-import EditProject from "@/components/project/EditProject";
-import ListProjects from "@/components/project/ListProjects";
+import EditProject from '@/components/project/EditProject';
+import ListProjects from '@/components/project/ListProjects';
 
 export default {
-  name: "Projects",
+  name: 'Projects',
   components: {
     ListProjects,
     EditProject

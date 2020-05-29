@@ -1,40 +1,40 @@
-import Vue from "vue";
-import VueRouter from "vue-router";
+import Vue from 'vue';
+import VueRouter from 'vue-router';
 
 Vue.use(VueRouter);
 
 const routes = [
   {
-    path: "/",
-    name: "auth",
-    component: () => import("@/views/Auth.vue")
+    path: '/',
+    name: 'auth',
+    component: () => import('@/views/Auth.vue')
   },
   {
-    path: "/dashboard",
-    name: "dashboard",
-    component: () => import("@/views/Dashboard.vue"),
+    path: '/dashboard',
+    name: 'dashboard',
+    component: () => import('@/views/Dashboard.vue'),
     children: [
       {
-        path: "/profile",
-        name: "profile",
-        component: () => import("@/views/Profile.vue")
+        path: '/profile',
+        name: 'profile',
+        component: () => import('@/views/Profile.vue')
       },
       {
-        path: "/projects",
-        name: "projects",
-        component: () => import("@/views/Projects.vue")
+        path: '/projects',
+        name: 'projects',
+        component: () => import('@/views/Projects.vue')
       },
       {
-        path: "/issues",
-        name: "issues",
-        component: () => import("@/views/Issues.vue")
+        path: '/issues',
+        name: 'issues',
+        component: () => import('@/views/Issues.vue')
       }
     ]
   }
 ];
 
 const router = new VueRouter({
-  mode: "history",
+  mode: 'history',
   base: process.env.BASE_URL,
   routes
 });

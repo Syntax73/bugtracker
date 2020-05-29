@@ -7,14 +7,14 @@
 </template>
 
 <script>
-import { mapActions } from "vuex";
+import { mapActions } from 'vuex';
 export default {
-  name: "App",
+  name: 'App',
   data: () => ({
     //
   }),
   methods: {
-    ...mapActions("auth", ["validateToken"])
+    ...mapActions('auth', ['validateToken'])
   },
   created() {
     this.validateToken();

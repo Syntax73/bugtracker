@@ -6,7 +6,7 @@ const getters = {};
 
 const actions = {
   toggleDrawer({ commit, state }) {
-    commit("setDrawer", !state.drawer);
+    commit('setDrawer', !state.drawer);
   }
 };
 

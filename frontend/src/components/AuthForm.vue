@@ -38,28 +38,28 @@
 </template>
 
 <script>
-import { mapActions } from "vuex";
+import { mapActions } from 'vuex';
 
 export default {
-  name: "AuthForm",
+  name: 'AuthForm',
   data() {
     return {
       email: null,
       password: null,
-      message: "",
-      alertType: "",
+      message: '',
+      alertType: '',
       snackbar: false
     };
   },
   methods: {
-    ...mapActions("auth", ["signin"]),
+    ...mapActions('auth', ['signin']),
     onSignin() {
       const { email, password } = this;
       this.signin({ email, password })
-        .then(() => this.$router.push("/dashboard"))
-        .catch(err => {
+        .then(() => this.$router.push('/dashboard'))
+        .catch((err) => {
           this.message = err.message;
-          this.alertType = "warning";
+          this.alertType = 'warning';
           this.snackbar = true;
         });
     }

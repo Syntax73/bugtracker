@@ -8,7 +8,7 @@
         <span class="headline">Cadastrar Projeto</span>
       </v-card-title>
       <v-card-text>
-        <v-form v-model="valid" ref="form">
+        <v-form ref="form" v-model="valid">
           <v-container>
             <v-row>
               <v-col cols="12" sm="6">
@@ -36,8 +36,7 @@
                   :items="users"
                   item-key="id"
                   show-select
-                >
-                </v-data-table>
+                ></v-data-table>
               </v-col>
             </v-row>
           </v-container>
@@ -53,21 +52,40 @@
 </template>
 
 <script>
-import { mapActions, mapState, mapMutations, mapGetters } from "vuex";
+import { mapActions, mapState, mapMutations, mapGetters } from 'vuex';
 export default {
-  name: "EditProject",
+  name: 'EditProject',
   data: () => ({
     valid: false,
     headers: [
-      { text: "Nome", value: "name" },
-      { text: "Tipo", value: "role" },
-      { text: "Selecione", value: "custom-select" }
+      { text: 'Nome', value: 'name' },
+      { text: 'Tipo', value: 'role' },
+      { text: 'Selecione', value: 'custom-select' }
     ]
   }),
+  computed: {
+    ...mapState({
+      project: (state) => state.project.project,
+      dialog: (state) => state.project.projectDialog,
+      users: (state) => state.user.users
+    }),
+    ...mapGetters('project', ['getTeam']),
+    teamMembers: {
+      get() {
+        return this.getTeam;
+      },
+      set(val) {
+        this.setTeam(val);
+      }
+    }
+  },
+  mounted() {
+    this.getUsers();
+  },
   methods: {
-    ...mapActions("project", ["create", "update", "projectDialog", "setTeam"]),
-    ...mapActions("user", ["getUsers"]),
-    ...mapMutations("project", ["setProject"]),
+    ...mapActions('project', ['create', 'update', 'projectDialog', 'setTeam']),
+    ...mapActions('user', ['getUsers']),
+    ...mapMutations('project', ['setProject']),
 
     createProject() {
       const { project, teamMembers } = this;
@@ -83,25 +101,6 @@ export default {
       this.setTeam([]);
       this.projectDialog(false);
     }
-  },
-  computed: {
-    ...mapState({
-      project: state => state.project.project,
-      dialog: state => state.project.projectDialog,
-      users: state => state.user.users
-    }),
-    ...mapGetters("project", ["getTeam"]),
-    teamMembers: {
-      get() {
-        return this.getTeam;
-      },
-      set(val) {
-        this.setTeam(val);
-      }
-    }
-  },
-  mounted() {
-    this.getUsers();
   }
 };
 </script>

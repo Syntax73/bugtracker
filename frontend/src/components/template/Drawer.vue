@@ -26,33 +26,33 @@
 </template>
 
 <script>
-import { mapMutations, mapState } from "vuex";
+import { mapMutations, mapState } from 'vuex';
 
 export default {
-  name: "Drawer",
+  name: 'Drawer',
   data: () => ({
     item: 0,
     items: [
-      { text: "Inicio", icon: "mdi-view-dashboard", route: "/dashboard" },
+      { text: 'Inicio', icon: 'mdi-view-dashboard', route: '/dashboard' },
       {
-        text: "Perfil",
-        icon: "mdi-account-card-details-outline",
-        route: "/profile"
+        text: 'Perfil',
+        icon: 'mdi-account-card-details-outline',
+        route: '/profile'
       },
-      { text: "Projetos", icon: "mdi-notebook-outline", route: "/projects" },
+      { text: 'Projetos', icon: 'mdi-notebook-outline', route: '/projects' },
       {
-        text: "Issues",
-        icon: "mdi-clipboard-check-multiple-outline",
-        route: "/issues"
+        text: 'Issues',
+        icon: 'mdi-clipboard-check-multiple-outline',
+        route: '/issues'
       }
     ]
   }),
   methods: {
-    ...mapMutations("app", ["setDrawer"])
+    ...mapMutations('app', ['setDrawer'])
   },
   computed: {
     ...mapState({
-      user: state => state.auth.userSession
+      user: (state) => state.auth.userSession
     }),
     inputValue: {
       get() {
