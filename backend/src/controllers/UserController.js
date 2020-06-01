@@ -1,10 +1,15 @@
 const User = require('../models/User');
+const { paginate, buildPagination } = require('../config/paginate');
 
 class UserController {
   async index(req, res) {
-    const users = await User.findAll();
+    const { page, limit } = req.query;
 
-    return res.json(users);
+    const users = await User.findAndCountAll({
+      ...paginate({ page, limit }),
+    });
+
+    return res.json(buildPagination(users, page, limit));
   }
 
   async show(req, res) {

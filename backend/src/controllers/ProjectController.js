@@ -1,10 +1,15 @@
 const Project = require('../models/Project');
+const { paginate, buildPagination } = require('../config/paginate');
 
 class ProjectController {
   async index(req, res) {
-    const projects = await Project.findAll();
+    const { page, limit } = req.query;
 
-    return res.json(projects);
+    const projects = await Project.findAndCountAll({
+      ...paginate({ page, limit }),
+    });
+
+    return res.json(buildPagination(projects, page, limit));
   }
 
   async show(req, res) {
