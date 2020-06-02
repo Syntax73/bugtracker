@@ -3,13 +3,13 @@ const { paginate, buildPagination } = require('../config/paginate');
 
 class UserController {
   async index(req, res) {
-    const { page, limit } = req.query;
+    const { page } = req.query;
 
     const users = await User.findAndCountAll({
-      ...paginate({ page, limit }),
+      ...paginate({ page, limit: 10 }),
     });
 
-    return res.json(buildPagination(users, page, limit));
+    return res.json(buildPagination(users, page, 10));
   }
 
   async show(req, res) {
