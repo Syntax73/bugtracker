@@ -4,19 +4,28 @@ const state = {
   projects: [],
   project: {},
   projectDialog: false,
-  team: []
+  team: [],
+  pagination: {
+    page: 1,
+    itemsPerPage: 2,
+    pageCount: 0,
+    itemsLenght: 0
+  }
 };
 
 const getters = {
   getTeam: (state) => {
     return state.team;
+  },
+  getPageCount: (state) => {
+    return state.pagination.pageCount;
   }
 };
 
 const actions = {
-  async getProjects({ commit }) {
+  async getProjects({ commit }, page) {
     try {
-      const { data } = await axios.get('/projects');
+      const { data } = await axios.get(`/projects?page=${page}`);
       commit('setProjects', data);
     } catch (err) {
       console.log(err);
@@ -35,6 +44,7 @@ const actions = {
   setTeam({ commit }, newTeam) {
     commit('setTeam', newTeam);
   },
+  // TODO não funciona corretamente com a paginação
   async create({ commit }, { project, teamMembers }) {
     const { name, description } = project;
 
@@ -80,7 +90,12 @@ const actions = {
 
 const mutations = {
   setProjects(state, projects) {
-    state.projects = projects;
+    const { data, count, page, pages, limit } = projects;
+    state.projects = data;
+    state.pagination.page = page;
+    state.pagination.pageCount = pages;
+    state.pagination.itemsPerPage = limit;
+    state.pagination.itemsLenght = count;
   },
   setProject(state, project) {
     state.project = project;
@@ -103,6 +118,9 @@ const mutations = {
   },
   setTeam(state, newTeam) {
     state.team = newTeam;
+  },
+  setPage(state, page) {
+    state.pagination.page = page;
   }
 };
 

@@ -1,16 +1,24 @@
 <template>
-  <v-data-table :headers="headers" :items="projects" class="elevation-1">
-    <template v-slot:item.actions="{ item }">
-      <v-icon class="mr-2" small @click="getItem(item)">mdi-pencil</v-icon>
-      <v-icon small @click="destroy(item)">mdi-trash-can</v-icon>
-    </template>
-  </v-data-table>
+  <div>
+    <v-data-table :headers="headers" :items="projects" hide-default-footer class="elevation-1">
+      <template v-slot:item.actions="{ item }">
+        <v-icon class="mr-2" small @click="getItem(item)">mdi-pencil</v-icon>
+        <v-icon small @click="destroy(item)">mdi-trash-can</v-icon>
+      </template>
+    </v-data-table>
+    <div class="text-center">
+      <Paginate store="project" listMethod="getProjects" />
+    </div>
+  </div>
 </template>
 
 <script>
-import { mapState, mapActions } from 'vuex';
+import { mapState, mapActions, mapGetters, mapMutations } from 'vuex';
+import Paginate from '../material/Paginate';
+
 export default {
   name: 'ListProjects',
+  components: { Paginate },
   data() {
     return {
       headers: [
@@ -24,15 +32,17 @@ export default {
     };
   },
   methods: {
-    ...mapActions('project', ['getProjects', 'destroy', 'getItem'])
+    ...mapActions('project', ['getProjects', 'destroy', 'getItem']),
+    ...mapMutations('project', ['setPage', 'setLimit'])
   },
   computed: {
     ...mapState({
-      projects: (state) => state.project.projects
+      projects: (state) => state.project.projects,
+      pages: (state) => state.project.pages
     })
   },
   mounted() {
-    this.getProjects();
+    this.getProjects(1);
   }
 };
 </script>

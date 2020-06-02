@@ -36,7 +36,11 @@
                   :items="users"
                   item-key="id"
                   show-select
+                  hide-default-footer
                 ></v-data-table>
+                <div class="text-center">
+                  <Paginate store="user" listMethod="getUsers" />
+                </div>
               </v-col>
             </v-row>
           </v-container>
@@ -53,8 +57,11 @@
 
 <script>
 import { mapActions, mapState, mapMutations, mapGetters } from 'vuex';
+import Paginate from '../material/Paginate';
+
 export default {
   name: 'EditProject',
+  components: { Paginate },
   data: () => ({
     valid: false,
     headers: [
@@ -80,7 +87,7 @@ export default {
     }
   },
   mounted() {
-    this.getUsers();
+    this.getUsers(1);
   },
   methods: {
     ...mapActions('project', ['create', 'update', 'projectDialog', 'setTeam']),
@@ -90,6 +97,7 @@ export default {
     createProject() {
       const { project, teamMembers } = this;
       this.create({ project, teamMembers });
+      this.setProject({});
     },
     updateProject() {
       const { project, teamMembers } = this;
