@@ -44,7 +44,6 @@ const actions = {
   setTeam({ commit }, newTeam) {
     commit('setTeam', newTeam);
   },
-  // TODO não funciona corretamente com a paginação
   async create({ commit }, { project, teamMembers }) {
     const { name, description } = project;
 
@@ -101,7 +100,11 @@ const mutations = {
     state.project = project;
   },
   createProject(state, project) {
-    state.projects = state.projects.concat(project);
+    if (state.projects.length <= 10) {
+      state.projects = state.projects.concat(project);
+    } else {
+      state.pagination.pageCount++;
+    }
   },
   updateProject(state, project) {
     const projects = state.projects;
