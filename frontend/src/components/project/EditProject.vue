@@ -66,8 +66,7 @@ export default {
     valid: false,
     headers: [
       { text: 'Nome', value: 'name' },
-      { text: 'Tipo', value: 'role' },
-      { text: 'Selecione', value: 'custom-select' }
+      { text: 'Tipo', value: 'role' }
     ]
   }),
   computed: {

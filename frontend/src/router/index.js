@@ -15,6 +15,11 @@ const routes = [
     component: () => import('@/views/Dashboard.vue'),
     children: [
       {
+        path: '/users',
+        name: 'users',
+        component: () => import('@/views/Users.vue')
+      },
+      {
         path: '/profile',
         name: 'profile',
         component: () => import('@/views/Profile.vue')

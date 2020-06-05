@@ -33,11 +33,16 @@ export default {
   data: () => ({
     item: 0,
     items: [
-      { text: 'Inicio', icon: 'mdi-view-dashboard', route: '/dashboard' },
       {
         text: 'Perfil',
         icon: 'mdi-account-card-details-outline',
         route: '/profile'
+      },
+      { text: 'Inicio', icon: 'mdi-view-dashboard', route: '/dashboard' },
+      {
+        text: 'Users',
+        icon: 'mdi-account-multiple-plus',
+        route: '/users'
       },
       { text: 'Projetos', icon: 'mdi-notebook-outline', route: '/projects' },
       {

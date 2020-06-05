@@ -1,7 +1,9 @@
 import axios from '@/services/axios';
 
 const state = {
-  users: null,
+  user: {},
+  users: [],
+  userDialog: false,
   pagination: {
     page: 1,
     itemsPerPage: 2,
@@ -24,6 +26,13 @@ const actions = {
     } catch (err) {
       console.log(err);
     }
+  },
+  getItem({ commit }, user) {
+    commit('setUser', user);
+    commit('setUserDialog', true);
+  },
+  userDialog({ commit }, isOpen) {
+    commit('setUserDialog', isOpen);
   }
 };
 
@@ -38,6 +47,12 @@ const mutations = {
   },
   setPage(state, page) {
     state.pagination.page = page;
+  },
+  setUser(state, user) {
+    state.user = user;
+  },
+  setUserDialog(state, isOpen) {
+    state.userDialog = isOpen;
   }
 };
 
