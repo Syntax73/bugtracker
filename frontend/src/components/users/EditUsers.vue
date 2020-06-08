@@ -7,6 +7,7 @@
       <v-card-title>Cadastrar Usuarios</v-card-title>
       <v-card-text>
         <v-form ref="form" v-model="valid" lazy-validation>
+          <v-file-input v-model="user.avatar" label="Avatar" show-size></v-file-input>
           <v-text-field
             v-model="user.name"
             :counter="60"
@@ -42,7 +43,9 @@
         </v-form>
       </v-card-text>
       <v-card-actions>
-        <v-btn :disabled="!valid" color="success" class="mr-4">Cadastrar</v-btn>
+        <v-btn :disabled="!valid" color="success" class="mr-4" @click="createUser(user)"
+          >Cadastrar</v-btn
+        >
         <v-btn color="error" class="mr-4" @click="reset">Cancelar</v-btn>
       </v-card-actions>
     </v-card>
@@ -72,7 +75,7 @@ export default {
     ]
   }),
   methods: {
-    ...mapActions('user', ['userDialog']),
+    ...mapActions('user', ['userDialog', 'createUser']),
     reset() {
       this.$refs.form.reset();
       this.userDialog(false);

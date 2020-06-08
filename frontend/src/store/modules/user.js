@@ -27,6 +27,24 @@ const actions = {
       console.log(err);
     }
   },
+  async createUser({ commit }, newUser) {
+    try {
+      const formData = new FormData();
+      formData.append('avatar', newUser.avatar);
+      formData.append('name', newUser.name);
+      formData.append('email', newUser.email);
+      formData.append('password', newUser.password);
+      formData.append('confirmPassword', newUser.confirmPassword);
+      formData.append('role', newUser.role);
+      const { data } = await axios.post('/users', formData, {
+        headers: { 'Content-Type': 'multipart/form-data' }
+      });
+      commit('createUser', data);
+      commit('setUserDialog', false);
+    } catch (err) {
+      console.log(err);
+    }
+  },
   getItem({ commit }, user) {
     commit('setUser', user);
     commit('setUserDialog', true);
@@ -53,6 +71,13 @@ const mutations = {
   },
   setUserDialog(state, isOpen) {
     state.userDialog = isOpen;
+  },
+  createUser(state, user) {
+    if (state.users.length <= 10) {
+      state.users = state.users.concat(user);
+    } else {
+      state.pagination.pageCount++;
+    }
   }
 };
 
