@@ -108,7 +108,7 @@ class IssueController {
       return res.status(404).json({ message: 'Projeto/Issue não encontrado' });
     }
 
-    await sequelize.transaction(async transaction => {
+    await sequelize.transaction(async (transaction) => {
       if (reqIssue.type) {
         const reqType = await IssueType.findByPk(reqIssue.type.id);
         await reqType.update({ issue_id: issueId, type }, { transaction });

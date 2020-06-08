@@ -36,7 +36,7 @@ class UserController {
   // TODO fazer o usuario atualizar o avatar
   async update(req, res) {
     const { id } = req.params;
-    const { name, email, password, admin } = req.body;
+    const { name, email, password, role } = req.body;
 
     const reqUser = await User.findByPk(id);
 
@@ -44,7 +44,7 @@ class UserController {
       return res.status(404).json({ message: 'Usuario não encontrado' });
     }
 
-    const user = await reqUser.update({ name, email, password, admin });
+    const user = await reqUser.update({ name, email, password, role });
 
     return res.json(user);
   }

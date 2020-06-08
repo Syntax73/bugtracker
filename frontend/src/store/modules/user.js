@@ -45,6 +45,15 @@ const actions = {
       console.log(err);
     }
   },
+  async updateUser({ commit }, user) {
+    try {
+      const { data } = await axios.put(`/users/${user.id}`, user);
+      commit('updateUser', data);
+      commit('setUserDialog', false);
+    } catch (err) {
+      console.log(err);
+    }
+  },
   getItem({ commit }, user) {
     commit('setUser', user);
     commit('setUserDialog', true);
@@ -78,6 +87,12 @@ const mutations = {
     } else {
       state.pagination.pageCount++;
     }
+  },
+  updateUser(state, user) {
+    const users = state.users;
+    const item = users.find((i) => i.id == user.id);
+    const index = users.indexOf(item);
+    users.splice(index, 1, user);
   }
 };
 

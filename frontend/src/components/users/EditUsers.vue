@@ -7,7 +7,12 @@
       <v-card-title>Cadastrar Usuarios</v-card-title>
       <v-card-text>
         <v-form ref="form" v-model="valid" lazy-validation>
-          <v-file-input v-model="user.avatar" label="Avatar" show-size></v-file-input>
+          <v-file-input
+            v-if="user.id == null"
+            v-model="user.avatar"
+            label="Avatar"
+            show-size
+          ></v-file-input>
           <v-text-field
             v-model="user.name"
             :counter="60"
@@ -22,12 +27,14 @@
             required
           ></v-text-field>
           <v-text-field
+            v-if="user.id == null"
             type="password"
             v-model="user.password"
             label="Senha"
             required
           ></v-text-field>
           <v-text-field
+            v-if="user.id == null"
             type="password"
             v-model="user.confirmPassword"
             label="Repita a Senha"
@@ -43,9 +50,10 @@
         </v-form>
       </v-card-text>
       <v-card-actions>
-        <v-btn :disabled="!valid" color="success" class="mr-4" @click="createUser(user)"
-          >Cadastrar</v-btn
+        <v-btn v-if="user.id" :disabled="!valid" color="success" @click="updateUser(user)"
+          >Editar</v-btn
         >
+        <v-btn v-else :disabled="!valid" color="success" @click="createUser(user)">Cadastrar</v-btn>
         <v-btn color="error" class="mr-4" @click="reset">Cancelar</v-btn>
       </v-card-actions>
     </v-card>
@@ -53,7 +61,7 @@
 </template>
 
 <script>
-import { mapState, mapActions } from 'vuex';
+import { mapState, mapActions, mapMutations } from 'vuex';
 
 export default {
   name: 'EditUsers',
@@ -61,11 +69,11 @@ export default {
     valid: true,
     nameRules: [
       (v) => !!v || 'Nome é obrigatorio',
-      (v) => (v && v.length <= 60) || 'Name must be less than 60 characters'
+      (v) => (v && v.length <= 60) || 'Nome deve ter menos que 60 catacteres'
     ],
     emailRules: [
       (v) => !!v || 'E-mail é obrigatorio',
-      (v) => /.+@.+\..+/.test(v) || 'E-mail must be valid'
+      (v) => /.+@.+\..+/.test(v) || 'E-mail invalido'
     ],
     items: [
       { text: 'Admin', value: 'admin' },
@@ -75,10 +83,12 @@ export default {
     ]
   }),
   methods: {
-    ...mapActions('user', ['userDialog', 'createUser']),
+    ...mapActions('user', ['userDialog', 'createUser', 'updateUser']),
+    ...mapMutations('user', ['setUser']),
     reset() {
-      this.$refs.form.reset();
+      this.setUser({});
       this.userDialog(false);
+      this.$refs.form.reset();
     }
   },
   computed: {
