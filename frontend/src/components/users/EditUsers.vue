@@ -4,14 +4,17 @@
       <v-btn color="primary" dark v-on="on" @click="userDialog(true)">Novo Usuario</v-btn>
     </template>
     <v-card>
-      <v-card-title>Cadastrar Usuarios</v-card-title>
+      <v-card-title>
+        <span class="headline">Cadastrar Usuarios</span>
+      </v-card-title>
       <v-card-text>
-        <v-form ref="form" v-model="valid" lazy-validation>
+        <v-form ref="form" v-model="valid">
           <v-file-input
             v-if="user.id == null"
             v-model="user.avatar"
             label="Avatar"
             show-size
+            required
           ></v-file-input>
           <v-text-field
             v-model="user.name"
@@ -30,6 +33,7 @@
             v-if="user.id == null"
             type="password"
             v-model="user.password"
+            :rules="passwordRules"
             label="Senha"
             required
           ></v-text-field>
@@ -37,6 +41,7 @@
             v-if="user.id == null"
             type="password"
             v-model="user.confirmPassword"
+            :rules="passwordRules.concat(passwordMatch)"
             label="Repita a Senha"
             required
           ></v-text-field>
@@ -50,10 +55,8 @@
         </v-form>
       </v-card-text>
       <v-card-actions>
-        <v-btn v-if="user.id" :disabled="!valid" color="success" @click="updateUser(user)"
-          >Editar</v-btn
-        >
-        <v-btn v-else :disabled="!valid" color="success" @click="createUser(user)">Cadastrar</v-btn>
+        <v-btn v-if="user.id" :disabled="!valid" color="success" @click="update">Editar</v-btn>
+        <v-btn v-else :disabled="!valid" color="success" @click="submit">Cadastrar</v-btn>
         <v-btn color="error" class="mr-4" @click="reset">Cancelar</v-btn>
       </v-card-actions>
     </v-card>
@@ -75,6 +78,10 @@ export default {
       (v) => !!v || 'E-mail é obrigatorio',
       (v) => /.+@.+\..+/.test(v) || 'E-mail invalido'
     ],
+    passwordRules: [
+      (v) => !!v || 'Senha é obrigatoria',
+      (v) => (v && v.length >= 8) || 'Senha deve ter no minimo 8 catacteres'
+    ],
     items: [
       { text: 'Admin', value: 'admin' },
       { text: 'Developer', value: 'developer' },
@@ -85,6 +92,14 @@ export default {
   methods: {
     ...mapActions('user', ['userDialog', 'createUser', 'updateUser']),
     ...mapMutations('user', ['setUser']),
+    submit() {
+      this.createUser(this.user);
+      this.$refs.form.reset();
+    },
+    update() {
+      this.updateUser(this.user);
+      this.$refs.form.reset();
+    },
     reset() {
       this.setUser({});
       this.userDialog(false);
@@ -95,7 +110,10 @@ export default {
     ...mapState({
       user: (state) => state.user.user,
       dialog: (state) => state.user.userDialog
-    })
+    }),
+    passwordMatch() {
+      return () => this.user.password === this.user.confirmPassword || 'Senhas não combinam';
+    }
   }
 };
 </script>

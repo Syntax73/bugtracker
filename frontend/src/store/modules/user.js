@@ -30,17 +30,19 @@ const actions = {
   async createUser({ commit }, newUser) {
     try {
       const formData = new FormData();
+
       formData.append('avatar', newUser.avatar);
       formData.append('name', newUser.name);
       formData.append('email', newUser.email);
       formData.append('password', newUser.password);
       formData.append('confirmPassword', newUser.confirmPassword);
       formData.append('role', newUser.role);
-      const { data } = await axios.post('/users', formData, {
-        headers: { 'Content-Type': 'multipart/form-data' }
-      });
+
+      const { data } = await axios.post('/users', formData);
+
       commit('createUser', data);
       commit('setUserDialog', false);
+      commit('setUser', {});
     } catch (err) {
       console.log(err);
     }
@@ -50,6 +52,7 @@ const actions = {
       const { data } = await axios.put(`/users/${user.id}`, user);
       commit('updateUser', data);
       commit('setUserDialog', false);
+      commit('setUser', {});
     } catch (err) {
       console.log(err);
     }
