@@ -85,7 +85,7 @@ const mutations = {
     state.userDialog = isOpen;
   },
   createUser(state, user) {
-    if (state.users.length <= 10) {
+    if (state.users.length < 10) {
       state.users = state.users.concat(user);
     } else {
       state.pagination.pageCount++;

@@ -96,8 +96,8 @@ export default {
       this.createUser(this.user);
       this.$refs.form.reset();
     },
-    update() {
-      this.updateUser(this.user);
+    async update() {
+      await this.updateUser(this.user);
       this.$refs.form.reset();
     },
     reset() {
