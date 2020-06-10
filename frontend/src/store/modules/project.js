@@ -7,8 +7,8 @@ const state = {
   team: [],
   pagination: {
     page: 1,
-    itemsPerPage: 2,
-    pageCount: 0,
+    itemsPerPage: 10,
+    pageCount: 1,
     itemsLenght: 0
   }
 };
@@ -55,6 +55,8 @@ const actions = {
       const { data } = await axios.post('/projects', { name, description, team });
       commit('createProject', data);
       commit('setProjectDialog', false);
+      commit('setProject', {});
+      commit('setTeam', []);
     } catch (err) {
       console.log(err);
     }
@@ -70,6 +72,8 @@ const actions = {
       const { data } = await axios.put(`/projects/${id}`, { name, description, team });
       commit('updateProject', data);
       commit('setProjectDialog', false);
+      commit('setProject', {});
+      commit('setTeam', []);
     } catch (err) {
       console.log(err);
     }
@@ -99,11 +103,20 @@ const mutations = {
   setProject(state, project) {
     state.project = project;
   },
+  // Talvez não é a melhor maneira de lidar com paginação
   createProject(state, project) {
-    if (state.projects.length <= 10) {
+    if (state.projects.length < 10) {
       state.projects = state.projects.concat(project);
+      state.pagination.itemsLenght++;
     } else {
-      state.pagination.pageCount++;
+      state.pagination.itemsLenght++;
+      const newTotalPages = state.pagination.itemsLenght / state.pagination.itemsPerPage;
+
+      if (newTotalPages > state.pagination.pageCount) {
+        state.pagination.pageCount++;
+        state.pagination.page = newTotalPages;
+      }
+      state.pagination.page = state.pagination.pageCount;
     }
   },
   updateProject(state, project) {

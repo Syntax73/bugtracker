@@ -14,7 +14,8 @@
               <v-col cols="12" sm="6">
                 <v-text-field
                   v-model="project.name"
-                  :counter="10"
+                  :counter="60"
+                  :rules="nameRules"
                   label="Nome"
                   required
                 ></v-text-field>
@@ -22,7 +23,8 @@
               <v-col cols="12" sm="6">
                 <v-text-field
                   v-model="project.description"
-                  :counter="60"
+                  :counter="100"
+                  :rules="descRules"
                   label="Descrição"
                   required
                 ></v-text-field>
@@ -47,8 +49,10 @@
         </v-form>
       </v-card-text>
       <v-card-actions>
-        <v-btn v-if="project.id" color="success" @click="updateProject">Editar</v-btn>
-        <v-btn v-else color="success" @click="createProject">Criar</v-btn>
+        <v-btn v-if="project.id" :disabled="!valid" color="success" @click="updateProject"
+          >Editar</v-btn
+        >
+        <v-btn v-else color="success" :disabled="!valid" @click="createProject">Criar</v-btn>
         <v-btn class="ml-2" color="error" @click="reset">Cancelar</v-btn>
       </v-card-actions>
     </v-card>
@@ -63,7 +67,15 @@ export default {
   name: 'EditProject',
   components: { Paginate },
   data: () => ({
-    valid: false,
+    valid: true,
+    nameRules: [
+      (v) => !!v || 'Nome é obrigatorio',
+      (v) => (v && v.length <= 60) || 'Nome deve ter menos que 60 catacteres'
+    ],
+    descRules: [
+      (v) => !!v || 'Descrição é obrigatoria',
+      (v) => (v && v.length <= 100) || 'Descrição deve ter menos que 100 catacteres'
+    ],
     headers: [
       { text: 'Nome', value: 'name' },
       { text: 'Tipo', value: 'role' }
@@ -89,24 +101,25 @@ export default {
     this.getUsers(1);
   },
   methods: {
-    ...mapActions('project', ['create', 'update', 'projectDialog', 'setTeam']),
+    ...mapActions('project', ['create', 'update', 'projectDialog']),
     ...mapActions('user', ['getUsers']),
-    ...mapMutations('project', ['setProject']),
+    ...mapMutations('project', ['setProject', 'setTeam']),
 
     createProject() {
       const { project, teamMembers } = this;
       this.create({ project, teamMembers });
-      this.setProject({});
+      this.$refs.form.reset();
     },
-    updateProject() {
+    async updateProject() {
       const { project, teamMembers } = this;
-      this.update({ project, teamMembers });
+      await this.update({ project, teamMembers });
+      this.$refs.form.reset();
     },
     reset() {
-      /* this.$refs.form.reset();*/
       this.setProject({});
       this.setTeam([]);
       this.projectDialog(false);
+      this.$refs.form.reset();
     }
   }
 };

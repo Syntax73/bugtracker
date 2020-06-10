@@ -6,8 +6,8 @@ const state = {
   userDialog: false,
   pagination: {
     page: 1,
-    itemsPerPage: 2,
-    pageCount: 0,
+    itemsPerPage: 10,
+    pageCount: 1,
     itemsLenght: 0
   }
 };
@@ -87,8 +87,16 @@ const mutations = {
   createUser(state, user) {
     if (state.users.length < 10) {
       state.users = state.users.concat(user);
+      state.pagination.itemsLenght++;
     } else {
-      state.pagination.pageCount++;
+      state.pagination.itemsLenght++;
+      const newTotalPages = state.pagination.itemsLenght / state.pagination.itemsPerPage;
+
+      if (newTotalPages > state.pagination.pageCount) {
+        state.pagination.pageCount++;
+        state.pagination.page = newTotalPages;
+      }
+      state.pagination.page = state.pagination.pageCount;
     }
   },
   updateUser(state, user) {
