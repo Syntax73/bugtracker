@@ -1,6 +1,6 @@
 # BugTracker REST API
 
-Rest API built whit NodeJS, Express and Sequelize.
+Rest API built with NodeJS, Express and Sequelize.
 
 ## Setup
 
