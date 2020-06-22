@@ -1,11 +1,21 @@
 import axios from '@/services/axios';
 
 const state = {
-  token: null,
+  token: '',
   userSession: {}
 };
 
-const getters = {};
+const getters = {
+  currentUser(state) {
+    return state.userSession;
+  },
+  isAuth(state) {
+    return state.token !== null;
+  },
+  userRole(state) {
+    return state.userSession.role;
+  }
+};
 
 const actions = {
   signin({ commit }, { email, password }) {
@@ -28,6 +38,13 @@ const actions = {
         });
     });
   },
+  singout({ commit, getters }) {
+    if (getters.isAuth) {
+      localStorage.removeItem('token');
+      localStorage.removeItem('user');
+      commit('destroySession');
+    }
+  },
   validateToken({ commit }) {
     const token = localStorage.getItem('token');
     const user = JSON.parse(localStorage.getItem('user'));
@@ -43,6 +60,10 @@ const mutations = {
   },
   setUserSession(state, user) {
     state.userSession = user;
+  },
+  destroySession(state) {
+    state.user = {};
+    state.token = '';
   }
 };
 
