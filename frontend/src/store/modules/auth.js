@@ -1,7 +1,7 @@
 import axios from '@/services/axios';
 
 const state = {
-  token: '',
+  token: null,
   userSession: {}
 };
 
@@ -11,9 +11,6 @@ const getters = {
   },
   isAuth(state) {
     return state.token !== null;
-  },
-  userRole(state) {
-    return state.userSession.role;
   }
 };
 
@@ -62,8 +59,8 @@ const mutations = {
     state.userSession = user;
   },
   destroySession(state) {
-    state.user = {};
-    state.token = '';
+    state.userSession = {};
+    state.token = null;
   }
 };
 

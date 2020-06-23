@@ -1,5 +1,6 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
+import store from '../store';
 
 Vue.use(VueRouter);
 
@@ -13,6 +14,7 @@ const routes = [
     path: '/dashboard',
     name: 'dashboard',
     component: () => import('@/views/Dashboard.vue'),
+    meta: { requiresAuth: true },
     children: [
       {
         path: '/users',
@@ -42,6 +44,18 @@ const router = new VueRouter({
   mode: 'history',
   base: process.env.BASE_URL,
   routes
+});
+
+router.beforeEach((to, from, next) => {
+  if (to.matched.some((record) => record.meta.requiresAuth)) {
+    if (store.getters['auth/isAuth']) {
+      next();
+    } else {
+      next('/');
+    }
+  } else {
+    next();
+  }
 });
 
 export default router;
