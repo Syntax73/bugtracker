@@ -14,6 +14,7 @@ const IssueAssignedController = require('./controllers/IssueAssignedController')
 const IssueCommentController = require('./controllers/IssueCommentController');
 
 routes.post('/session', SessionController.store);
+routes.post('/validate-session', SessionController.validateSession);
 routes.get('/files/:file', FileController.show);
 
 routes.get('/users', isAuth, role('admin'), UserController.index);

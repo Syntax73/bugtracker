@@ -1,3 +1,4 @@
+const jwt = require('jsonwebtoken');
 const User = require('../models/User');
 
 class SessionController {
@@ -19,6 +20,24 @@ class SessionController {
     user.setAttributes('password');
 
     return res.json({ user, token });
+  }
+
+  async validateSession(req, res) {
+    const sessionHeader = req.headers.authorization;
+    const token = sessionHeader.split(' ')[1];
+
+    try {
+      const decode = jwt.verify(token, process.env.APP_KEY);
+
+      const user = await User.findOne({
+        where: { id: decode.id },
+        attributes: { exclude: ['password', 'createdAt', 'updatedAt'] },
+      });
+
+      res.json({ user, token });
+    } catch (err) {
+      res.status(401).send();
+    }
   }
 }
 

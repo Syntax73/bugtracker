@@ -17,7 +17,13 @@ export default {
     ...mapActions('auth', ['validateToken'])
   },
   created() {
-    this.validateToken();
+    this.validateToken()
+      .then((res) => {
+        this.$router.push('/dashboard');
+      })
+      .catch((err) => {
+        this.$router.push('/');
+      });
   }
 };
 </script>

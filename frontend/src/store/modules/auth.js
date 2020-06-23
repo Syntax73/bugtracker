@@ -43,11 +43,23 @@ const actions = {
     }
   },
   validateToken({ commit }) {
-    const token = localStorage.getItem('token');
-    const user = JSON.parse(localStorage.getItem('user'));
-    axios.defaults.headers.common.Authorization = `Bearer ${token}`;
-    commit('setToken', token);
-    commit('setUserSession', user);
+    return new Promise((resolve, reject) => {
+      const token = localStorage.getItem('token');
+      axios.defaults.headers.common.Authorization = `Bearer ${token}`;
+      axios
+        .post('/validate-session')
+        .then((res) => {
+          commit('setToken', res.data.token);
+          commit('setUserSession', res.data.user);
+          resolve(res);
+        })
+        .catch((err) => {
+          axios.defaults.headers.common.Authorization = '';
+          localStorage.removeItem('token');
+          localStorage.removeItem('user');
+          reject(err);
+        });
+    });
   }
 };
 
