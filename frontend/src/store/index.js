@@ -4,6 +4,7 @@ import auth from './modules/auth';
 import app from './modules/app';
 import project from './modules/project';
 import user from './modules/user';
+import issue from './modules/issue';
 
 Vue.use(Vuex);
 
@@ -12,6 +13,7 @@ export default new Vuex.Store({
     auth,
     app,
     project,
-    user
+    user,
+    issue
   }
 });

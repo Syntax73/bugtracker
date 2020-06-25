@@ -3,7 +3,8 @@
     <v-data-table :headers="headers" :items="projects" hide-default-footer class="elevation-1">
       <template v-slot:item.actions="{ item }">
         <v-icon class="mr-2" small @click="getItem(item)">mdi-pencil</v-icon>
-        <v-icon small @click="destroy(item)">mdi-trash-can</v-icon>
+        <v-icon class="mr-2" small @click="destroy(item)">mdi-trash-can</v-icon>
+        <v-icon small @click="detailsItem(item)">mdi-details</v-icon>
       </template>
     </v-data-table>
     <div class="text-center">
@@ -32,8 +33,17 @@ export default {
     };
   },
   methods: {
-    ...mapActions('project', ['getProjects', 'destroy', 'getItem']),
-    ...mapMutations('project', ['setPage', 'setLimit'])
+    ...mapActions('project', ['getProjects', 'destroy', 'getProject']),
+    ...mapMutations('project', ['setPage', 'setLimit', 'setProjectDialog']),
+
+    getItem(item) {
+      this.getProject(item);
+      this.setProjectDialog(true);
+    },
+    detailsItem(item) {
+      this.getProject(item);
+      this.$router.push(`/projects/${item.id}/details`);
+    }
   },
   computed: {
     ...mapState({

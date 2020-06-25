@@ -31,12 +31,11 @@ const actions = {
       console.log(err);
     }
   },
-  async getItem({ commit }, project) {
+  async getProject({ commit }, project) {
     try {
       const { data } = await axios.get(`/projects/${project.id}`);
       commit('setProject', project);
       commit('setTeam', data.team);
-      commit('setProjectDialog', true);
     } catch (err) {
       console.log(err);
     }
