@@ -4,31 +4,43 @@ const IssueType = require('../models/IssueType');
 const IssuePriority = require('../models/IssuePriority');
 const IssueSeverity = require('../models/IssueSeverity');
 const Project = require('../models/Project');
+const { paginate, buildPagination } = require('../config/paginate');
 
 class IssueController {
   async index(req, res) {
     const { project_id: projectId } = req.params;
+    const { page } = req.query;
+    const limit = 6;
 
-    const project = await Project.findByPk(projectId, {
-      include: {
-        association: 'issues',
-        include: [
-          {
-            association: 'reporter',
-            attributes: ['name', 'email', 'avatar_url'],
-          },
-          { association: 'type', attributes: ['id', 'type'] },
-          { association: 'priority', attributes: ['id', 'priority'] },
-          { association: 'severity', attributes: ['id', 'severity'] },
-        ],
-      },
-    });
+    const project = await Project.findByPk(projectId);
 
     if (!project) {
       return res.status(404).json({ message: 'Projeto não encontrado' });
     }
 
-    return res.json(project.issues);
+    const issue = await Issue.findAndCountAll({
+      where: { project_id: projectId },
+      ...paginate(page, limit),
+      include: [
+        {
+          association: 'reporter',
+          attributes: ['name', 'email', 'avatar_url'],
+        },
+        { association: 'type', attributes: ['id', 'type'] },
+        {
+          association: 'priority',
+          attributes: ['id', 'priority'],
+          duplicating: true,
+        },
+        {
+          association: 'severity',
+          attributes: ['id', 'severity'],
+          duplicating: true,
+        },
+      ],
+    });
+
+    return res.json(buildPagination(issue, page, limit));
   }
 
   async store(req, res) {
@@ -86,6 +98,7 @@ class IssueController {
     return res.json(issue);
   }
 
+  // TODO essa função não funciona de forma correta
   async update(req, res) {
     const { project_id: projectId, issue_id: issueId } = req.params;
     const { title, priority, description, severity, status, type } = req.body;
