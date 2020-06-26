@@ -98,7 +98,6 @@ class IssueController {
     return res.json(issue);
   }
 
-  // TODO essa função não funciona de forma correta
   async update(req, res) {
     const { project_id: projectId, issue_id: issueId } = req.params;
     const { title, priority, description, severity, status, type } = req.body;
@@ -122,32 +121,17 @@ class IssueController {
     }
 
     await sequelize.transaction(async (transaction) => {
-      if (reqIssue.type) {
-        const reqType = await IssueType.findByPk(reqIssue.type.id);
-        await reqType.update({ issue_id: issueId, type }, { transaction });
-      }
-      await IssueType.create({ issue_id: issueId, type }, { transaction });
+      const reqType = await IssueType.findByPk(reqIssue.type.id);
+      await reqType.update({ issue_id: issueId, type }, { transaction });
 
-      if (reqIssue.priority) {
-        const reqPriority = await IssuePriority.findByPk(reqIssue.priority.id);
-        await reqPriority.update(
-          { issue_id: issueId, priority },
-          { transaction }
-        );
-      }
-      await IssuePriority.create(
+      const reqPriority = await IssuePriority.findByPk(reqIssue.priority.id);
+      await reqPriority.update(
         { issue_id: issueId, priority },
         { transaction }
       );
 
-      if (reqIssue.severity) {
-        const reqSeverity = await IssueSeverity.findByPk(reqIssue.severity.id);
-        await reqSeverity.update(
-          { issue_id: issueId, severity },
-          { transaction }
-        );
-      }
-      await IssueSeverity.create(
+      const reqSeverity = await IssueSeverity.findByPk(reqIssue.severity.id);
+      await reqSeverity.update(
         { issue_id: issueId, severity },
         { transaction }
       );
