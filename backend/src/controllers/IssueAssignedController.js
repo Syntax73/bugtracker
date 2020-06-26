@@ -16,12 +16,12 @@ class IssueAssignedController {
         .json({ message: 'Projeto ou Bug não encontrados' });
     }
 
-    const joj = await IssueAssigned.create({
+    const assignment = await IssueAssigned.create({
       issue_id: issueId,
       user_id: assigned,
     });
 
-    return res.status(201).json(joj);
+    return res.status(201).json(assignment);
   }
 
   async destroy(req, res) {
