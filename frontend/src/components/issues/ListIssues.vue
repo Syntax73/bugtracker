@@ -7,16 +7,20 @@
         :items="issues"
         :items-per-page="5"
         class="elevation-1"
+        hide-default-footer
       ></v-data-table>
     </v-card>
+    <Paginate store="issue" listMethod="getIssues" />
   </div>
 </template>
 
 <script>
+import Paginate from '../material/Paginate';
 import { mapActions, mapState } from 'vuex';
 
 export default {
   name: 'ListIssues',
+  components: { Paginate },
   data() {
     return {
       headers: [
@@ -41,7 +45,9 @@ export default {
     })
   },
   mounted() {
-    this.getIssues(this.project.id);
+    const id = this.project.id;
+    const page = 1;
+    this.getIssues({ id, page });
   },
   methods: {
     ...mapActions('issue', ['getIssues'])
