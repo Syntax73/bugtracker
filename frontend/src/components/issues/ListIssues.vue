@@ -5,7 +5,6 @@
       <v-data-table
         :headers="headers"
         :items="issues"
-        :items-per-page="5"
         class="elevation-1"
         hide-default-footer
       ></v-data-table>
