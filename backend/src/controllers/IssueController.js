@@ -10,7 +10,7 @@ class IssueController {
   async index(req, res) {
     const { project_id: projectId } = req.params;
     const { page } = req.query;
-    const limit = 6;
+    const limit = 10;
 
     const project = await Project.findByPk(projectId);
 
