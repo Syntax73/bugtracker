@@ -7,7 +7,7 @@
       <ListIssues />
     </v-col>
     <v-col cols="6">
-      <TeamList />
+      <ListTeam />
     </v-col>
   </v-row>
 </template>
@@ -15,14 +15,14 @@
 <script>
 import ListIssues from '@/components/issues/ListIssues';
 import ProjectDetails from '@/components/project/ProjectDetails';
-import TeamList from '@/components/team/TeamList';
+import ListTeam from '@/components/team/ListTeam';
 
 export default {
   nome: 'ProjectDetails',
   components: {
     ListIssues,
     ProjectDetails,
-    TeamList
+    ListTeam
   }
 };
 </script>
