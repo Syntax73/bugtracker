@@ -1,5 +1,5 @@
 module.exports = {
-  paginate(page, limit) {
+  paginate(page = 1, limit) {
     const offset = page * limit - limit;
 
     return {
