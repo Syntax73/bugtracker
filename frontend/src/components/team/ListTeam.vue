@@ -26,7 +26,7 @@ export default {
         { text: 'Codigo', value: 'id' },
         { text: 'Nome', value: 'name' },
         { text: 'Email', value: 'email' },
-        { text: 'Tipo', value: 'role' }
+        { text: 'Papel', value: 'role' }
       ]
     };
   },

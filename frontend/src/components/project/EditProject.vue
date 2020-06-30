@@ -78,7 +78,7 @@ export default {
     ],
     headers: [
       { text: 'Nome', value: 'name' },
-      { text: 'Tipo', value: 'role' }
+      { text: 'Papel', value: 'role' }
     ]
   }),
   computed: {
