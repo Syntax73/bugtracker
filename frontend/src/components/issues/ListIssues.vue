@@ -2,12 +2,11 @@
   <div>
     <v-card>
       <v-card-title>Bugs</v-card-title>
-      <v-data-table
-        :headers="headers"
-        :items="issues"
-        class="elevation-1"
-        hide-default-footer
-      ></v-data-table>
+      <v-data-table :headers="headers" :items="issues" class="elevation-1" hide-default-footer>
+        <template v-slot:item.actions="{ item }">
+          <v-icon small @click="detailsItem(item)">mdi-details</v-icon>
+        </template>
+      </v-data-table>
     </v-card>
     <Paginate store="issue" listMethod="getIssues" />
   </div>
@@ -33,7 +32,8 @@ export default {
         { text: 'Status', value: 'status' },
         { text: 'Tipo', value: 'type.type' },
         { text: 'Priodirade', value: 'priority.priority' },
-        { text: 'Gravidade', value: 'severity.severity' }
+        { text: 'Gravidade', value: 'severity.severity' },
+        { text: 'Ações', value: 'actions' }
       ]
     };
   },
@@ -49,7 +49,12 @@ export default {
     this.getIssues({ id, page });
   },
   methods: {
-    ...mapActions('issue', ['getIssues'])
+    ...mapActions('issue', ['getIssues', 'getIssue']),
+
+    detailsItem(item) {
+      this.getIssue(item);
+      this.$router.push(`/projects/${item.id}/issue`);
+    }
   }
 };
 </script>

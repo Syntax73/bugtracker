@@ -21,6 +21,9 @@ const actions = {
     } catch (err) {
       console.log(err);
     }
+  },
+  getIssue({ commit }, issue) {
+    commit('setIssue', issue);
   }
 };
 
@@ -32,6 +35,9 @@ const mutations = {
     state.pagination.pageCount = pages;
     state.pagination.itemsPerPage = limit;
     state.pagination.itemsLenght = count;
+  },
+  setIssue(state, issue) {
+    state.issue = issue;
   },
   setPage(state, page) {
     state.pagination.page = page;

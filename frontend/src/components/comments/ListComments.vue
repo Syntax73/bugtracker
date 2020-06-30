@@ -1,10 +1,10 @@
 <template>
-  <v-btn router to="projects/1/issue"></v-btn>
+  <div>Comments</div>
 </template>
 
 <script>
 export default {
-  name: 'Profile'
+  name: 'ListComments'
 };
 </script>
 
