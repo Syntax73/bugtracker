@@ -5,7 +5,7 @@ class TeamController {
   async index(req, res) {
     const { project_id: id } = req.params;
     const { page } = req.query;
-    const limit = 3;
+    const limit = 10;
     const offset = page * limit - limit;
 
     const team = await sequelize.query(
