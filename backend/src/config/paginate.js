@@ -11,7 +11,8 @@ module.exports = {
   buildPagination(response, reqPage, reqLimit) {
     const pages = Math.ceil(response.count / reqLimit);
     const page = parseInt(reqPage, 10);
+    const count = parseInt(response.count, 10);
     const limit = reqLimit;
-    return { data: response.rows, count: response.count, page, pages, limit };
+    return { data: response.rows, count, page, pages, limit };
   },
 };

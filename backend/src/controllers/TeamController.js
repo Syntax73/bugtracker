@@ -1,4 +1,5 @@
 const sequelize = require('../database');
+const { buildPagination } = require('../config/paginate');
 
 class TeamController {
   async index(req, res) {
@@ -26,7 +27,10 @@ class TeamController {
       return res.status(404).json({ message: 'Time não encontrado' });
     }
 
-    return res.json(team);
+    const rows = team.slice(1);
+    const count = team[0];
+
+    return res.json(buildPagination({ rows, ...count }, page, limit));
   }
 }
 
