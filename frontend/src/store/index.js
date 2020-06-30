@@ -5,6 +5,7 @@ import app from './modules/app';
 import project from './modules/project';
 import user from './modules/user';
 import issue from './modules/issue';
+import team from './modules/team';
 
 Vue.use(Vuex);
 
@@ -14,6 +15,7 @@ export default new Vuex.Store({
     app,
     project,
     user,
-    issue
+    issue,
+    team
   }
 });
