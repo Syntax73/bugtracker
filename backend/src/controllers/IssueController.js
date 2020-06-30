@@ -4,7 +4,7 @@ const IssueType = require('../models/IssueType');
 const IssuePriority = require('../models/IssuePriority');
 const IssueSeverity = require('../models/IssueSeverity');
 const Project = require('../models/Project');
-const { paginate, buildPagination } = require('../config/paginate');
+const { paginate, buildPagination } = require('../helpers/paginate');
 
 class IssueController {
   async index(req, res) {

@@ -1,5 +1,5 @@
 const Project = require('../models/Project');
-const { paginate, buildPagination } = require('../config/paginate');
+const { paginate, buildPagination } = require('../helpers/paginate');
 
 class ProjectController {
   async index(req, res) {

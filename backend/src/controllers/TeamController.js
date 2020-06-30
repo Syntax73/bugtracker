@@ -1,5 +1,5 @@
 const sequelize = require('../database');
-const { buildPagination } = require('../config/paginate');
+const { buildPagination } = require('../helpers/paginate');
 
 class TeamController {
   async index(req, res) {

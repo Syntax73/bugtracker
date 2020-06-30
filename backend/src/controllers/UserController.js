@@ -1,5 +1,5 @@
 const User = require('../models/User');
-const { paginate, buildPagination } = require('../config/paginate');
+const { paginate, buildPagination } = require('../helpers/paginate');
 
 class UserController {
   async index(req, res) {
