@@ -4,10 +4,12 @@
       <ListComments />
     </v-col>
     <v-col cols="6">
-      <IssueDetails />
-    </v-col>
-    <v-col cols="6">
-      <ListAssigments />
+      <div class="mb-2">
+        <IssueDetails />
+      </div>
+      <div>
+        <ListAssigments />
+      </div>
     </v-col>
   </v-row>
 </template>
