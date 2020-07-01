@@ -14,7 +14,7 @@ export default {
     })
   },
   methods: {
-    ...mapActions('comments', ['getComments']),
+    ...mapActions('comment', ['getComments']),
 
     loadComments() {
       const idProject = this.project.id;
