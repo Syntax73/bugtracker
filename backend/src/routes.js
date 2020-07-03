@@ -65,28 +65,20 @@ routes.delete(
   IssueAssignedController.destroy
 );
 
+routes.get('/issues/:issue_id/comment', isAuth, IssueCommentController.index);
 routes.get(
-  '/projects/:project_id/issues/:issue_id/comment',
-  isAuth,
-  IssueCommentController.index
-);
-routes.get(
-  '/projects/:project_id/issues/:issue_id/comment/:comment_id',
+  '/issues/:issue_id/comment/:comment_id',
   isAuth,
   IssueCommentController.show
 );
-routes.post(
-  '/projects/:project_id/issues/:issue_id/comment',
-  isAuth,
-  IssueCommentController.store
-);
+routes.post('/issues/:issue_id/comment', isAuth, IssueCommentController.store);
 routes.put(
-  '/projects/:project_id/issues/:issue_id/comment/:comment_id',
+  '/issues/:issue_id/comment/:comment_id',
   isAuth,
   IssueCommentController.update
 );
 routes.delete(
-  '/projects/:project_id/issues/:issue_id/comment/:comment_id',
+  '/issues/:issue_id/comment/:comment_id',
   isAuth,
   IssueCommentController.destroy
 );
