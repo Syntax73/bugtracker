@@ -23,12 +23,12 @@ class TeamController {
       }
     );
 
-    if (!team) {
-      return res.status(404).json({ message: 'Time não encontrado' });
-    }
-
     const rows = team.slice(1);
     const count = team[0];
+
+    if (Object.keys(rows).length === 0) {
+      return res.status(404).json({ message: 'Time não encontrado' });
+    }
 
     return res.json(buildPagination({ rows, ...count }, page, limit));
   }
