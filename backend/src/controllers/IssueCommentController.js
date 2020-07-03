@@ -1,15 +1,38 @@
 const IssueComment = require('../models/IssueComment');
+const { buildPagination } = require('../helpers/paginate');
 const Issue = require('../models/Issue');
+const sequelize = require('../database');
 
 class IssueCommentController {
   async index(req, res) {
     const { issue_id: issueId } = req.params;
+    const { page } = req.query;
+    const limit = 10;
+    const offset = page * limit - limit;
 
-    const comments = await Issue.findByPk(issueId, {
-      include: { association: 'comments' },
-    });
+    const comments = await sequelize.query(
+      `
+        SELECT COUNT(*) AS count FROM issue_comments WHERE issue_id = :issueId;
 
-    return res.json(comments.comments);
+        SELECT I.id, users.name, I.comment, I.updated_at AS updatedAt, I.created_at AS createdAt FROM issue_comments AS I 
+          LEFT JOIN users ON users.id = I.user_id 
+          WHERE issue_id = :issueId OFFSET :offset FETCH FIRST :limit ROW ONLY;
+    `,
+      {
+        type: sequelize.QueryTypes.SELECT,
+        replacements: { issueId, limit, offset },
+        raw: true,
+      }
+    );
+
+    const rows = comments.slice(1);
+    const count = comments[0];
+
+    if (Object.keys(rows).length === 0) {
+      return res.status(404).json({ message: 'Comentarios não encontrados' });
+    }
+
+    return res.json(buildPagination({ rows, ...count }, page, limit));
   }
 
   async store(req, res) {
