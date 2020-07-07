@@ -14,8 +14,8 @@ class IssueCommentController {
       `
         SELECT COUNT(*) AS count FROM issue_comments WHERE issue_id = :issueId;
 
-        SELECT I.id, users.name, I.comment, I.updated_at AS updatedAt, I.created_at AS createdAt FROM issue_comments AS I 
-          LEFT JOIN users ON users.id = I.user_id 
+        SELECT I.id, U.avatar, U.name, I.comment, I.updated_at AS updatedAt, I.created_at AS createdAt FROM issue_comments AS I 
+          LEFT JOIN users AS U ON U.id = I.user_id 
           WHERE issue_id = :issueId OFFSET :offset FETCH FIRST :limit ROW ONLY;
     `,
       {

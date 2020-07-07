@@ -1,25 +1,46 @@
 <template>
-  <div>Comments</div>
+  <v-card>
+    <v-card-title>Comentarios</v-card-title>
+    <v-card-text>
+      <v-list>
+        <template v-for="item in comments">
+          <v-list-item :key="item.id">
+            <v-list-item-avatar>
+              <Avatar v-bind:avatar="item.avatar" />
+            </v-list-item-avatar>
+            <v-list-item-content>
+              <v-list-item-title v-html="item.name"></v-list-item-title>
+              <v-list-item-subtitle v-html="item.comment"></v-list-item-subtitle>
+            </v-list-item-content>
+          </v-list-item>
+        </template>
+      </v-list>
+    </v-card-text>
+    <Paginate store="comment" listMethod="getComments" />
+  </v-card>
 </template>
 
 <script>
 import { mapActions, mapState } from 'vuex';
+import Avatar from '../material/Avatar';
+import Paginate from '../material/Paginate';
 
 export default {
   name: 'ListComments',
+  components: { Avatar, Paginate },
   computed: {
     ...mapState({
-      project: (state) => state.project.project,
-      issue: (state) => state.issue.issue
+      issue: (state) => state.issue.issue,
+      comments: (state) => state.comment.comments
     })
   },
   methods: {
     ...mapActions('comment', ['getComments']),
 
     loadComments() {
-      const idProject = this.project.id;
       const idIssue = this.issue.id;
-      this.getComments({ idProject, idIssue });
+      const page = 1;
+      this.getComments({ idIssue, page });
     }
   },
   mounted() {
