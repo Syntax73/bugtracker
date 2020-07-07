@@ -24,7 +24,7 @@ class IssueController {
       include: [
         {
           association: 'reporter',
-          attributes: ['name', 'email', 'avatar_url'],
+          attributes: ['name', 'email', 'avatar'],
         },
         { association: 'type', attributes: ['id', 'type'] },
         {
