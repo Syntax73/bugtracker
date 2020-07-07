@@ -4,7 +4,7 @@
 
 <script>
 export default {
-  name: 'TypeChipe',
+  name: 'PriorityChip',
   props: ['priority'],
   data() {
     return {
