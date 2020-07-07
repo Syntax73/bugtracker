@@ -3,6 +3,18 @@
     <v-card>
       <v-card-title>Bugs</v-card-title>
       <v-data-table :headers="headers" :items="issues" class="elevation-1" hide-default-footer>
+        <template v-slot:item.status="{ item }">
+          <StatusChip v-bind:status="item.status" />
+        </template>
+        <template v-slot:item.type.type="{ item }">
+          <TypeChip v-bind:type="item.type.type" />
+        </template>
+        <template v-slot:item.priority.priority="{ item }">
+          <PriorityChip v-bind:priority="item.priority.priority" />
+        </template>
+        <template v-slot:item.severity.severity="{ item }">
+          <SeverityChip v-bind:severity="item.severity.severity" />
+        </template>
         <template v-slot:item.actions="{ item }">
           <v-icon small @click="detailsItem(item)">mdi-details</v-icon>
         </template>
@@ -14,11 +26,15 @@
 
 <script>
 import Paginate from '../material/Paginate';
+import StatusChip from '../material/StatusChip';
+import TypeChip from '../material/TypeChip';
+import PriorityChip from '../material/PriorityChip';
+import SeverityChip from '../material/SeverityChip';
 import { mapActions, mapState } from 'vuex';
 
 export default {
   name: 'ListIssues',
-  components: { Paginate },
+  components: { Paginate, StatusChip, TypeChip, PriorityChip, SeverityChip },
   data() {
     return {
       headers: [
