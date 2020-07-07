@@ -1,5 +1,5 @@
 <template>
-  <v-chip v-bind:color="color">{{ priority }}</v-chip>
+  <v-chip small v-bind:color="color">{{ priority }}</v-chip>
 </template>
 
 <script>

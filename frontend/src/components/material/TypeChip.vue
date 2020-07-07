@@ -1,5 +1,5 @@
 <template>
-  <v-chip v-bind:color="color">{{ type }}</v-chip>
+  <v-chip small v-bind:color="color">{{ type }}</v-chip>
 </template>
 
 <script>
