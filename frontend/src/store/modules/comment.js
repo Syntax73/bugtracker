@@ -14,9 +14,9 @@ const state = {
 const getters = {};
 
 const actions = {
-  async getComments({ commit }, { idProject, idIssue }) {
+  async getComments({ commit }, { idIssue, page }) {
     try {
-      const { data } = await axios.get(`projects/${idProject}/issues/${idIssue}/comment`);
+      const { data } = await axios.get(`issues/${idIssue}/comment?page=${page}`);
       commit('setComments', data);
     } catch (err) {
       console.log(err);
