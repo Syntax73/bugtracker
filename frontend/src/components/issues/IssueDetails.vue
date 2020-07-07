@@ -6,13 +6,6 @@
         <v-divider></v-divider>
         <v-list-item>
           <v-list-item-content>
-            <v-list-item-title>Descrição</v-list-item-title>
-            <v-list-item-subtitle>{{ issue.description }}</v-list-item-subtitle>
-          </v-list-item-content>
-        </v-list-item>
-        <v-divider></v-divider>
-        <v-list-item>
-          <v-list-item-content>
             <v-list-item-title>Status</v-list-item-title>
             <v-list-item-subtitle>
               <StatusChip v-bind:status="issue.status" />
