@@ -14,31 +14,39 @@
             </v-list-item-content>
           </v-list-item>
         </template>
+        <LoadMoreButton
+          v-if="loadMore"
+          store="comment"
+          listMethod="getComments"
+          v-bind:idValue="issue.id"
+        />
       </v-list>
     </v-card-text>
   </v-card>
 </template>
 
 <script>
-import { mapActions, mapState } from 'vuex';
+import { mapActions, mapState, mapMutations } from 'vuex';
 import Avatar from '../material/Avatar';
+import LoadMoreButton from '../material/LoadMoreButton';
 
 export default {
   name: 'ListComments',
-  components: { Avatar },
+  components: { Avatar, LoadMoreButton },
   computed: {
     ...mapState({
       issue: (state) => state.issue.issue,
-      comments: (state) => state.comment.comments
+      comments: (state) => state.comment.comments,
+      loadMore: (state) => state.comment.loadMore
     })
   },
   methods: {
     ...mapActions('comment', ['getComments']),
 
     loadComments() {
-      const idIssue = this.issue.id;
+      const id = this.issue.id;
       const page = 1;
-      this.getComments({ idIssue, page });
+      this.getComments({ id, page });
     }
   },
   mounted() {

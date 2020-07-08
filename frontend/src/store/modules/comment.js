@@ -8,17 +8,19 @@ const state = {
     itemsPerPage: 10,
     pageCount: 1,
     itemsLenght: 0
-  }
+  },
+  loadMore: true
 };
 
 const getters = {};
 
 const actions = {
-  async getComments({ commit }, { idIssue, page }) {
+  async getComments({ commit }, { id, page }) {
     try {
-      const { data } = await axios.get(`issues/${idIssue}/comment?page=${page}`);
+      const { data } = await axios.get(`issues/${id}/comment?page=${page}`);
       commit('setComments', data);
     } catch (err) {
+      commit('setLoadMore', false);
       console.log(err);
     }
   },
@@ -30,7 +32,11 @@ const actions = {
 const mutations = {
   setComments(state, comments) {
     const { data, count, page, pages, limit } = comments;
-    state.comments = state.comments.concat(data);
+    if (Object.keys(data).length === 0) {
+      state.comments = data;
+    } else {
+      state.comments = state.comments.concat(data);
+    }
     state.pagination.page = page;
     state.pagination.pageCount = pages;
     state.pagination.itemsPerPage = limit;
@@ -41,6 +47,9 @@ const mutations = {
   },
   setPage(state, page) {
     state.pagination.page = page;
+  },
+  setLoadMore(state, value) {
+    state.loadMore = value;
   }
 };
 

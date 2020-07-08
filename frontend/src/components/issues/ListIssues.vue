@@ -30,7 +30,7 @@ import StatusChip from '../material/StatusChip';
 import TypeChip from '../material/TypeChip';
 import PriorityChip from '../material/PriorityChip';
 import SeverityChip from '../material/SeverityChip';
-import { mapActions, mapState } from 'vuex';
+import { mapActions, mapState, mapMutations } from 'vuex';
 
 export default {
   name: 'ListIssues',
@@ -66,9 +66,12 @@ export default {
   },
   methods: {
     ...mapActions('issue', ['getIssues', 'getIssue']),
+    ...mapMutations('comment', ['setComments', 'setLoadMore']),
 
     detailsItem(item) {
       this.getIssue(item);
+      this.setComments({ data: [] });
+      this.setLoadMore(true);
       this.$router.push(`/projects/${item.id}/issue`);
     }
   }
