@@ -16,18 +16,16 @@
         </template>
       </v-list>
     </v-card-text>
-    <Paginate store="comment" listMethod="getComments" />
   </v-card>
 </template>
 
 <script>
 import { mapActions, mapState } from 'vuex';
 import Avatar from '../material/Avatar';
-import Paginate from '../material/Paginate';
 
 export default {
   name: 'ListComments',
-  components: { Avatar, Paginate },
+  components: { Avatar },
   computed: {
     ...mapState({
       issue: (state) => state.issue.issue,

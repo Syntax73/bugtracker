@@ -5,7 +5,7 @@
 <script>
 export default {
   name: 'Paginate',
-  props: ['store', 'listMethod'],
+  props: ['store', 'listMethod', 'idValue'],
   watch: {
     currentPage(newVal) {
       this.paginatePage(newVal);
@@ -28,7 +28,12 @@ export default {
   },
   methods: {
     paginatePage(page) {
-      this.$store.dispatch(`${this.store}/${this.listMethod}`, page);
+      if (this.idValue) {
+        const id = this.idValue;
+        this.$store.dispatch(`${this.store}/${this.listMethod}`, { id, page });
+      } else {
+        this.$store.dispatch(`${this.store}/${this.listMethod}`, page);
+      }
     }
   }
 };

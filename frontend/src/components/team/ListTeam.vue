@@ -9,7 +9,7 @@
         hide-default-footer
       ></v-data-table>
     </v-card>
-    <Paginate store="team" listMethod="getTeam" />
+    <Paginate store="team" listMethod="getTeam" v-bind:idValue="project.id" />
   </div>
 </template>
 

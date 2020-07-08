@@ -30,7 +30,7 @@ const actions = {
 const mutations = {
   setComments(state, comments) {
     const { data, count, page, pages, limit } = comments;
-    state.comments = data;
+    state.comments = state.comments.concat(data);
     state.pagination.page = page;
     state.pagination.pageCount = pages;
     state.pagination.itemsPerPage = limit;

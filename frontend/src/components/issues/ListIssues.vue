@@ -20,7 +20,7 @@
         </template>
       </v-data-table>
     </v-card>
-    <Paginate store="issue" listMethod="getIssues" />
+    <Paginate store="issue" listMethod="getIssues" v-bind:idValue="project.id" />
   </div>
 </template>
 
