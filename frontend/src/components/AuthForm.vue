@@ -1,9 +1,6 @@
 <template>
   <v-row align-content="center" justify="center">
-    <v-snackbar v-model="snackbar" :timeout="4000" top :color="alertType">
-      <span>{{ message }}</span>
-      <v-btn text color="white" @click="snackbar = false">Close</v-btn>
-    </v-snackbar>
+    <MessageSnackBar v-bind:message="message" v-bind:alertType="alertType" />
     <v-col cols="10" sm8 md4>
       <v-card class="elevation-12">
         <v-toolbar>
@@ -39,9 +36,11 @@
 
 <script>
 import { mapActions } from 'vuex';
+import MessageSnackBar from '@/components/material/MessageSnackBar';
 
 export default {
   name: 'AuthForm',
+  components: { MessageSnackBar },
   data() {
     return {
       email: null,
@@ -53,6 +52,7 @@ export default {
   },
   methods: {
     ...mapActions('auth', ['signin']),
+    ...mapActions('app', ['toggleSnackbar']),
     onSignin() {
       const { email, password } = this;
       this.signin({ email, password })
@@ -60,7 +60,7 @@ export default {
         .catch((err) => {
           this.message = err.message;
           this.alertType = 'warning';
-          this.snackbar = true;
+          this.toggleSnackbar();
         });
     }
   }
