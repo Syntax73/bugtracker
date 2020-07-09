@@ -28,7 +28,9 @@ const actions = {
       const { data } = await axios.get(`/projects?page=${page}`);
       commit('setProjects', data);
     } catch (err) {
-      console.log(err);
+      rootState.app.snackbar = true;
+      rootState.app.snackbarContent.message = err.response.data.message;
+      rootState.app.snackbarContent.alertType = 'warning';
     }
   },
   async getProject({ commit }, project) {
@@ -37,13 +39,15 @@ const actions = {
       commit('setProject', project);
       commit('setTeam', data.team);
     } catch (err) {
-      console.log(err);
+      rootState.app.snackbar = true;
+      rootState.app.snackbarContent.message = err.response.data.message;
+      rootState.app.snackbarContent.alertType = 'warning';
     }
   },
   setTeam({ commit }, newTeam) {
     commit('setTeam', newTeam);
   },
-  async create({ commit }, { project, teamMembers }) {
+  async create({ commit, rootState }, { project, teamMembers }) {
     const { name, description } = project;
 
     const team = teamMembers.map((users) => {
@@ -57,7 +61,9 @@ const actions = {
       commit('setProject', {});
       commit('setTeam', []);
     } catch (err) {
-      console.log(err);
+      rootState.app.snackbar = true;
+      rootState.app.snackbarContent.message = err.response.data.message;
+      rootState.app.snackbarContent.alertType = 'warning';
     }
   },
   async update({ commit }, { project, teamMembers }) {
@@ -74,7 +80,9 @@ const actions = {
       commit('setProject', {});
       commit('setTeam', []);
     } catch (err) {
-      console.log(err);
+      rootState.app.snackbar = true;
+      rootState.app.snackbarContent.message = err.response.data.message;
+      rootState.app.snackbarContent.alertType = 'warning';
     }
   },
   async destroy({ commit }, { id }) {
@@ -82,7 +90,9 @@ const actions = {
       await axios.delete(`/projects/${id}`);
       commit('deleteProject', id);
     } catch (err) {
-      console.log(err);
+      rootState.app.snackbar = true;
+      rootState.app.snackbarContent.message = err.response.data.message;
+      rootState.app.snackbarContent.alertType = 'warning';
     }
   },
   projectDialog({ commit }, isOpen) {

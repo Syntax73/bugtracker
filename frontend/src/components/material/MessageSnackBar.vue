@@ -10,13 +10,14 @@ import { mapState, mapMutations } from 'vuex';
 
 export default {
   name: 'MessageSnackBar',
-  props: ['message', 'alertType'],
   methods: {
     ...mapMutations('app', ['setSnackbar'])
   },
   computed: {
     ...mapState({
-      snackbar: (state) => state.app.snackbar
+      snackbar: (state) => state.app.snackbar,
+      message: (state) => state.app.snackbarContent.message,
+      alertType: (state) => state.app.snackbarContent.alertType
     }),
 
     toggle: {

@@ -1,6 +1,10 @@
 const state = {
   drawer: null,
-  snackbar: false
+  snackbar: false,
+  snackbarContent: {
+    message: '',
+    alertType: ''
+  }
 };
 
 const getters = {};
@@ -9,8 +13,9 @@ const actions = {
   toggleDrawer({ commit, state }) {
     commit('setDrawer', !state.drawer);
   },
-  toggleSnackbar({ commit, state }) {
+  toggleSnackbar({ commit, state }, content) {
     commit('setSnackbar', !state.snackbar);
+    commit('setSnackbarContent', content);
   }
 };
 
@@ -20,6 +25,10 @@ const mutations = {
   },
   setSnackbar(state, snackbar) {
     state.snackbar = snackbar;
+  },
+  setSnackbarContent(state, snackbar) {
+    state.snackbarContent.message = snackbar.message;
+    state.snackbarContent.alertType = snackbar.alertType;
   }
 };
 

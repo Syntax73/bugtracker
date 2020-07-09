@@ -3,6 +3,7 @@
     <template v-slot:activator="{ on }">
       <v-btn color="primary" dark v-on="on" @click="userDialog(true)">Novo Usuario</v-btn>
     </template>
+    <MessageSnackBar />
     <v-card>
       <v-card-title>
         <span class="headline">Cadastrar Usuarios</span>
@@ -13,6 +14,7 @@
             v-if="user.id == null"
             v-model="user.avatar"
             label="Avatar"
+            :rules="avatarRuler"
             show-size
             required
           ></v-file-input>
@@ -65,11 +67,14 @@
 
 <script>
 import { mapState, mapActions, mapMutations } from 'vuex';
+import MessageSnackBar from '../material/MessageSnackBar';
 
 export default {
   name: 'EditUsers',
+  components: { MessageSnackBar },
   data: () => ({
     valid: true,
+    avatarRuler: [(v) => !!v || 'Avatar é obrigatorio'],
     nameRules: [
       (v) => !!v || 'Nome é obrigatorio',
       (v) => (v && v.length <= 60) || 'Nome deve ter menos que 60 catacteres'
@@ -92,6 +97,7 @@ export default {
   methods: {
     ...mapActions('user', ['userDialog', 'createUser', 'updateUser']),
     ...mapMutations('user', ['setUser']),
+
     submit() {
       this.createUser(this.user);
       this.$refs.form.reset();

@@ -1,6 +1,6 @@
 <template>
   <v-row align-content="center" justify="center">
-    <MessageSnackBar v-bind:message="message" v-bind:alertType="alertType" />
+    <MessageSnackBar />
     <v-col cols="10" sm8 md4>
       <v-card class="elevation-12">
         <v-toolbar>
@@ -44,10 +44,7 @@ export default {
   data() {
     return {
       email: null,
-      password: null,
-      message: '',
-      alertType: '',
-      snackbar: false
+      password: null
     };
   },
   methods: {
@@ -58,9 +55,10 @@ export default {
       this.signin({ email, password })
         .then(() => this.$router.push('/dashboard'))
         .catch((err) => {
-          this.message = err.message;
-          this.alertType = 'warning';
-          this.toggleSnackbar();
+          this.toggleSnackbar({
+            message: err.message,
+            alertType: 'warning'
+          });
         });
     }
   }

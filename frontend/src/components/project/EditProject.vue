@@ -8,6 +8,7 @@
         <span class="headline">Cadastrar Projeto</span>
       </v-card-title>
       <v-card-text>
+        <MessageSnackBar />
         <v-form ref="form" v-model="valid">
           <v-container>
             <v-row>
@@ -62,10 +63,11 @@
 <script>
 import { mapActions, mapState, mapMutations, mapGetters } from 'vuex';
 import Paginate from '../material/Paginate';
+import MessageSnackBar from '../material/MessageSnackBar';
 
 export default {
   name: 'EditProject',
-  components: { Paginate },
+  components: { Paginate, MessageSnackBar },
   data: () => ({
     valid: true,
     nameRules: [

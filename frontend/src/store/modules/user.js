@@ -24,7 +24,9 @@ const actions = {
       const { data } = await axios.get(`/users?page=${page}`);
       commit('setUsers', data);
     } catch (err) {
-      console.log(err);
+      rootState.app.snackbar = true;
+      rootState.app.snackbarContent.message = err.response.data.message;
+      rootState.app.snackbarContent.alertType = 'warning';
     }
   },
   async createUser({ commit }, newUser) {
@@ -44,7 +46,9 @@ const actions = {
       commit('setUserDialog', false);
       commit('setUser', {});
     } catch (err) {
-      console.log(err);
+      rootState.app.snackbar = true;
+      rootState.app.snackbarContent.message = err.response.data.message;
+      rootState.app.snackbarContent.alertType = 'warning';
     }
   },
   async updateUser({ commit }, user) {
@@ -54,7 +58,9 @@ const actions = {
       commit('setUserDialog', false);
       commit('setUser', {});
     } catch (err) {
-      console.log(err);
+      rootState.app.snackbar = true;
+      rootState.app.snackbarContent.message = err.response.data.message;
+      rootState.app.snackbarContent.alertType = 'warning';
     }
   },
   getItem({ commit }, user) {
