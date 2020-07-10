@@ -1,14 +1,12 @@
 <template>
   <v-row>
-    <v-col cols="6">
-      <div class="mb-2">
-        <IssueDescription />
-      </div>
-      <div>
-        <ListComments />
-      </div>
+    <v-col cols="12">
+      <IssueDescription />
     </v-col>
-    <v-col cols="6">
+    <v-col cols="8">
+      <ListComments />
+    </v-col>
+    <v-col cols="4">
       <div class="mb-2">
         <IssueDetails />
       </div>
