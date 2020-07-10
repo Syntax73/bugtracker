@@ -1,6 +1,6 @@
 <template>
   <v-card>
-    <v-card-title>Descrição</v-card-title>
+    <v-card-title>{{ issue.title }}</v-card-title>
     <v-card-text>{{ issue.description }}</v-card-text>
   </v-card>
 </template>

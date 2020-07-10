@@ -1,6 +1,6 @@
 <template>
   <v-card>
-    <v-card-title>{{ issue.title }}</v-card-title>
+    <v-card-title>Detalhes</v-card-title>
     <v-card-text>
       <v-list>
         <v-divider></v-divider>
