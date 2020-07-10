@@ -1,5 +1,5 @@
 <template>
-  <v-btn @click="loadMore">Carregar Mais</v-btn>
+  <v-btn color="primary" @click="loadMore">Carregar Mais</v-btn>
 </template>
 
 <script>

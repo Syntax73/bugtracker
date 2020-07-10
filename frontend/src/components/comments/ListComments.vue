@@ -3,23 +3,27 @@
     <v-card-title>Comentarios</v-card-title>
     <v-card-text>
       <v-list>
-        <template v-for="item in comments">
-          <v-list-item :key="item.id">
-            <v-list-item-avatar>
-              <Avatar v-bind:avatar="item.avatar" />
-            </v-list-item-avatar>
-            <v-list-item-content>
-              <v-list-item-title v-html="item.name"></v-list-item-title>
-              <v-list-item-subtitle v-html="item.comment"></v-list-item-subtitle>
-            </v-list-item-content>
-          </v-list-item>
-        </template>
-        <LoadMoreButton
-          v-if="loadMore"
-          store="comment"
-          listMethod="getComments"
-          v-bind:idValue="issue.id"
-        />
+        <div>
+          <template v-for="item in comments">
+            <v-list-item :key="item.id">
+              <v-list-item-avatar>
+                <Avatar v-bind:avatar="item.avatar" />
+              </v-list-item-avatar>
+              <v-list-item-content>
+                <v-list-item-title v-html="item.name"></v-list-item-title>
+                <v-list-item-subtitle v-html="item.comment"></v-list-item-subtitle>
+              </v-list-item-content>
+            </v-list-item>
+          </template>
+        </div>
+        <div class="d-flex justify-center">
+          <LoadMoreButton
+            v-if="loadMore"
+            store="comment"
+            listMethod="getComments"
+            v-bind:idValue="issue.id"
+          />
+        </div>
       </v-list>
     </v-card-text>
   </v-card>
