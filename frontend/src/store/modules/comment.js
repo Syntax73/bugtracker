@@ -15,13 +15,25 @@ const state = {
 const getters = {};
 
 const actions = {
-  async getComments({ commit }, { id, page }) {
+  async getComments({ commit, rootState }, { id, page }) {
     try {
       const { data } = await axios.get(`issues/${id}/comment?page=${page}`);
       commit('setComments', data);
     } catch (err) {
       commit('setLoadMore', false);
-      console.log(err);
+      rootState.app.snackbar = true;
+      rootState.app.snackbarContent.message = err.response.data.message;
+      rootState.app.snackbarContent.alertType = 'warning';
+    }
+  },
+  async createComment({ commit, rootState }, { id, comment }) {
+    try {
+      const { data } = await axios.post(`issues/${id}/comment`, comment);
+      commit('createComment', data);
+    } catch (err) {
+      rootState.app.snackbar = true;
+      rootState.app.snackbarContent.message = err.response.data.message;
+      rootState.app.snackbarContent.alertType = 'warning';
     }
   },
   getComment({ commit }, comment) {
@@ -41,6 +53,16 @@ const mutations = {
     state.pagination.pageCount = pages;
     state.pagination.itemsPerPage = limit;
     state.pagination.itemsLenght = count;
+  },
+  createComment(state, comment) {
+    state.comments = state.comments.concat(comment);
+    state.pagination.itemsLenght++;
+    const newTotalPages = state.pagination.itemsLenght / state.pagination.itemsPerPage;
+
+    if (newTotalPages > state.pagination.pageCount) {
+      state.pagination.pageCount++;
+      state.pagination.page = newTotalPages;
+    }
   },
   setComment(state, comment) {
     state.comment = comment;

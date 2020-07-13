@@ -7,10 +7,10 @@
           <template v-for="item in comments">
             <v-list-item :key="item.id">
               <v-list-item-avatar>
-                <Avatar v-bind:avatar="item.avatar" />
+                <Avatar v-bind:avatar="item.user.avatar" />
               </v-list-item-avatar>
               <v-list-item-content>
-                <v-list-item-title v-html="item.name"></v-list-item-title>
+                <v-list-item-title v-html="item.user.name"></v-list-item-title>
                 <v-list-item-subtitle v-html="item.comment"></v-list-item-subtitle>
               </v-list-item-content>
             </v-list-item>
