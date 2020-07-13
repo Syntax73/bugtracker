@@ -12,12 +12,12 @@ class IssueCommentController {
 
     const comments = await sequelize.query(
       `
-        SELECT COUNT(*) AS count FROM issue_comments WHERE issue_id = :issueId;
+      SELECT COUNT(*) AS count FROM issue_comments WHERE issue_id = :issueId; 
 
-        SELECT I.id, U.avatar, U.name, I.comment, I.updated_at AS updatedAt, I.created_at AS createdAt FROM issue_comments AS I 
-          LEFT JOIN users AS U ON U.id = I.user_id 
-          WHERE issue_id = :issueId OFFSET :offset FETCH FIRST :limit ROW ONLY;
-    `,
+      SELECT I.id, U.avatar, U.name, I.comment, I.updated_at AS updatedAt, I.created_at AS createdAt FROM issue_comments AS I 
+      LEFT JOIN users AS U ON U.id = I.user_id 
+      WHERE issue_id = :issueId OFFSET :offset FETCH FIRST :limit ROW ONLY; 
+      `,
       {
         type: sequelize.QueryTypes.SELECT,
         replacements: { issueId, limit, offset },
@@ -40,10 +40,20 @@ class IssueCommentController {
     const { comment } = req.body;
     const { id } = req.userData;
 
+    const issue = await Issue.findByPk(issueId);
+
+    if (!issue) {
+      return res.status(404).json({ message: 'Bug não encontrados' });
+    }
+
     const issueComment = await IssueComment.create({
-      user_id: id,
       issue_id: issueId,
+      user_id: id,
       comment,
+    });
+
+    await issueComment.reload({
+      include: [{ association: 'user', attributes: ['id', 'avatar', 'name'] }],
     });
 
     return res.status(201).json(issueComment);
@@ -53,7 +63,11 @@ class IssueCommentController {
     const { issue_id: issueId, comment_id: commentId } = req.params;
 
     const comment = await Issue.findByPk(issueId, {
-      include: { association: 'comments', where: { id: commentId } },
+      include: {
+        association: 'comments',
+        where: { id: commentId },
+        include: { association: 'user', attributes: ['id', 'avatar', 'name'] },
+      },
     });
 
     return res.json(comment.comments);
