@@ -14,11 +14,13 @@ const IssueAssignedController = require('./controllers/IssueAssignedController')
 const IssueCommentController = require('./controllers/IssueCommentController');
 
 const validateDto = require('./middlewares/validateDto');
-const sessionDto = require('./dto/session');
-const projectDto = require('./dto/project');
-const issueDto = require('./dto/issue');
-const assignedDto = require('./dto/assigned');
-const commentDto = require('./dto/comment');
+const {
+  sessionDto,
+  projectDto,
+  issueDto,
+  commentDto,
+  assignedDto,
+} = require('./dto');
 
 routes.post('/session', validateDto(sessionDto), SessionController.store);
 routes.post('/validate-session', SessionController.validateSession);
