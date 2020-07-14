@@ -16,6 +16,7 @@ const IssueCommentController = require('./controllers/IssueCommentController');
 const validateDto = require('./middlewares/validateDto');
 const sessionDto = require('./dto/session');
 const projectDto = require('./dto/project');
+const issueDto = require('./dto/issue');
 
 routes.post('/session', validateDto(sessionDto), SessionController.store);
 routes.post('/validate-session', SessionController.validateSession);
@@ -51,7 +52,12 @@ routes.delete(
 
 routes.get('/projects/:project_id/team', isAuth, TeamController.index);
 
-routes.post('/projects/:project_id/issues', isAuth, IssueController.store);
+routes.post(
+  '/projects/:project_id/issues',
+  isAuth,
+  validateDto(issueDto),
+  IssueController.store
+);
 routes.put(
   '/projects/:project_id/issues/:issue_id',
   isAuth,
