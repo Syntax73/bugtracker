@@ -17,6 +17,7 @@ const validateDto = require('./middlewares/validateDto');
 const sessionDto = require('./dto/session');
 const projectDto = require('./dto/project');
 const issueDto = require('./dto/issue');
+const assignedDto = require('./dto/assigned');
 
 routes.post('/session', validateDto(sessionDto), SessionController.store);
 routes.post('/validate-session', SessionController.validateSession);
@@ -73,6 +74,7 @@ routes.get(
 routes.post(
   '/projects/:project_id/issues/:issue_id/assigned',
   isAuth,
+  validateDto(assignedDto),
   IssueAssignedController.store
 );
 routes.delete(
