@@ -18,6 +18,7 @@ const sessionDto = require('./dto/session');
 const projectDto = require('./dto/project');
 const issueDto = require('./dto/issue');
 const assignedDto = require('./dto/assigned');
+const commentDto = require('./dto/comment');
 
 routes.post('/session', validateDto(sessionDto), SessionController.store);
 routes.post('/validate-session', SessionController.validateSession);
@@ -89,7 +90,12 @@ routes.get(
   isAuth,
   IssueCommentController.show
 );
-routes.post('/issues/:issue_id/comment', isAuth, IssueCommentController.store);
+routes.post(
+  '/issues/:issue_id/comment',
+  isAuth,
+  validateDto(commentDto),
+  IssueCommentController.store
+);
 routes.put(
   '/issues/:issue_id/comment/:comment_id',
   isAuth,
