@@ -1,4 +1,4 @@
-module.exports = role => {
+module.exports = (role) => {
   return (req, res, next) => {
     const user = req.userData;
 

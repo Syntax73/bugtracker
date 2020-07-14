@@ -15,6 +15,7 @@ const IssueCommentController = require('./controllers/IssueCommentController');
 
 const validateDto = require('./middlewares/validateDto');
 const sessionDto = require('./dto/session');
+const projectDto = require('./dto/project');
 
 routes.post('/session', validateDto(sessionDto), SessionController.store);
 routes.post('/validate-session', SessionController.validateSession);
@@ -31,7 +32,13 @@ routes.post(
 );
 routes.put('/users/:id', isAuth, role('admin'), UserController.update);
 
-routes.post('/projects', isAuth, role('admin'), ProjectController.store);
+routes.post(
+  '/projects',
+  isAuth,
+  role('admin'),
+  validateDto(projectDto),
+  ProjectController.store
+);
 routes.put('/projects/:id', isAuth, role('admin'), ProjectController.update);
 routes.get('/projects', isAuth, ProjectController.index);
 routes.get('/projects/:id', isAuth, ProjectController.show);
