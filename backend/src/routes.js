@@ -13,7 +13,10 @@ const IssueController = require('./controllers/IssueController');
 const IssueAssignedController = require('./controllers/IssueAssignedController');
 const IssueCommentController = require('./controllers/IssueCommentController');
 
-routes.post('/session', SessionController.store);
+const validateDto = require('./middlewares/validateDto');
+const sessionDto = require('./dto/session');
+
+routes.post('/session', validateDto(sessionDto), SessionController.store);
 routes.post('/validate-session', SessionController.validateSession);
 routes.get('/files/:file', FileController.show);
 

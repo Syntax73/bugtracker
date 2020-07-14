@@ -1,8 +1,9 @@
 const jwt = require('jsonwebtoken');
 const User = require('../models/User');
+const apiResponse = require('../helpers/apiResponse');
 
 class SessionController {
-  async store(req, res) {
+  async store(req, res, next) {
     const { email, password } = req.body;
 
     const user = await User.findOne({
@@ -10,10 +11,10 @@ class SessionController {
       attributes: { exclude: ['createdAt', 'updatedAt'] },
     });
 
-    if (!user) return res.status(404).send({ message: 'Email Incorreto' });
+    if (!user) next(apiResponse.unauthorized('Email incorreto'));
 
     if (!(await user.checkPassword(password))) {
-      return res.status(401).send({ message: 'Senha Incorreta' });
+      next(apiResponse.unauthorized('Senha incorreta'));
     }
 
     const token = user.generateToken();
