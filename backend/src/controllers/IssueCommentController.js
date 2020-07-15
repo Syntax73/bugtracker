@@ -1,6 +1,7 @@
 const IssueComment = require('../models/IssueComment');
-const { paginate, buildPagination } = require('../helpers/paginate');
 const Issue = require('../models/Issue');
+const ApiResponse = require('../helpers/apiResponse');
+const { paginate, buildPagination } = require('../helpers/paginate');
 
 class IssueCommentController {
   async index(req, res) {
@@ -15,10 +16,10 @@ class IssueCommentController {
     });
 
     if (Object.keys(comments.rows).length === 0) {
-      return res.status(404).json({ message: 'Comentarios não encontrados' });
+      return ApiResponse.badResquest('Comentarios não encontrados', res);
     }
 
-    return res.json(buildPagination(comments, page, limit));
+    return ApiResponse.ok(buildPagination(comments, page, limit), res);
   }
 
   async store(req, res) {
@@ -29,7 +30,7 @@ class IssueCommentController {
     const issue = await Issue.findByPk(issueId);
 
     if (!issue) {
-      return res.status(404).json({ message: 'Bug não encontrados' });
+      return ApiResponse.badResquest('Issue não encontrada', res);
     }
 
     const issueComment = await IssueComment.create({
@@ -42,7 +43,7 @@ class IssueCommentController {
       include: [{ association: 'user', attributes: ['id', 'avatar', 'name'] }],
     });
 
-    return res.status(201).json(issueComment);
+    return ApiResponse.created(issueComment, res);
   }
 
   async show(req, res) {
@@ -56,7 +57,7 @@ class IssueCommentController {
       },
     });
 
-    return res.json(comment.comments);
+    return ApiResponse.ok(comment.comments, res);
   }
 
   async update(req, res) {
@@ -67,7 +68,7 @@ class IssueCommentController {
     const reqComment = await IssueComment.findByPk(commentId);
 
     if (!reqComment) {
-      return res.status(404).json({ message: 'Comentario não encontrado' });
+      return ApiResponse.badResquest('Comentario não encontrado', res);
     }
 
     await reqComment.update({
@@ -76,7 +77,7 @@ class IssueCommentController {
       comment,
     });
 
-    return res.json(reqComment);
+    return ApiResponse.ok(reqComment, res);
   }
 
   async destroy(req, res) {
@@ -93,7 +94,7 @@ class IssueCommentController {
 
     await comment.destroy();
 
-    return res.send();
+    return ApiResponse.noContent(res);
   }
 }
 

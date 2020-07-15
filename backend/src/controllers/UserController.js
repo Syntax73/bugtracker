@@ -1,5 +1,6 @@
 const User = require('../models/User');
 const { paginate, buildPagination } = require('../helpers/paginate');
+const ApiResponse = require('../helpers/apiResponse');
 
 class UserController {
   async index(req, res) {
@@ -10,7 +11,7 @@ class UserController {
       ...paginate(page, limit),
     });
 
-    return res.json(buildPagination(users, page, limit));
+    return ApiResponse.ok(buildPagination(users, page, limit), res);
   }
 
   async show(req, res) {
@@ -18,20 +19,16 @@ class UserController {
 
     const user = await User.findByPk(id);
 
-    return res.json(user);
+    return ApiResponse.ok(user, res);
   }
 
   async store(req, res) {
-    const { name, email, password, confirmPassword, role } = req.body;
+    const { name, email, password, role } = req.body;
     const { filename: avatar } = req.file;
-
-    if (password !== confirmPassword) {
-      return res.status(400).json({ message: 'Senhas não combinam' });
-    }
 
     const user = await User.create({ avatar, name, email, password, role });
 
-    return res.status(201).json(user);
+    return ApiResponse.created(user, res);
   }
 
   // TODO fazer o usuario atualizar o avatar
@@ -42,12 +39,12 @@ class UserController {
     const reqUser = await User.findByPk(id);
 
     if (!reqUser) {
-      return res.status(404).json({ message: 'Usuario não encontrado' });
+      return ApiResponse.badResquest('Usuario não encontrado', res);
     }
 
     const user = await reqUser.update({ name, email, password, role });
 
-    return res.json(user);
+    return ApiResponse.ok(user, res);
   }
 }
 

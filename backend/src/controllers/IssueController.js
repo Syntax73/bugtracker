@@ -4,6 +4,7 @@ const IssueType = require('../models/IssueType');
 const IssuePriority = require('../models/IssuePriority');
 const IssueSeverity = require('../models/IssueSeverity');
 const Project = require('../models/Project');
+const ApiResponse = require('../helpers/apiResponse');
 const { paginate, buildPagination } = require('../helpers/paginate');
 
 class IssueController {
@@ -15,7 +16,7 @@ class IssueController {
     const project = await Project.findByPk(projectId);
 
     if (!project) {
-      return res.status(404).json({ message: 'Projeto não encontrado' });
+      return ApiResponse.badResquest('Projeto não encontrado', res);
     }
 
     const issue = await Issue.findAndCountAll({
@@ -40,7 +41,7 @@ class IssueController {
       ],
     });
 
-    return res.json(buildPagination(issue, page, limit));
+    return ApiResponse.ok(buildPagination(issue, page, limit), res);
   }
 
   async store(req, res) {
@@ -51,7 +52,7 @@ class IssueController {
     const project = await Project.findByPk(projectId);
 
     if (!project) {
-      return res.status(404).json({ message: 'Projeto não encontrado' });
+      return ApiResponse.badResquest('Projeto não encontrado', res);
     }
 
     const issue = await Issue.create(
@@ -73,7 +74,7 @@ class IssueController {
       }
     );
 
-    return res.status(201).json(issue);
+    return ApiResponse.created(issue, res);
   }
 
   async show(req, res) {
@@ -92,10 +93,10 @@ class IssueController {
     });
 
     if (!issue) {
-      return res.status(404).json({ message: 'Issue não encontrado' });
+      return ApiResponse.badResquest('Projeto não encontrado', res);
     }
 
-    return res.json(issue);
+    return ApiResponse.ok(issue, res);
   }
 
   async update(req, res) {
@@ -117,7 +118,7 @@ class IssueController {
     });
 
     if (!project || !reqIssue) {
-      return res.status(404).json({ message: 'Projeto/Issue não encontrado' });
+      return ApiResponse.badResquest('Projeto/Issue não encontrado', res);
     }
 
     await sequelize.transaction(async (transaction) => {
@@ -144,7 +145,7 @@ class IssueController {
 
     const reIssue = await reqIssue.reload();
 
-    return res.json(reIssue);
+    return ApiResponse.ok(reIssue, res);
   }
 }
 
