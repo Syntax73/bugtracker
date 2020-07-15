@@ -1,7 +1,6 @@
 const express = require('express');
 const cors = require('cors');
 const routes = require('./routes');
-const apiErrorHandler = require('./middlewares/apiErrorHandler');
 require('./database');
 
 class AppController {
@@ -19,7 +18,6 @@ class AppController {
 
   routes() {
     this.express.use(routes);
-    this.express.use(apiErrorHandler);
   }
 }
 

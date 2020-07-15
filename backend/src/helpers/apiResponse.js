@@ -1,16 +1,31 @@
 class ApiResponse {
-  constructor(code, message) {
-    this.code = code;
-    this.message = message;
+  ok(payload, res) {
+    return res.status(200).json({
+      status: 200,
+      data: payload,
+    });
   }
 
-  static badResquest(msg) {
-    return new ApiResponse(400, msg);
+  created(payload, res) {
+    return res.status(201).json({
+      status: 201,
+      data: payload,
+    });
   }
 
-  static unauthorized(msg) {
-    return new ApiResponse(401, msg);
+  badResquest(msg, res) {
+    return res.status(400).json({
+      status: 400,
+      message: msg,
+    });
+  }
+
+  unauthorized(msg, res) {
+    return res.status(401).json({
+      status: 401,
+      message: msg,
+    });
   }
 }
 
-module.exports = ApiResponse;
+module.exports = new ApiResponse();

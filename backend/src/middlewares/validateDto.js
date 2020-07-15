@@ -1,4 +1,4 @@
-const apiResponse = require('../helpers/apiResponse');
+const ApiResponse = require('../helpers/apiResponse');
 
 module.exports = function validateDto(schema) {
   return async (req, res, next) => {
@@ -7,7 +7,7 @@ module.exports = function validateDto(schema) {
       req.body = validatedBody;
       next();
     } catch (err) {
-      next(apiResponse.badResquest(err.message));
+      return ApiResponse.badResquest(err, res);
     }
   };
 };
