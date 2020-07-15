@@ -1,4 +1,5 @@
 const Project = require('../models/Project');
+const ApiResponse = require('../helpers/apiResponse');
 const { paginate, buildPagination } = require('../helpers/paginate');
 
 class ProjectController {
@@ -10,7 +11,7 @@ class ProjectController {
       ...paginate(page, limit),
     });
 
-    return res.json(buildPagination(projects, page, limit));
+    return ApiResponse.ok(buildPagination(projects, page, limit), res);
   }
 
   async show(req, res) {
@@ -27,7 +28,7 @@ class ProjectController {
     });
 
     if (!project) {
-      return res.status(404).json({ message: 'Project não encontrado' });
+      return ApiResponse.badResquest('Projeto não encontrado', res);
     }
 
     return res.json(project);
@@ -42,7 +43,7 @@ class ProjectController {
       project.setTeam(team);
     }
 
-    return res.status(201).json(project);
+    return ApiResponse.created(project, res);
   }
 
   async update(req, res) {
@@ -52,7 +53,7 @@ class ProjectController {
     const reqProject = await Project.findByPk(id);
 
     if (!reqProject) {
-      return res.status(404).json({ message: 'Projeto não encontrado' });
+      return ApiResponse.badResquest('Projeto não encontrado', res);
     }
 
     const project = await reqProject.update({ name, description });
@@ -61,7 +62,7 @@ class ProjectController {
       project.setTeam(team);
     }
 
-    return res.json(project);
+    return ApiResponse.ok(project, res);
   }
 
   async destroy(req, res) {
@@ -75,7 +76,7 @@ class ProjectController {
 
     await reqProject.destroy();
 
-    return res.status(204).send();
+    return ApiResponse.noContent(res);
   }
 }
 

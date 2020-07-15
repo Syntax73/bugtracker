@@ -13,6 +13,10 @@ class ApiResponse {
     });
   }
 
+  noContent(res) {
+    return res.status(204).send();
+  }
+
   badResquest(msg, res) {
     return res.status(400).json({
       status: 400,

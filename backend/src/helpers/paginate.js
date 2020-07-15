@@ -13,6 +13,6 @@ module.exports = {
     const page = parseInt(reqPage, 10);
     const count = parseInt(response.count, 10);
     const limit = reqLimit;
-    return { data: response.rows, count, page, pages, limit };
+    return { rows: response.rows, count, page, pages, limit };
   },
 };
