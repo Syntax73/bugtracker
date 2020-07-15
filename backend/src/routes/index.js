@@ -1,29 +1,22 @@
 const routes = require('express').Router();
 const multer = require('multer');
-const mConfig = require('./config/multer');
-const isAuth = require('./middlewares/isAuth');
-const role = require('./middlewares/role');
+const mConfig = require('../config/multer');
+const isAuth = require('../middlewares/isAuth');
+const role = require('../middlewares/role');
 
-const SessionController = require('./controllers/SessionController');
-const FileController = require('./controllers/FileController');
-const UserController = require('./controllers/UserController');
-const ProjectController = require('./controllers/ProjectController');
-const TeamController = require('./controllers/TeamController');
-const IssueController = require('./controllers/IssueController');
-const IssueAssignedController = require('./controllers/IssueAssignedController');
-const IssueCommentController = require('./controllers/IssueCommentController');
+const sessionRoute = require('./session');
+const FileController = require('../controllers/FileController');
+const UserController = require('../controllers/UserController');
+const ProjectController = require('../controllers/ProjectController');
+const TeamController = require('../controllers/TeamController');
+const IssueController = require('../controllers/IssueController');
+const IssueAssignedController = require('../controllers/IssueAssignedController');
+const IssueCommentController = require('../controllers/IssueCommentController');
 
-const validateDto = require('./middlewares/validateDto');
-const {
-  sessionDto,
-  projectDto,
-  issueDto,
-  commentDto,
-  assignedDto,
-} = require('./dto');
+const validateDto = require('../middlewares/validateDto');
+const { projectDto, issueDto, commentDto, assignedDto } = require('../dto');
 
-routes.post('/session', validateDto(sessionDto), SessionController.store);
-routes.post('/validate-session', SessionController.validateSession);
+routes.use(sessionRoute);
 routes.get('/files/:file', FileController.show);
 
 routes.get('/users', isAuth, role('admin'), UserController.index);
