@@ -3,6 +3,7 @@ const projectDto = require('./project');
 const issueDto = require('./issue');
 const commentDto = require('./comment');
 const assignedDto = require('./assigned');
+const userDto = require('./user');
 
 module.exports = {
   sessionDto,
@@ -10,4 +11,5 @@ module.exports = {
   issueDto,
   commentDto,
   assignedDto,
+  userDto,
 };
