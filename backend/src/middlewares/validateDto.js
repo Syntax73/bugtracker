@@ -7,7 +7,7 @@ module.exports = function validateDto(schema) {
       req.body = validatedBody;
       next();
     } catch (err) {
-      return ApiResponse.badResquest(err, res);
+      return ApiResponse.badResquest(err.message, res);
     }
   };
 };
