@@ -1,3 +1,8 @@
+const { setLocale } = require('yup');
+const ptBr = require('../locales/pt-br');
+
+setLocale(ptBr);
+
 const sessionDto = require('./session');
 const projectDto = require('./project');
 const issueDto = require('./issue');

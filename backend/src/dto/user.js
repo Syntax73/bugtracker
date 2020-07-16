@@ -6,7 +6,7 @@ module.exports = yup.object().shape({
   password: yup.string().min(8).required(),
   confirmPassword: yup
     .string()
-    .oneOf([yup.ref('password'), null], "Passwords don't match")
+    .oneOf([yup.ref('password'), null], 'Senhas não combinam')
     .required(),
   role: yup
     .string()
