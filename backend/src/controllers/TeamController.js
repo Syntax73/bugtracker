@@ -2,15 +2,13 @@ const sequelize = require('../database');
 const { buildPagination } = require('../helpers/paginate');
 const ApiResponse = require('../helpers/apiResponse');
 
-const http = new ApiResponse();
-
 class TeamController {
   async index(req, res) {
     const { project_id: id } = req.params;
     const { page } = req.query;
     const limit = 10;
     const offset = page * limit - limit;
-    http(res);
+    const http = new ApiResponse(res);
 
     try {
       const team = await sequelize.query(
