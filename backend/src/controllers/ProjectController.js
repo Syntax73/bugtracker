@@ -6,77 +6,102 @@ class ProjectController {
   async index(req, res) {
     const { page } = req.query;
     const limit = 10;
+    const http = new ApiResponse(res);
 
-    const projects = await Project.findAndCountAll({
-      ...paginate(page, limit),
-    });
+    try {
+      const projects = await Project.findAndCountAll({
+        ...paginate(page, limit),
+      });
 
-    return ApiResponse.ok(buildPagination(projects, page, limit), res);
+      return http.ok(buildPagination(projects, page, limit));
+    } catch (err) {
+      return http.serverError();
+    }
   }
 
   async show(req, res) {
     const { id } = req.params;
+    const http = new ApiResponse(res);
 
-    const project = await Project.findByPk(id, {
-      include: {
-        association: 'team',
-        attributes: ['id', 'avatar', 'name', 'email', 'role'],
-        through: {
-          attributes: [],
+    try {
+      const project = await Project.findByPk(id, {
+        include: {
+          association: 'team',
+          attributes: ['id', 'avatar', 'name', 'email', 'role'],
+          through: {
+            attributes: [],
+          },
         },
-      },
-    });
+      });
 
-    if (!project) {
-      return ApiResponse.badResquest('Projeto não encontrado', res);
+      if (!project) {
+        return http.badResquest('Projeto não encontrado');
+      }
+
+      return http.ok(project);
+    } catch (err) {
+      return http.serverError();
     }
-
-    return res.json(project);
   }
 
   async store(req, res) {
     const { name, description, team } = req.body;
+    const http = new ApiResponse(res);
 
-    const project = await Project.create({ name, description });
+    try {
+      const project = await Project.create({ name, description });
 
-    if (team && team.length > 0) {
-      project.setTeam(team);
+      if (team && team.length > 0) {
+        project.setTeam(team);
+      }
+
+      return http.created(project);
+    } catch (err) {
+      return http.serverError();
     }
-
-    return ApiResponse.created(project, res);
   }
 
   async update(req, res) {
     const { id } = req.params;
     const { name, description, team } = req.body;
+    const http = new ApiResponse(res);
 
-    const reqProject = await Project.findByPk(id);
+    try {
+      const reqProject = await Project.findByPk(id);
 
-    if (!reqProject) {
-      return ApiResponse.badResquest('Projeto não encontrado', res);
+      if (!reqProject) {
+        return http.badResquest('Projeto não encontrado');
+      }
+
+      const project = await reqProject.update({ name, description });
+
+      if (team) {
+        project.setTeam(team);
+      }
+
+      return http.ok(project);
+    } catch (err) {
+      return http.serverError();
     }
-
-    const project = await reqProject.update({ name, description });
-
-    if (team) {
-      project.setTeam(team);
-    }
-
-    return ApiResponse.ok(project, res);
   }
 
   async destroy(req, res) {
     const { id } = req.params;
+    const http = new ApiResponse(res);
 
-    const reqProject = await Project.findByPk(id);
+    try {
+      const reqProject = await Project.findByPk(id);
 
-    if (!reqProject) {
-      return res.status(404).json({ message: 'Projeto não encontrado' });
+      if (!reqProject) {
+        return http.badResquest('Projeto não encontrado');
+      }
+
+      await reqProject.destroy();
+
+      return http.noContent(res);
+    } catch (err) {
+      return http.serverError();
     }
-
-    await reqProject.destroy();
-
-    return ApiResponse.noContent(res);
   }
 }
 

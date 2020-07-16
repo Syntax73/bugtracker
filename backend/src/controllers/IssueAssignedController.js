@@ -1,48 +1,55 @@
 const Project = require('../models/Project');
 const IssueAssigned = require('../models/IssueAssigned');
+const ApiResponse = require('../helpers/apiResponse');
 
 class IssueAssignedController {
   async store(req, res) {
     const { project_id: projecId, issue_id: issueId } = req.params;
     const { assigned } = req.body;
+    const http = new ApiResponse(res);
 
-    const project = await Project.findByPk(projecId, {
-      include: { association: 'issues', where: { id: issueId } },
-    });
+    try {
+      const project = await Project.findByPk(projecId, {
+        include: { association: 'issues', where: { id: issueId } },
+      });
 
-    if (!project) {
-      return res
-        .status(404)
-        .json({ message: 'Projeto ou Bug não encontrados' });
+      if (!project) {
+        return http.badResquest('Projeto ou Bug não encontrados');
+      }
+
+      const assignment = await IssueAssigned.create({
+        issue_id: issueId,
+        user_id: assigned,
+      });
+
+      return http.created(assignment);
+    } catch (err) {
+      return http.serverError();
     }
-
-    const assignment = await IssueAssigned.create({
-      issue_id: issueId,
-      user_id: assigned,
-    });
-
-    return res.status(201).json(assignment);
   }
 
   async destroy(req, res) {
     const { project_id: projecId, issue_id: issueId } = req.params;
     const { assigned } = req.body;
+    const http = new ApiResponse(res);
 
-    const project = await Project.findByPk(projecId, {
-      include: { association: 'issues', where: { id: issueId } },
-    });
+    try {
+      const project = await Project.findByPk(projecId, {
+        include: { association: 'issues', where: { id: issueId } },
+      });
 
-    if (!project) {
-      return res
-        .status(404)
-        .json({ message: 'Projeto ou Bug não encontrados' });
+      if (!project) {
+        return http.badResquest('Projeto ou Bug não encontrados');
+      }
+
+      await IssueAssigned.destroy({
+        where: { issue_id: issueId, user_id: assigned },
+      });
+
+      return http.noContent();
+    } catch (err) {
+      return http.serverError();
     }
-
-    await IssueAssigned.destroy({
-      where: { issue_id: issueId, user_id: assigned },
-    });
-
-    return res.send();
   }
 }
 
