@@ -18,7 +18,7 @@ const actions = {
   async getComments({ commit, rootState }, { id, page }) {
     try {
       const { data } = await axios.get(`issues/${id}/comment?page=${page}`);
-      commit('setComments', data);
+      commit('setComments', data.data);
     } catch (err) {
       commit('setLoadMore', false);
       rootState.app.snackbar = true;
@@ -29,7 +29,7 @@ const actions = {
   async createComment({ commit, rootState }, { id, comment }) {
     try {
       const { data } = await axios.post(`issues/${id}/comment`, comment);
-      commit('createComment', data);
+      commit('createComment', data.data);
     } catch (err) {
       rootState.app.snackbar = true;
       rootState.app.snackbarContent.message = err.response.data.message;
@@ -43,11 +43,11 @@ const actions = {
 
 const mutations = {
   setComments(state, comments) {
-    const { data, count, page, pages, limit } = comments;
-    if (Object.keys(data).length === 0) {
-      state.comments = data;
+    const { rows, count, page, pages, limit } = comments;
+    if (Object.keys(rows).length === 0) {
+      state.comments = rows;
     } else {
-      state.comments = state.comments.concat(data);
+      state.comments = state.comments.concat(rows);
     }
     state.pagination.page = page;
     state.pagination.pageCount = pages;

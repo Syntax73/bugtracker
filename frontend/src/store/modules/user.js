@@ -22,7 +22,7 @@ const actions = {
   async getUsers({ commit }, page) {
     try {
       const { data } = await axios.get(`/users?page=${page}`);
-      commit('setUsers', data);
+      commit('setUsers', data.data);
     } catch (err) {
       rootState.app.snackbar = true;
       rootState.app.snackbarContent.message = err.response.data.message;
@@ -42,7 +42,7 @@ const actions = {
 
       const { data } = await axios.post('/users', formData);
 
-      commit('createUser', data);
+      commit('createUser', data.data);
       commit('setUserDialog', false);
       commit('setUser', {});
     } catch (err) {
@@ -54,7 +54,7 @@ const actions = {
   async updateUser({ commit }, user) {
     try {
       const { data } = await axios.put(`/users/${user.id}`, user);
-      commit('updateUser', data);
+      commit('updateUser', data.data);
       commit('setUserDialog', false);
       commit('setUser', {});
     } catch (err) {
@@ -74,8 +74,8 @@ const actions = {
 
 const mutations = {
   setUsers(state, users) {
-    const { data, count, page, pages, limit } = users;
-    state.users = data;
+    const { rows, count, page, pages, limit } = users;
+    state.users = rows;
     state.pagination.page = page;
     state.pagination.pageCount = pages;
     state.pagination.itemsPerPage = limit;

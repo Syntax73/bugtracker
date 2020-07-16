@@ -26,7 +26,7 @@ const actions = {
   async getProjects({ commit }, page) {
     try {
       const { data } = await axios.get(`/projects?page=${page}`);
-      commit('setProjects', data);
+      commit('setProjects', data.data);
     } catch (err) {
       rootState.app.snackbar = true;
       rootState.app.snackbarContent.message = err.response.data.message;
@@ -37,7 +37,7 @@ const actions = {
     try {
       const { data } = await axios.get(`/projects/${project.id}`);
       commit('setProject', project);
-      commit('setTeam', data.team);
+      commit('setTeam', data.data.team);
     } catch (err) {
       rootState.app.snackbar = true;
       rootState.app.snackbarContent.message = err.response.data.message;
@@ -56,7 +56,7 @@ const actions = {
 
     try {
       const { data } = await axios.post('/projects', { name, description, team });
-      commit('createProject', data);
+      commit('createProject', data.data);
       commit('setProjectDialog', false);
       commit('setProject', {});
       commit('setTeam', []);
@@ -75,7 +75,7 @@ const actions = {
 
     try {
       const { data } = await axios.put(`/projects/${id}`, { name, description, team });
-      commit('updateProject', data);
+      commit('updateProject', data.data);
       commit('setProjectDialog', false);
       commit('setProject', {});
       commit('setTeam', []);
@@ -102,8 +102,8 @@ const actions = {
 
 const mutations = {
   setProjects(state, projects) {
-    const { data, count, page, pages, limit } = projects;
-    state.projects = data;
+    const { rows, count, page, pages, limit } = projects;
+    state.projects = rows;
     state.pagination.page = page;
     state.pagination.pageCount = pages;
     state.pagination.itemsPerPage = limit;

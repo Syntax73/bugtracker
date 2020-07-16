@@ -70,7 +70,7 @@ export default {
 
     detailsItem(item) {
       this.getIssue(item);
-      this.setComments({ data: [] });
+      this.setComments({ rows: [] });
       this.setLoadMore(true);
       this.$router.push(`/projects/${item.id}/issue`);
     }

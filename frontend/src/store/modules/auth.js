@@ -20,7 +20,7 @@ const actions = {
       axios
         .post('/session', { email, password })
         .then((res) => {
-          const { token, user } = res.data;
+          const { token, user } = res.data.data;
           localStorage.setItem('token', token);
           localStorage.setItem('user', JSON.stringify(user));
           axios.defaults.headers.common.Authorization = `Bearer ${token}`;
@@ -49,8 +49,9 @@ const actions = {
       axios
         .post('/validate-session')
         .then((res) => {
-          commit('setToken', res.data.token);
-          commit('setUserSession', res.data.user);
+          const { token, user } = res.data.data;
+          commit('setToken', token);
+          commit('setUserSession', user);
           resolve(res);
         })
         .catch((err) => {

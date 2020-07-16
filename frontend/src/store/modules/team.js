@@ -16,17 +16,19 @@ const actions = {
   async getTeam({ commit }, { id, page }) {
     try {
       const { data } = await axios.get(`/projects/${id}/team?page=${page}`);
-      commit('setTeam', data);
+      commit('setTeam', data.data);
     } catch (err) {
-      console.log(err);
+      rootState.app.snackbar = true;
+      rootState.app.snackbarContent.message = err.response.data.message;
+      rootState.app.snackbarContent.alertType = 'warning';
     }
   }
 };
 
 const mutations = {
   setTeam(state, team) {
-    const { data, count, page, pages, limit } = team;
-    state.team = data;
+    const { rows, count, page, pages, limit } = team;
+    state.team = rows;
     state.pagination.page = page;
     state.pagination.pageCount = pages;
     state.pagination.itemsPerPage = limit;

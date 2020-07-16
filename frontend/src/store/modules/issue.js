@@ -14,12 +14,14 @@ const state = {
 const getters = {};
 
 const actions = {
-  async getIssues({ commit }, { id, page }) {
+  async getIssues({ commit, rootState }, { id, page }) {
     try {
       const { data } = await axios.get(`/projects/${id}/issues?page=${page}`);
-      commit('setIssues', data);
+      commit('setIssues', data.data);
     } catch (err) {
-      console.log(err);
+      rootState.app.snackbar = true;
+      rootState.app.snackbarContent.message = err.response.data.message;
+      rootState.app.snackbarContent.alertType = 'warning';
     }
   },
   getIssue({ commit }, issue) {
@@ -29,8 +31,8 @@ const actions = {
 
 const mutations = {
   setIssues(state, issues) {
-    const { data, count, page, pages, limit } = issues;
-    state.issues = data;
+    const { rows, count, page, pages, limit } = issues;
+    state.issues = rows;
     state.pagination.page = page;
     state.pagination.pageCount = pages;
     state.pagination.itemsPerPage = limit;
