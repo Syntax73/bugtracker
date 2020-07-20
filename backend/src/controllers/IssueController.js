@@ -29,6 +29,10 @@ class IssueController {
             association: 'reporter',
             attributes: ['name', 'email', 'avatar'],
           },
+          {
+            association: 'assigned',
+            attributes: ['user_id'],
+          },
           { association: 'type', attributes: ['id', 'type'] },
           {
             association: 'priority',
@@ -97,6 +101,10 @@ class IssueController {
           {
             association: 'reporter',
             attributes: ['name', 'email', 'avatar_url'],
+          },
+          {
+            association: 'assigned',
+            attributes: ['user_id'],
           },
           { association: 'type', attributes: ['id', 'type'] },
           { association: 'priority', attributes: ['id', 'priority'] },

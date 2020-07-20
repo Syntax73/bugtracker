@@ -10,7 +10,12 @@ const state = {
   }
 };
 
-const getters = {};
+const getters = {
+  getPerson: (state) => (assigned) => {
+    const ids = assigned.map((id) => id.user_id);
+    return state.team.filter((person) => ids.includes(person.id));
+  }
+};
 
 const actions = {
   async getTeam({ commit }, { id, page }) {
