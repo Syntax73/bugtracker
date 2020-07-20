@@ -4,6 +4,9 @@
     <v-card-text>
       <v-list>
         <div>
+          <div v-if="comments.length === 0">
+            <v-list-item-title>Ainda não há comentários</v-list-item-title>
+          </div>
           <template v-for="item in comments">
             <v-list-item :key="item.id">
               <v-list-item-avatar>
