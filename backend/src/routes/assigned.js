@@ -12,7 +12,7 @@ routes.post(
   IssueAssignedController.store
 );
 routes.delete(
-  '/issues/:issue_id/assigned',
+  '/issues/:issue_id/assigned/:user_id',
   isAuth,
   IssueAssignedController.destroy
 );
