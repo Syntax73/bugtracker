@@ -17,7 +17,8 @@
         <IssueDetails />
       </div>
       <div>
-        <ListAssigments />
+        <ListAssigments class="mb-2" />
+        <AddAssigments />
       </div>
     </v-col>
   </v-row>
@@ -30,6 +31,7 @@ import ListAssigments from '../components/assigments/ListAssigments';
 import ListComments from '../components/comments/ListComments';
 import AddComment from '../components/comments/AddComment';
 import MessageSnackBar from '../components/material/MessageSnackBar';
+import AddAssigments from '../components/assigments/AddAssigments';
 
 export default {
   name: 'IssuesDetails',
@@ -39,7 +41,8 @@ export default {
     ListAssigments,
     ListComments,
     AddComment,
-    MessageSnackBar
+    MessageSnackBar,
+    AddAssigments
   }
 };
 </script>

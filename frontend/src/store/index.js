@@ -7,6 +7,7 @@ import user from './modules/user';
 import issue from './modules/issue';
 import team from './modules/team';
 import comment from './modules/comment';
+import assigment from './modules/assigment';
 
 Vue.use(Vuex);
 
@@ -18,6 +19,7 @@ export default new Vuex.Store({
     user,
     issue,
     team,
-    comment
+    comment,
+    assigment
   }
 });
