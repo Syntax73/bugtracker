@@ -6,7 +6,7 @@ module.exports = function validateDto(schema) {
     try {
       const validatedBody = await schema.validate(req.body);
       req.body = validatedBody;
-      next();
+      return next();
     } catch (err) {
       return http.badResquest(err.message, res);
     }
