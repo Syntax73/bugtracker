@@ -18,7 +18,7 @@ const getters = {
 };
 
 const actions = {
-  async getTeam({ commit }, { id, page }) {
+  async getTeam({ commit, rootState }, { id, page }) {
     try {
       const { data } = await axios.get(`/projects/${id}/team?page=${page}`);
       commit('setTeam', data.data);
