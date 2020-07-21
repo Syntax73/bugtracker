@@ -1,20 +1,18 @@
-const Project = require('../models/Project');
+const Issue = require('../models/Issue');
 const IssueAssigned = require('../models/IssueAssigned');
 const ApiResponse = require('../helpers/apiResponse');
 
 class IssueAssignedController {
   async store(req, res) {
-    const { project_id: projecId, issue_id: issueId } = req.params;
+    const { issue_id: issueId } = req.params;
     const { assigned } = req.body;
     const http = new ApiResponse(res);
 
     try {
-      const project = await Project.findByPk(projecId, {
-        include: { association: 'issues', where: { id: issueId } },
-      });
+      const issue = await Issue.findByPk(issueId);
 
-      if (!project) {
-        return http.badResquest('Projeto ou Bug não encontrados');
+      if (!issue) {
+        return http.badResquest('Issue não encontrada');
       }
 
       const assignment = await IssueAssigned.create({
@@ -29,17 +27,15 @@ class IssueAssignedController {
   }
 
   async destroy(req, res) {
-    const { project_id: projecId, issue_id: issueId } = req.params;
+    const { issue_id: issueId } = req.params;
     const { assigned } = req.body;
     const http = new ApiResponse(res);
 
     try {
-      const project = await Project.findByPk(projecId, {
-        include: { association: 'issues', where: { id: issueId } },
-      });
+      const issue = await Issue.findByPk(issueId);
 
-      if (!project) {
-        return http.badResquest('Projeto ou Bug não encontrados');
+      if (!issue) {
+        return http.badResquest('Issue não encontrada');
       }
 
       await IssueAssigned.destroy({

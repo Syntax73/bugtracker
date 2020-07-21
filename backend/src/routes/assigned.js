@@ -6,13 +6,13 @@ const validateDto = require('../middlewares/validateDto');
 const { assignedDto } = require('../dto');
 
 routes.post(
-  '/projects/:project_id/issues/:issue_id/assigned',
+  '/issues/:issue_id/assigned',
   isAuth,
   validateDto(assignedDto),
   IssueAssignedController.store
 );
 routes.delete(
-  '/projects/:project_id/issues/:issue_id/assigned',
+  '/issues/:issue_id/assigned',
   isAuth,
   IssueAssignedController.destroy
 );
