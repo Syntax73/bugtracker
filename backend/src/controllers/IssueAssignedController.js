@@ -27,8 +27,7 @@ class IssueAssignedController {
   }
 
   async destroy(req, res) {
-    const { issue_id: issueId } = req.params;
-    const { assigned } = req.body;
+    const { issue_id: issueId, user_id: userId } = req.params;
     const http = new ApiResponse(res);
 
     try {
@@ -39,7 +38,7 @@ class IssueAssignedController {
       }
 
       await IssueAssigned.destroy({
-        where: { issue_id: issueId, user_id: assigned },
+        where: { issue_id: issueId, user_id: userId },
       });
 
       return http.noContent();
