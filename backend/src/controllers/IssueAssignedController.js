@@ -15,10 +15,7 @@ class IssueAssignedController {
         return http.badResquest('Issue não encontrada');
       }
 
-      const assignment = await IssueAssigned.create({
-        issue_id: issueId,
-        user_id: assigned,
-      });
+      const assignment = await IssueAssigned.bulkCreate(assigned);
 
       return http.created(assignment);
     } catch (err) {
