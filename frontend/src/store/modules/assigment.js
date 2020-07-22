@@ -9,8 +9,25 @@ const getters = {};
 const actions = {
   async createAssigment({ commit, rootState }, { issueId, assigned }) {
     try {
-      const { data } = await axios.post(`/issues/${issueId}/assigned`, { assigned: assigned });
+      const payload = assigned.map((value) => {
+        return {
+          issue_id: issueId,
+          user_id: value
+        };
+      });
+
+      const { data } = await axios.post(`/issues/${issueId}/assigned`, { assigned: payload });
       commit('setAssigment', data.data);
+    } catch (err) {
+      rootState.app.snackbar = true;
+      rootState.app.snackbarContent.message = err.response.data.message;
+      rootState.app.snackbarContent.alertType = 'warning';
+    }
+  },
+  async deleteAssigment({ commit, rootState }, { issueId, userId }) {
+    try {
+      await axios.delete(`/issues/${issueId}/assigned/${userId}`);
+      commit('deleteAssigment', userId);
     } catch (err) {
       rootState.app.snackbar = true;
       rootState.app.snackbarContent.message = err.response.data.message;
@@ -22,6 +39,9 @@ const actions = {
 const mutations = {
   setAssigment(state, assigned) {
     state.assigned = assigned;
+  },
+  deleteAssigment(state, assigned) {
+    console.log(assigned);
   }
 };
 
