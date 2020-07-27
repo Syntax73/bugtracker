@@ -1,5 +1,5 @@
 <template>
-  <v-btn router to="projects/1/issue"></v-btn>
+  <div>Profile</div>
 </template>
 
 <script>
