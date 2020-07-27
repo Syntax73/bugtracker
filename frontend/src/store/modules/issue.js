@@ -24,6 +24,16 @@ const actions = {
       rootState.app.snackbarContent.alertType = 'warning';
     }
   },
+  async getMyIssues({ commit, rootState }, page) {
+    try {
+      const { data } = await axios.get(`/issues?page=${page}`);
+      commit('setIssues', data.data);
+    } catch (err) {
+      rootState.app.snackbar = true;
+      rootState.app.snackbarContent.message = err.response.data.message;
+      rootState.app.snackbarContent.alertType = 'warning';
+    }
+  },
   getIssue({ commit }, issue) {
     commit('setIssue', issue);
   }

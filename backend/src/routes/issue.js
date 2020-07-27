@@ -5,6 +5,8 @@ const IssueController = require('../controllers/IssueController');
 const validateDto = require('../middlewares/validateDto');
 const { issueDto } = require('../dto');
 
+routes.get('/issues', isAuth, IssueController.listMyIssues);
+
 routes.post(
   '/projects/:project_id/issues',
   isAuth,

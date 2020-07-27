@@ -174,6 +174,45 @@ class IssueController {
       return http.serverError();
     }
   }
+
+  async listMyIssues(req, res) {
+    const { id } = req.userData;
+    const { page } = req.query;
+    const limit = 10;
+    const http = new ApiResponse(res);
+
+    try {
+      const issue = await Issue.findAndCountAll({
+        where: { user_id: id },
+        ...paginate(page, limit),
+        include: [
+          {
+            association: 'reporter',
+            attributes: ['name', 'email', 'avatar'],
+          },
+          {
+            association: 'assigned',
+            attributes: ['user_id'],
+          },
+          { association: 'type', attributes: ['id', 'type'] },
+          {
+            association: 'priority',
+            attributes: ['id', 'priority'],
+            duplicating: true,
+          },
+          {
+            association: 'severity',
+            attributes: ['id', 'severity'],
+            duplicating: true,
+          },
+        ],
+      });
+
+      return http.ok(buildPagination(issue, page, limit));
+    } catch (err) {
+      return http.serverError();
+    }
+  }
 }
 
 module.exports = new IssueController();

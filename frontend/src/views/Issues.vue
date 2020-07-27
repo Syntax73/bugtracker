@@ -1,10 +1,16 @@
 <template>
-  <p>Issues</p>
+  <div>
+    <p>Minhas Issues</p>
+    <MyIssues />
+  </div>
 </template>
 
 <script>
+import MyIssues from '../components/issues/MyIssues';
+
 export default {
-  name: 'Issues'
+  name: 'Issues',
+  components: { MyIssues }
 };
 </script>
 
