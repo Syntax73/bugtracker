@@ -3,42 +3,84 @@
     <v-card>
       <v-card-title>Assinar issue</v-card-title>
       <v-card-text>
-        <v-autocomplete
-          v-model="selection"
+        <v-combobox
+          v-model="persons"
           :items="team"
           item-text="name"
           item-value="id"
           label="Selecione"
+          @change="create"
           multiple
-        ></v-autocomplete>
-        <v-btn @click="create()" color="primary">Adicionar</v-btn>
+          hide-selected
+          chips
+        >
+          <template v-slot:selection="data">
+            <v-chip
+              :key="JSON.stringify(data.item)"
+              v-bind="data.attrs"
+              :input-value="data.selected"
+              @click="data.select"
+              @click:close="remove(data.item)"
+              close
+            >
+              <v-avatar left>
+                <Avatar v-bind:avatar="data.item.avatar" />
+              </v-avatar>
+              {{ data.item.name }}
+            </v-chip>
+          </template>
+          <template v-slot:item="data">
+            <v-list-item-avatar>
+              <Avatar v-bind:avatar="data.item.avatar" />
+            </v-list-item-avatar>
+            <v-list-item-content>
+              <v-list-item-title v-html="data.item.name"></v-list-item-title>
+            </v-list-item-content>
+          </template>
+        </v-combobox>
       </v-card-text>
     </v-card>
   </div>
 </template>
 
 <script>
-import { mapState, mapActions } from 'vuex';
+import { mapState, mapActions, mapMutations, mapGetters } from 'vuex';
+import Avatar from '../material/Avatar.vue';
 
 export default {
   name: 'AddAssigments',
-  data() {
-    return {
-      selection: []
-    };
-  },
+  components: { Avatar },
   computed: {
+    ...mapGetters('team', ['getPerson']),
     ...mapState({
-      team: (state) => state.team.team
-    })
+      team: (state) => state.team.team,
+      assignedIds: (state) => state.issue.issue.assigned,
+      assigments: (state) => state.assigment.assigments
+    }),
+    persons: {
+      get() {
+        return this.assigments;
+      },
+      set(val) {
+        this.setAssigment(val);
+      }
+    }
+  },
+  created() {
+    this.persons = this.getPerson(this.assignedIds);
   },
   methods: {
-    ...mapActions('assigment', ['createAssigment']),
+    ...mapActions('assigment', ['createAssigment', 'deleteAssigment']),
+    ...mapMutations('assigment', ['setAssigment']),
 
     create() {
       const issueId = this.$route.params.idIssue;
-      const assigned = this.selection;
+      const assigned = this.persons;
       this.createAssigment({ issueId, assigned });
+    },
+    remove(userId) {
+      const issueId = this.$route.params.idIssue;
+      this.deleteAssigment({ issueId, userId });
     }
   }
 };

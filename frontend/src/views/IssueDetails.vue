@@ -17,7 +17,6 @@
         <IssueDetails />
       </div>
       <div>
-        <ListAssigments class="mb-2" />
         <AddAssigments />
       </div>
     </v-col>
@@ -27,7 +26,6 @@
 <script>
 import IssueDetails from '../components/issues/IssueDetails';
 import IssueDescription from '../components/issues/IssueDescription';
-import ListAssigments from '../components/assigments/ListAssigments';
 import ListComments from '../components/comments/ListComments';
 import AddComment from '../components/comments/AddComment';
 import MessageSnackBar from '../components/material/MessageSnackBar';
@@ -38,7 +36,6 @@ export default {
   components: {
     IssueDetails,
     IssueDescription,
-    ListAssigments,
     ListComments,
     AddComment,
     MessageSnackBar,
