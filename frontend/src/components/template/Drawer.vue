@@ -40,13 +40,13 @@ export default {
       },
       { text: 'Inicio', icon: 'mdi-view-dashboard', route: '/dashboard' },
       {
-        text: 'Users',
+        text: 'Usuários',
         icon: 'mdi-account-multiple-plus',
         route: '/users'
       },
       { text: 'Projetos', icon: 'mdi-notebook-outline', route: '/projects' },
       {
-        text: 'Issues',
+        text: 'Minhas Issues',
         icon: 'mdi-clipboard-check-multiple-outline',
         route: '/issues'
       }
