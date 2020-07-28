@@ -32,6 +32,7 @@ class IssueController {
           {
             association: 'assigned',
             attributes: ['user_id'],
+            separate: true,
           },
           { association: 'type', attributes: ['id', 'type'] },
           {
@@ -193,6 +194,7 @@ class IssueController {
           {
             association: 'assigned',
             attributes: ['user_id'],
+            separate: true,
           },
           { association: 'type', attributes: ['id', 'type'] },
           {
