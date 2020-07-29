@@ -44,12 +44,12 @@ export default {
           sortable: true,
           value: 'id'
         },
-        { text: 'Titulo', value: 'title' },
+        { text: 'Titulo', value: 'title', sortable: false },
         { text: 'Status', value: 'status' },
         { text: 'Tipo', value: 'type.type' },
-        { text: 'Priodirade', value: 'priority.priority' },
+        { text: 'Prioridade', value: 'priority.priority' },
         { text: 'Gravidade', value: 'severity.severity' },
-        { text: 'Ações', value: 'actions' }
+        { text: 'Ações', value: 'actions', sortable: false }
       ]
     };
   },

@@ -1,8 +1,17 @@
 <template>
   <div>
     <v-card>
-      <v-card-title>Bugs</v-card-title>
       <v-data-table :headers="headers" :items="issues" class="elevation-1" hide-default-footer>
+        <template v-slot:top>
+          <v-toolbar flat color="white">
+            <v-toolbar-title>Lista de Issues</v-toolbar-title>
+            <v-divider class="mx-4" inset vertical></v-divider>
+            <v-spacer></v-spacer>
+            <v-btn color="primary" dark class="mb-2" router to="/issues/new-issue"
+              >Nova Issue</v-btn
+            >
+          </v-toolbar>
+        </template>
         <template v-slot:item.status="{ item }">
           <StatusChip v-bind:status="item.status" />
         </template>
@@ -44,12 +53,12 @@ export default {
           sortable: true,
           value: 'id'
         },
-        { text: 'Titulo', value: 'title' },
+        { text: 'Titulo', value: 'title', sortable: false },
         { text: 'Status', value: 'status' },
         { text: 'Tipo', value: 'type.type' },
-        { text: 'Priodirade', value: 'priority.priority' },
+        { text: 'Prioridade', value: 'priority.priority' },
         { text: 'Gravidade', value: 'severity.severity' },
-        { text: 'Ações', value: 'actions' }
+        { text: 'Ações', value: 'actions', sortable: false }
       ]
     };
   },
