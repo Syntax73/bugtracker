@@ -42,14 +42,14 @@ const routes = [
         component: () => import('@/views/IssueDetails.vue')
       },
       {
+        path: '/projects/:idProject/new-issue',
+        name: 'new-issues',
+        component: () => import('@/views/NewIssues.vue')
+      },
+      {
         path: '/issues',
         name: 'issues',
         component: () => import('@/views/Issues.vue')
-      },
-      {
-        path: '/issues/new-issue',
-        name: 'new-issues',
-        component: () => import('@/views/NewIssues.vue')
       }
     ]
   }

@@ -7,9 +7,7 @@
             <v-toolbar-title>Lista de Issues</v-toolbar-title>
             <v-divider class="mx-4" inset vertical></v-divider>
             <v-spacer></v-spacer>
-            <v-btn color="primary" dark class="mb-2" router to="/issues/new-issue"
-              >Nova Issue</v-btn
-            >
+            <v-btn color="primary" dark class="mb-2" @click="newIssue">Nova Issue</v-btn>
           </v-toolbar>
         </template>
         <template v-slot:item.status="{ item }">
@@ -82,6 +80,10 @@ export default {
       this.setComments({ rows: [] });
       this.setLoadMore(true);
       this.$router.push(`/projects/${item.id}/issue`);
+    },
+    newIssue() {
+      const id = this.$route.params.id;
+      this.$router.push(`/projects/${id}/new-issue`);
     }
   }
 };
