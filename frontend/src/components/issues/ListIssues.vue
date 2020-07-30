@@ -74,6 +74,7 @@ export default {
   methods: {
     ...mapActions('issue', ['getIssues', 'getIssue']),
     ...mapMutations('comment', ['setComments', 'setLoadMore']),
+    ...mapMutations('issue', ['setIssue']),
 
     detailsItem(item) {
       this.getIssue(item);
@@ -83,6 +84,7 @@ export default {
     },
     newIssue() {
       const id = this.$route.params.id;
+      this.setIssue({});
       this.$router.push(`/projects/${id}/new-issue`);
     }
   }

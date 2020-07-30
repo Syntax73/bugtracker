@@ -34,6 +34,16 @@ const actions = {
       rootState.app.snackbarContent.alertType = 'warning';
     }
   },
+  async create({ commit, rootState }, { id, newIssue }) {
+    try {
+      const { data } = await axios.post(`/projects/${id}/issues`, newIssue);
+      commit('createIssue', data.data);
+    } catch (err) {
+      rootState.app.snackbar = true;
+      rootState.app.snackbarContent.message = err.response.data.message;
+      rootState.app.snackbarContent.alertType = 'warning';
+    }
+  },
   getIssue({ commit }, issue) {
     commit('setIssue', issue);
   }
@@ -53,6 +63,21 @@ const mutations = {
   },
   setPage(state, page) {
     state.pagination.page = page;
+  },
+  createIssue(state, issue) {
+    if (state.issues.length < 10) {
+      state.issues = state.issues.concat(issue);
+      state.pagination.itemsLenght++;
+    } else {
+      state.pagination.itemsLenght++;
+      const newTotalPages = state.pagination.itemsLenght / state.pagination.itemsPerPage;
+
+      if (newTotalPages > state.pagination.pageCount) {
+        state.pagination.pageCount++;
+        state.pagination.page = newTotalPages;
+      }
+      state.pagination.page = state.pagination.pageCount;
+    }
   }
 };
 
