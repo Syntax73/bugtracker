@@ -4,7 +4,7 @@
       <v-card-title>Nova Issue</v-card-title>
       <v-card-text>
         <MessageSnackBar />
-        <v-form ref="form" v-model="valid" lazy-validation>
+        <v-form ref="form" v-model="valid">
           <v-row>
             <v-col cols="12">
               <v-text-field
@@ -98,6 +98,7 @@ export default {
       const id = this.$route.params.idProject;
       const newIssue = this.issue;
       this.create({ id, newIssue });
+      this.$router.go(-1);
     },
     reset() {
       this.$router.go(-1);

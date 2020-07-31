@@ -16,11 +16,12 @@
           <SeverityChip v-bind:severity="item.severity.severity" />
         </template>
         <template v-slot:item.actions="{ item }">
+          <v-icon small @click="detailsItem(item)" class="mr-2">mdi-pencil</v-icon>
           <v-icon small @click="detailsItem(item)">mdi-details</v-icon>
         </template>
       </v-data-table>
     </v-card>
-    <Paginate store="issue" listMethod="getMyIssues" v-bind:idValue="project.id" />
+    <Paginate store="issue" listMethod="getMyIssues" />
   </div>
 </template>
 
