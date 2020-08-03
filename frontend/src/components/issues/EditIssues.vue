@@ -24,6 +24,15 @@
             </v-col>
             <v-col>
               <v-select
+                v-if="issue.id"
+                v-model="issue.type.type"
+                :items="type"
+                :rules="[(v) => !!v || 'Tipo é requerido']"
+                label="Tipo"
+                required
+              ></v-select>
+              <v-select
+                v-else
                 v-model="issue.type"
                 :items="type"
                 :rules="[(v) => !!v || 'Tipo é requerido']"
@@ -33,6 +42,15 @@
             </v-col>
             <v-col>
               <v-select
+                v-if="issue.id"
+                v-model="issue.priority.priority"
+                :items="priority"
+                :rules="[(v) => !!v || 'Prioridade é requerida']"
+                label="Prioridade"
+                required
+              ></v-select>
+              <v-select
+                v-else
                 v-model="issue.priority"
                 :items="priority"
                 :rules="[(v) => !!v || 'Prioridade é requerida']"
@@ -42,6 +60,15 @@
             </v-col>
             <v-col>
               <v-select
+                v-if="issue.id"
+                v-model="issue.severity.severity"
+                :items="severity"
+                :rules="[(v) => !!v || 'Gravidade é requerida']"
+                label="Gravidade"
+                required
+              ></v-select>
+              <v-select
+                v-else
                 v-model="issue.severity"
                 :items="severity"
                 :rules="[(v) => !!v || 'Gravidade é requerida']"
@@ -50,7 +77,15 @@
               ></v-select>
             </v-col>
             <v-col cols="12">
-              <v-btn :disabled="!valid" color="success" class="mr-4" @click="createIssue"
+              <v-btn
+                v-if="issue.id"
+                :disabled="!valid"
+                color="success"
+                class="mr-4"
+                @click="updateIssue"
+                >Atualizar</v-btn
+              >
+              <v-btn v-else :disabled="!valid" color="success" class="mr-4" @click="createIssue"
                 >Criar</v-btn
               >
               <v-btn color="error" class="mr-4" @click="reset">Cancelar</v-btn>
@@ -79,9 +114,60 @@ export default {
       (v) => !!v || 'Descrição é requerida',
       (v) => (v && v.length <= 100) || 'Descrição deve ter menos de 100 caracteres'
     ],
-    type: ['bug', 'feature', 'duplicate', 'documentation'],
-    priority: ['low', 'medium', 'high'],
-    severity: ['critical', 'major', 'moderate', 'minor', 'cosmect']
+    type: [
+      {
+        text: 'Bug',
+        value: 'bug'
+      },
+      {
+        text: 'Feature',
+        value: 'feature'
+      },
+      {
+        text: 'Duplicate',
+        value: 'duplicate'
+      },
+      {
+        text: 'Documentation',
+        value: 'documentation'
+      }
+    ],
+    priority: [
+      {
+        text: 'Low',
+        value: 'low'
+      },
+      {
+        text: 'Medium',
+        value: 'medium'
+      },
+      {
+        text: 'High',
+        value: 'high'
+      }
+    ],
+    severity: [
+      {
+        text: 'Critical',
+        value: 'critical'
+      },
+      {
+        text: 'Major',
+        value: 'major'
+      },
+      {
+        text: 'Moderate',
+        value: 'moderate'
+      },
+      {
+        text: 'Minor',
+        value: 'minor'
+      },
+      {
+        text: 'Cosmect',
+        value: 'cosmect'
+      }
+    ]
   }),
 
   computed: {
@@ -91,7 +177,7 @@ export default {
   },
 
   methods: {
-    ...mapActions('issue', ['create']),
+    ...mapActions('issue', ['create', 'update']),
     ...mapMutations('issue', ['setIssue']),
 
     createIssue() {
@@ -100,10 +186,16 @@ export default {
       this.create({ id, newIssue });
       this.$router.go(-1);
     },
+    updateIssue() {
+      const id = this.$route.params.idProject;
+      const editedIssue = this.issue;
+      this.update({ id, editedIssue });
+      this.$router.go(-1);
+    },
     reset() {
       this.$router.go(-1);
-      this.setIssue({});
       this.$refs.form.reset();
+      this.setIssue({});
     }
   }
 };

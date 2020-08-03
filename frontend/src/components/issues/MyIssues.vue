@@ -16,7 +16,7 @@
           <SeverityChip v-bind:severity="item.severity.severity" />
         </template>
         <template v-slot:item.actions="{ item }">
-          <v-icon small @click="detailsItem(item)" class="mr-2">mdi-pencil</v-icon>
+          <v-icon small @click="getItem(item)" class="mr-2">mdi-pencil</v-icon>
           <v-icon small @click="detailsItem(item)">mdi-details</v-icon>
         </template>
       </v-data-table>
@@ -73,6 +73,10 @@ export default {
       this.setComments({ rows: [] });
       this.setLoadMore(true);
       this.$router.push(`/projects/${item.id}/issue`);
+    },
+    getItem(item) {
+      this.getIssue(item);
+      this.$router.push(`/projects/${item.project_id}/new-issue`);
     }
   }
 };

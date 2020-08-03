@@ -149,17 +149,20 @@ class IssueController {
 
       await sequelize.transaction(async (transaction) => {
         const reqType = await IssueType.findByPk(reqIssue.type.id);
-        await reqType.update({ issue_id: issueId, type }, { transaction });
+        const newType = type.type;
+        await reqType.update({ issue_id: issueId, newType }, { transaction });
 
         const reqPriority = await IssuePriority.findByPk(reqIssue.priority.id);
+        const newPriority = priority.priority;
         await reqPriority.update(
-          { issue_id: issueId, priority },
+          { issue_id: issueId, newPriority },
           { transaction }
         );
 
         const reqSeverity = await IssueSeverity.findByPk(reqIssue.severity.id);
+        const newSeverity = severity.severity;
         await reqSeverity.update(
-          { issue_id: issueId, severity },
+          { issue_id: issueId, newSeverity },
           { transaction }
         );
 

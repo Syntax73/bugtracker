@@ -44,6 +44,16 @@ const actions = {
       rootState.app.snackbarContent.alertType = 'warning';
     }
   },
+  async update({ commit, rootState }, { id, editedIssue }) {
+    try {
+      const { data } = await axios.put(`/projects/${id}/issues/${editedIssue.id}`, editedIssue);
+      commit('updateIssue', data.data);
+    } catch (err) {
+      rootState.app.snackbar = true;
+      rootState.app.snackbarContent.message = err.response.data.message;
+      rootState.app.snackbarContent.alertType = 'warning';
+    }
+  },
   getIssue({ commit }, issue) {
     commit('setIssue', issue);
   }
@@ -78,6 +88,12 @@ const mutations = {
       }
       state.pagination.page = state.pagination.pageCount;
     }
+  },
+  updateIssue(state, issue) {
+    const issues = state.issues;
+    const item = issues.find((i) => i.id === issue.id);
+    const index = issues.indexOf(item);
+    issues.splice(index, 1, issues);
   }
 };
 
