@@ -38,8 +38,8 @@ const routes = [
       },
       {
         path: '/projects/edit-project',
-        name: 'edit-projects',
-        component: () => import('@/views/ProjectDetails.vue')
+        name: 'edit-project',
+        component: () => import('@/views/EditProject.vue')
       },
       {
         path: '/projects/:idIssue/issue',
