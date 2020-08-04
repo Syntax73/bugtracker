@@ -34,7 +34,7 @@ import SeverityChip from '../material/SeverityChip';
 import { mapActions, mapState, mapMutations } from 'vuex';
 
 export default {
-  name: 'ListIssues',
+  name: 'MyIssues',
   components: { Paginate, StatusChip, TypeChip, PriorityChip, SeverityChip },
   data() {
     return {
@@ -76,7 +76,7 @@ export default {
     },
     getItem(item) {
       this.getIssue(item);
-      this.$router.push(`/projects/${item.project_id}/new-issue`);
+      this.$router.push(`/projects/${item.project_id}/edit-issue`);
     }
   }
 };
