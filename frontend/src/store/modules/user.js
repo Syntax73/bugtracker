@@ -3,7 +3,6 @@ import axios from '@/services/axios';
 const state = {
   user: {},
   users: [],
-  userDialog: false,
   pagination: {
     page: 1,
     itemsPerPage: 10,
@@ -65,10 +64,6 @@ const actions = {
   },
   getItem({ commit }, user) {
     commit('setUser', user);
-    commit('setUserDialog', true);
-  },
-  userDialog({ commit }, isOpen) {
-    commit('setUserDialog', isOpen);
   }
 };
 
@@ -86,9 +81,6 @@ const mutations = {
   },
   setUser(state, user) {
     state.user = user;
-  },
-  setUserDialog(state, isOpen) {
-    state.userDialog = isOpen;
   },
   createUser(state, user) {
     if (state.users.length < 10) {

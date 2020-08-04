@@ -76,23 +76,18 @@
                 required
               ></v-select>
             </v-col>
-            <v-col cols="12">
-              <v-btn
-                v-if="issue.id"
-                :disabled="!valid"
-                color="success"
-                class="mr-4"
-                @click="updateIssue"
-                >Atualizar</v-btn
-              >
-              <v-btn v-else :disabled="!valid" color="success" class="mr-4" @click="createIssue"
-                >Criar</v-btn
-              >
-              <v-btn color="error" class="mr-4" @click="reset">Cancelar</v-btn>
-            </v-col>
           </v-row>
         </v-form>
       </v-card-text>
+      <v-card-actions>
+        <v-btn v-if="issue.id" :disabled="!valid" color="success" class="mr-2" @click="updateIssue"
+          >Editar</v-btn
+        >
+        <v-btn v-else :disabled="!valid" color="success" class="mr-2" @click="createIssue"
+          >Criar</v-btn
+        >
+        <v-btn color="error" @click="reset">Cancelar</v-btn>
+      </v-card-actions>
     </v-card>
   </div>
 </template>

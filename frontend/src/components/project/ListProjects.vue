@@ -1,6 +1,14 @@
 <template>
   <div>
     <v-data-table :headers="headers" :items="projects" hide-default-footer class="elevation-1">
+      <template v-slot:top>
+        <v-toolbar flat color="white">
+          <v-toolbar-title>Lista de Projetos</v-toolbar-title>
+          <v-divider class="mx-4" inset vertical></v-divider>
+          <v-spacer></v-spacer>
+          <v-btn color="primary" dark class="mb-2" @click="newProject">Novo Projeto</v-btn>
+        </v-toolbar>
+      </template>
       <template v-slot:item.actions="{ item }">
         <v-icon class="mr-2" small @click="getItem(item)">mdi-pencil</v-icon>
         <v-icon class="mr-2" small @click="destroy(item)">mdi-trash-can</v-icon>
@@ -34,15 +42,19 @@ export default {
   },
   methods: {
     ...mapActions('project', ['getProjects', 'destroy', 'getProject']),
-    ...mapMutations('project', ['setPage', 'setLimit', 'setProjectDialog']),
+    ...mapMutations('project', ['setPage', 'setLimit', 'setProject']),
 
     getItem(item) {
       this.getProject(item);
-      this.setProjectDialog(true);
+      this.$router.push('/projects/edit-project');
     },
     detailsItem(item) {
       this.getProject(item);
       this.$router.push(`/projects/${item.id}/details`);
+    },
+    newProject() {
+      this.setProject({});
+      this.$router.push('/projects/edit-project');
     }
   },
   computed: {

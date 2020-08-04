@@ -44,10 +44,10 @@ const actions = {
       rootState.app.snackbarContent.alertType = 'warning';
     }
   },
-  async update({ commit, rootState }, { id, editedIssue }) {
+  async update({ rootState }, { id, editedIssue }) {
     try {
-      const { data } = await axios.put(`/projects/${id}/issues/${editedIssue.id}`, editedIssue);
-      commit('updateIssue', data.data);
+      await axios.put(`/projects/${id}/issues/${editedIssue.id}`, editedIssue);
+      // commit('updateIssue', data.data);
     } catch (err) {
       rootState.app.snackbar = true;
       rootState.app.snackbarContent.message = err.response.data.message;

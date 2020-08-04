@@ -22,6 +22,11 @@ const routes = [
         component: () => import('@/views/Users.vue')
       },
       {
+        path: '/users/edit-user',
+        name: 'edit-user',
+        component: () => import('@/views/EditUser.vue')
+      },
+      {
         path: '/profile',
         name: 'profile',
         component: () => import('@/views/Profile.vue')
@@ -37,14 +42,19 @@ const routes = [
         component: () => import('@/views/ProjectDetails.vue')
       },
       {
+        path: '/projects/edit-project',
+        name: 'edit-project',
+        component: () => import('@/views/EditProject.vue')
+      },
+      {
         path: '/projects/:idIssue/issue',
         name: 'issue-details',
         component: () => import('@/views/IssueDetails.vue')
       },
       {
-        path: '/projects/:idProject/new-issue',
-        name: 'new-issues',
-        component: () => import('@/views/NewIssues.vue')
+        path: '/projects/:idProject/edit-issue',
+        name: 'edit-issues',
+        component: () => import('@/views/EditIssues.vue')
       },
       {
         path: '/issues',

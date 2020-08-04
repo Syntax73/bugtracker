@@ -85,7 +85,7 @@ export default {
     newIssue() {
       const id = this.$route.params.id;
       this.setIssue({});
-      this.$router.push(`/projects/${id}/new-issue`);
+      this.$router.push(`/projects/${id}/edit-issue`);
     }
   }
 };

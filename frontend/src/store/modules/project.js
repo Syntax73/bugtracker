@@ -3,7 +3,6 @@ import axios from '@/services/axios';
 const state = {
   projects: [],
   project: {},
-  projectDialog: false,
   team: [],
   pagination: {
     page: 1,
@@ -57,7 +56,6 @@ const actions = {
     try {
       const { data } = await axios.post('/projects', { name, description, team });
       commit('createProject', data.data);
-      commit('setProjectDialog', false);
       commit('setProject', {});
       commit('setTeam', []);
     } catch (err) {
@@ -76,7 +74,6 @@ const actions = {
     try {
       const { data } = await axios.put(`/projects/${id}`, { name, description, team });
       commit('updateProject', data.data);
-      commit('setProjectDialog', false);
       commit('setProject', {});
       commit('setTeam', []);
     } catch (err) {
