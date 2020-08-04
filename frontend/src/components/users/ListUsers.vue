@@ -1,8 +1,16 @@
 <template>
   <div>
     <v-data-table :headers="headers" :items="users" hide-default-footer class="elevation-1">
+      <template v-slot:top>
+        <v-toolbar flat color="white">
+          <v-toolbar-title>Lista de Usuarios</v-toolbar-title>
+          <v-divider class="mx-4" inset vertical></v-divider>
+          <v-spacer></v-spacer>
+          <v-btn color="primary" dark class="mb-2" router to="/users/edit-user">Novo Usuario</v-btn>
+        </v-toolbar>
+      </template>
       <template v-slot:item.actions="{ item }">
-        <v-icon @click="getItem(item)">mdi-pencil</v-icon>
+        <v-icon @click="editItem(item)">mdi-pencil</v-icon>
       </template>
     </v-data-table>
     <div class="text-center">
@@ -32,7 +40,12 @@ export default {
     };
   },
   methods: {
-    ...mapActions('user', ['getUsers', 'getItem', 'destroy'])
+    ...mapActions('user', ['getUsers', 'getItem', 'destroy']),
+
+    editItem(item) {
+      this.getItem(item);
+      this.$router.push('/users/edit-user');
+    }
   },
   computed: {
     ...mapState({

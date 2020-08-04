@@ -1,8 +1,5 @@
 <template>
-  <v-dialog v-model="dialog" persistent>
-    <template v-slot:activator="{ on }">
-      <v-btn color="primary" dark v-on="on" @click="userDialog(true)">Novo Usuario</v-btn>
-    </template>
+  <div>
     <MessageSnackBar />
     <v-card>
       <v-card-title>
@@ -62,7 +59,7 @@
         <v-btn color="error" class="mr-4" @click="reset">Cancelar</v-btn>
       </v-card-actions>
     </v-card>
-  </v-dialog>
+  </div>
 </template>
 
 <script>
@@ -95,27 +92,28 @@ export default {
     ]
   }),
   methods: {
-    ...mapActions('user', ['userDialog', 'createUser', 'updateUser']),
+    ...mapActions('user', ['createUser', 'updateUser']),
     ...mapMutations('user', ['setUser']),
 
     submit() {
       this.createUser(this.user);
       this.$refs.form.reset();
+      this.$router.go(-1);
     },
     async update() {
       await this.updateUser(this.user);
       this.$refs.form.reset();
+      this.$router.go(-1);
     },
     reset() {
       this.setUser({});
-      this.userDialog(false);
       this.$refs.form.reset();
+      this.$router.go(-1);
     }
   },
   computed: {
     ...mapState({
-      user: (state) => state.user.user,
-      dialog: (state) => state.user.userDialog
+      user: (state) => state.user.user
     }),
     passwordMatch() {
       return () => this.user.password === this.user.confirmPassword || 'Senhas não combinam';

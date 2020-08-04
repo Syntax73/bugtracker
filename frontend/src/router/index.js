@@ -22,6 +22,11 @@ const routes = [
         component: () => import('@/views/Users.vue')
       },
       {
+        path: '/users/edit-user',
+        name: 'edit-user',
+        component: () => import('@/views/EditUser.vue')
+      },
+      {
         path: '/profile',
         name: 'profile',
         component: () => import('@/views/Profile.vue')
