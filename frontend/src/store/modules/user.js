@@ -18,7 +18,7 @@ const getters = {
 };
 
 const actions = {
-  async getUsers({ commit }, page) {
+  async getUsers({ commit, rootState }, page) {
     try {
       const { data } = await axios.get(`/users?page=${page}`);
       commit('setUsers', data.data);
@@ -28,7 +28,7 @@ const actions = {
       rootState.app.snackbarContent.alertType = 'warning';
     }
   },
-  async createUser({ commit }, newUser) {
+  async createUser({ commit, rootState }, newUser) {
     try {
       const formData = new FormData();
 
@@ -50,12 +50,22 @@ const actions = {
       rootState.app.snackbarContent.alertType = 'warning';
     }
   },
-  async updateUser({ commit }, user) {
+  async updateUser({ commit, rootState }, user) {
     try {
       const { data } = await axios.put(`/users/${user.id}`, user);
       commit('updateUser', data.data);
       commit('setUserDialog', false);
       commit('setUser', {});
+    } catch (err) {
+      rootState.app.snackbar = true;
+      rootState.app.snackbarContent.message = err.response.data.message;
+      rootState.app.snackbarContent.alertType = 'warning';
+    }
+  },
+  async showUser({ commit, rootState }, id) {
+    try {
+      const { data } = await axios.get(`/users/${id}`);
+      commit('setUser', data.data);
     } catch (err) {
       rootState.app.snackbar = true;
       rootState.app.snackbarContent.message = err.response.data.message;

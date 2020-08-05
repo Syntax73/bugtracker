@@ -5,14 +5,14 @@ class ApiResponse {
 
   ok(payload) {
     return this.response.status(200).json({
-      status: 200,
+      statusCode: 200,
       data: payload,
     });
   }
 
   created(payload) {
     return this.response.status(201).json({
-      status: 201,
+      statusCode: 201,
       data: payload,
     });
   }
@@ -23,21 +23,21 @@ class ApiResponse {
 
   badResquest(msg) {
     return this.response.status(400).json({
-      status: 400,
+      statusCode: 400,
       message: msg,
     });
   }
 
   unauthorized(msg) {
     return this.response.status(401).json({
-      status: 401,
+      statusCode: 401,
       message: msg,
     });
   }
 
   serverError() {
     return this.response.status(500).json({
-      status: 500,
+      statusCode: 500,
       message: 'Error interno do servidor',
     });
   }
