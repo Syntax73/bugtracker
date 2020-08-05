@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1>Seu perfil</h1>
+    <h1 class="mb-2">Seu perfil</h1>
     <CurrentUser />
   </div>
 </template>

@@ -9,7 +9,7 @@
         <v-col cols="9">
           <v-text-field filled disabled v-model="currentUser.email"></v-text-field>
           <v-text-field filled disabled v-model="currentUser.role"></v-text-field>
-          <v-btn color="primary">Editar</v-btn>
+          <v-btn router to="/profile/edit-profile" color="primary">Editar</v-btn>
         </v-col>
       </v-row>
     </v-card-text>
