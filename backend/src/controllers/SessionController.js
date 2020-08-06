@@ -43,7 +43,7 @@ class SessionController {
 
       return http.ok({ user, token });
     } catch (err) {
-      return http.unauthorized('Senha incorreta');
+      return http.unauthorized('Sessão invalida');
     }
   }
 }
