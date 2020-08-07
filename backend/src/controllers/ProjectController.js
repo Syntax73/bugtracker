@@ -117,7 +117,7 @@ class ProjectController {
         `
         SELECT COUNT(*) FROM project_users WHERE user_id = :user_id;
 
-        SELECT p.id, p.name, p.description, p.created_at, p.updated_at
+        SELECT p.id, p.name, p.description, p.created_at AS "createdAt", p.updated_at AS "updatedAt"
         FROM project_users pu INNER JOIN projects p ON p.id = pu.project_id
         WHERE user_id = :user_id OFFSET :offset FETCH FIRST :limit ROW ONLY;
       `,
