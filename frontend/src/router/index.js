@@ -92,7 +92,6 @@ router.beforeEach((to, from, next) => {
 
   if (to.matched.some((record) => record.meta.requiresAdmin)) {
     const user = store.getters['auth/currentUser'];
-    console.log(user);
     if (user.role === 'admin') {
       next();
     } else {
