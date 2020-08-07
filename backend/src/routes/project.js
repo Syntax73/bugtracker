@@ -7,6 +7,7 @@ const ProjectController = require('../controllers/ProjectController');
 const validateDto = require('../middlewares/validateDto');
 const { projectDto } = require('../dto');
 
+routes.get('/my-projects', isAuth, ProjectController.myProjects);
 routes.post(
   '/',
   isAuth,

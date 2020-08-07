@@ -1,4 +1,5 @@
 const Project = require('../models/Project');
+const sequelize = require('../database');
 const ApiResponse = require('../helpers/apiResponse');
 const { paginate, buildPagination } = require('../helpers/paginate');
 
@@ -99,6 +100,42 @@ class ProjectController {
       await reqProject.destroy();
 
       return http.noContent(res);
+    } catch (err) {
+      return http.serverError();
+    }
+  }
+
+  async myProjects(req, res) {
+    const { id } = req.userData;
+    const { page } = req.query;
+    const limit = 10;
+    const offset = page * limit - limit;
+    const http = new ApiResponse(res);
+
+    try {
+      const reqProjects = await sequelize.query(
+        `
+        SELECT COUNT(*) FROM project_users WHERE user_id = :user_id;
+
+        SELECT p.id, p.name, p.description, p.created_at, p.updated_at
+        FROM project_users pu INNER JOIN projects p ON p.id = pu.project_id
+        WHERE user_id = :user_id OFFSET :offset FETCH FIRST :limit ROW ONLY;
+      `,
+        {
+          type: sequelize.QueryTypes.SELECT,
+          replacements: { user_id: id, limit, offset },
+          raw: true,
+        }
+      );
+
+      const rows = reqProjects.slice(1);
+      const count = reqProjects[0];
+
+      if (Object.keys(rows).length === 0) {
+        return http.badResquest('Time não encontrado');
+      }
+
+      return http.ok(buildPagination({ rows, ...count }, page, limit));
     } catch (err) {
       return http.serverError();
     }
