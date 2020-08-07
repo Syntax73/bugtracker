@@ -2,6 +2,9 @@
   <v-navigation-drawer v-model="inputValue" app dark clipped>
     <v-list>
       <v-list-item link>
+        <v-list-item-avatar>
+          <Avatar v-bind:avatar="user.avatar" />
+        </v-list-item-avatar>
         <v-list-item-content>
           <v-list-item-title class="title">{{ user.name }}</v-list-item-title>
           <v-list-item-subtitle>{{ user.email }}</v-list-item-subtitle>
@@ -58,9 +61,11 @@
 
 <script>
 import { mapMutations, mapState } from 'vuex';
+import Avatar from '@/components/material/Avatar';
 
 export default {
   name: 'Drawer',
+  components: { Avatar },
   methods: {
     ...mapMutations('app', ['setDrawer'])
   },
