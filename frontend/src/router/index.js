@@ -19,12 +19,14 @@ const routes = [
       {
         path: '/users',
         name: 'users',
-        component: () => import('@/views/Users.vue')
+        component: () => import('@/views/Users.vue'),
+        meta: { requiresAdmin: true }
       },
       {
         path: '/users/edit-user',
         name: 'edit-user',
-        component: () => import('@/views/EditUser.vue')
+        component: () => import('@/views/EditUser.vue'),
+        meta: { requiresAdmin: true }
       },
       {
         path: '/profile',
@@ -49,7 +51,8 @@ const routes = [
       {
         path: '/projects/edit-project',
         name: 'edit-project',
-        component: () => import('@/views/EditProject.vue')
+        component: () => import('@/views/EditProject.vue'),
+        meta: { requiresAdmin: true }
       },
       {
         path: '/projects/:idIssue/issue',
@@ -82,6 +85,18 @@ router.beforeEach((to, from, next) => {
       next();
     } else {
       next('/');
+    }
+  } else {
+    next();
+  }
+
+  if (to.matched.some((record) => record.meta.requiresAdmin)) {
+    const user = store.getters['auth/currentUser'];
+    console.log(user);
+    if (user.role === 'admin') {
+      next();
+    } else {
+      next('/dashboard');
     }
   } else {
     next();
