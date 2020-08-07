@@ -22,7 +22,7 @@ const getters = {
 };
 
 const actions = {
-  async getProjects({ commit }, page) {
+  async getProjects({ commit, rootState }, page) {
     try {
       const { data } = await axios.get(`/projects?page=${page}`);
       commit('setProjects', data.data);
@@ -32,11 +32,21 @@ const actions = {
       rootState.app.snackbarContent.alertType = 'warning';
     }
   },
-  async getProject({ commit }, project) {
+  async getProject({ commit, rootState }, project) {
     try {
       const { data } = await axios.get(`/projects/${project.id}`);
       commit('setProject', project);
       commit('setTeam', data.data.team);
+    } catch (err) {
+      rootState.app.snackbar = true;
+      rootState.app.snackbarContent.message = err.response.data.message;
+      rootState.app.snackbarContent.alertType = 'warning';
+    }
+  },
+  async getMyProjects({ commit, rootState }, page) {
+    try {
+      const { data } = await axios.get(`/projects/my-projects?page=${page}`);
+      commit('setProjects', data.data);
     } catch (err) {
       rootState.app.snackbar = true;
       rootState.app.snackbarContent.message = err.response.data.message;
@@ -64,7 +74,7 @@ const actions = {
       rootState.app.snackbarContent.alertType = 'warning';
     }
   },
-  async update({ commit }, { project, teamMembers }) {
+  async update({ commit, rootState }, { project, teamMembers }) {
     const { id, name, description } = project;
 
     const team = teamMembers.map((users) => {
@@ -82,7 +92,7 @@ const actions = {
       rootState.app.snackbarContent.alertType = 'warning';
     }
   },
-  async destroy({ commit }, { id }) {
+  async destroy({ commit, rootState }, { id }) {
     try {
       await axios.delete(`/projects/${id}`);
       commit('deleteProject', id);
