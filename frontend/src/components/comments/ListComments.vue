@@ -10,7 +10,7 @@
           <template v-for="item in comments">
             <v-list-item :key="item.id">
               <v-list-item-avatar>
-                <Avatar v-bind:avatar="item.user.avatar" />
+                <Avatar :avatar="item.user.avatar" />
               </v-list-item-avatar>
               <v-list-item-content>
                 <v-list-item-title v-html="item.user.name"></v-list-item-title>
@@ -24,7 +24,7 @@
             v-if="loadMore"
             store="comment"
             listMethod="getComments"
-            v-bind:idValue="issue.id"
+            :idValue="issue.id"
           />
         </div>
       </v-list>

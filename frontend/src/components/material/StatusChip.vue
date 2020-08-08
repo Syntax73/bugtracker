@@ -1,5 +1,5 @@
 <template>
-  <v-chip small v-bind:color="color">{{ status }}</v-chip>
+  <v-chip small :color="color">{{ status }}</v-chip>
 </template>
 
 <script>

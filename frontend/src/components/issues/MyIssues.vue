@@ -8,16 +8,16 @@
         </v-toolbar>
       </template>
       <template v-slot:item.status="{ item }">
-        <StatusChip v-bind:status="item.status" />
+        <StatusChip :status="item.status" />
       </template>
       <template v-slot:item.type.type="{ item }">
-        <TypeChip v-bind:type="item.type.type" />
+        <TypeChip :type="item.type.type" />
       </template>
       <template v-slot:item.priority.priority="{ item }">
-        <PriorityChip v-bind:priority="item.priority.priority" />
+        <PriorityChip :priority="item.priority.priority" />
       </template>
       <template v-slot:item.severity.severity="{ item }">
-        <SeverityChip v-bind:severity="item.severity.severity" />
+        <SeverityChip :severity="item.severity.severity" />
       </template>
       <template v-slot:item.actions="{ item }">
         <v-icon small @click="getItem(item)" class="mr-2">mdi-pencil</v-icon>

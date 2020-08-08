@@ -3,7 +3,7 @@
     <v-list>
       <v-list-item link>
         <v-list-item-avatar>
-          <Avatar v-bind:avatar="user.avatar" />
+          <Avatar :avatar="user.avatar" />
         </v-list-item-avatar>
         <v-list-item-content>
           <v-list-item-title class="title">{{ user.name }}</v-list-item-title>

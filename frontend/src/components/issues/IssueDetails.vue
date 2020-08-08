@@ -8,7 +8,7 @@
           <v-list-item-content>
             <v-list-item-title>Status</v-list-item-title>
             <v-list-item-subtitle>
-              <StatusChip v-bind:status="issue.status" />
+              <StatusChip :status="issue.status" />
             </v-list-item-subtitle>
           </v-list-item-content>
         </v-list-item>
@@ -17,7 +17,7 @@
           <v-list-item-content>
             <v-list-item-title>Tipo</v-list-item-title>
             <v-list-item-subtitle>
-              <TypeChip v-bind:type="issue.type.type" />
+              <TypeChip :type="issue.type.type" />
             </v-list-item-subtitle>
           </v-list-item-content>
         </v-list-item>
@@ -26,7 +26,7 @@
           <v-list-item-content>
             <v-list-item-title>Priodirade</v-list-item-title>
             <v-list-item-subtitle>
-              <PriorityChip v-bind:priority="issue.priority.priority" />
+              <PriorityChip :priority="issue.priority.priority" />
             </v-list-item-subtitle>
           </v-list-item-content>
         </v-list-item>
@@ -35,14 +35,14 @@
           <v-list-item-content>
             <v-list-item-title>Gravidade</v-list-item-title>
             <v-list-item-subtitle>
-              <SeverityChip v-bind:severity="issue.severity.severity" />
+              <SeverityChip :severity="issue.severity.severity" />
             </v-list-item-subtitle>
           </v-list-item-content>
         </v-list-item>
         <v-divider></v-divider>
         <v-list-item>
           <v-list-item-avatar>
-            <Avatar v-bind:avatar="issue.reporter.avatar" />
+            <Avatar :avatar="issue.reporter.avatar" />
           </v-list-item-avatar>
           <v-list-item-content>
             <v-list-item-title>{{ issue.reporter.name }}</v-list-item-title>

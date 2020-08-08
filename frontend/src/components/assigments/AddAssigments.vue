@@ -24,14 +24,14 @@
               close
             >
               <v-avatar left>
-                <Avatar v-bind:avatar="data.item.avatar" />
+                <Avatar :avatar="data.item.avatar" />
               </v-avatar>
               {{ data.item.name }}
             </v-chip>
           </template>
           <template v-slot:item="data">
             <v-list-item-avatar>
-              <Avatar v-bind:avatar="data.item.avatar" />
+              <Avatar :avatar="data.item.avatar" />
             </v-list-item-avatar>
             <v-list-item-content>
               <v-list-item-title v-html="data.item.name"></v-list-item-title>

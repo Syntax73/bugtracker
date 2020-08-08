@@ -4,7 +4,7 @@
     <v-card-text>
       <v-row>
         <v-col cols="3">
-          <Avatar v-bind:avatar="currentUser.avatar" />
+          <Avatar :avatar="currentUser.avatar" />
         </v-col>
         <v-col cols="9">
           <v-text-field filled disabled v-model="currentUser.email"></v-text-field>
