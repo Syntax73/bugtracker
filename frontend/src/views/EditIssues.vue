@@ -1,7 +1,5 @@
 <template>
-  <div>
-    <EditIssuesCom />
-  </div>
+  <EditIssuesCom />
 </template>
 
 <script>
