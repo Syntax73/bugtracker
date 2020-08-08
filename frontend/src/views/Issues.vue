@@ -1,8 +1,12 @@
 <template>
-  <div>
-    <p>Minhas Issues</p>
-    <MyIssues1 />
-  </div>
+  <v-row>
+    <v-col cols="12">
+      <h1>Minhas Issues</h1>
+    </v-col>
+    <v-col>
+      <MyIssues1 />
+    </v-col>
+  </v-row>
 </template>
 
 <script>
