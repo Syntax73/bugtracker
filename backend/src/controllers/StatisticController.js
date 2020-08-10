@@ -8,7 +8,7 @@ class StatisticController {
     try {
       const query = await sequelize.query(
         `
-        SELECT DATE_TRUNC('day', created_at) as date, COUNT(1) AS issues FROM issues GROUP BY 1;
+        SELECT DATE_TRUNC('day', created_at) as date, COUNT(1) AS issues FROM issues GROUP BY 1 ORDER BY 1 ASC;
       `,
         {
           type: sequelize.QueryTypes.SELECT,
