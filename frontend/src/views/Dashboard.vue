@@ -5,6 +5,7 @@
     <v-content>
       <v-container fluid>
         <v-fade-transition mode="out-in">
+          asdf
           <router-view />
         </v-fade-transition>
       </v-container>
