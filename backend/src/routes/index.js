@@ -8,6 +8,7 @@ const teamRoute = require('./team');
 const issueRoute = require('./issue');
 const issueAssignedRoute = require('./assigned');
 const issueCommentRoute = require('./comment');
+const statistic = require('./statistic');
 
 routes.use(sessionRoute);
 routes.use(filesRoute);
@@ -17,5 +18,6 @@ routes.use(teamRoute);
 routes.use(issueRoute);
 routes.use(issueAssignedRoute);
 routes.use(issueCommentRoute);
+routes.use('/statistics', statistic);
 
 module.exports = routes;
