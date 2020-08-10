@@ -1,4 +1,5 @@
 import axios from '@/services/axios';
+import moment from 'moment';
 
 const state = {
   issuesIstatistics: []
@@ -21,7 +22,12 @@ const actions = {
 
 const mutations = {
   setStatistics(state, statistics) {
-    state.issuesIstatistics = statistics;
+    statistics.forEach((d) => {
+      const date = moment(d.date, 'YYYYMMDD').format('DD/MM/YYYY');
+      const issues = d.issues;
+
+      state.issuesIstatistics.push({ date, total: issues });
+    });
   }
 };
 
