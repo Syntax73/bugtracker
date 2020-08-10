@@ -6,7 +6,7 @@ class StatisticController {
     const http = new ApiResponse(res);
 
     try {
-      const query = await sequelize.query(
+      const issuesStatistics = await sequelize.query(
         `
         SELECT DATE_TRUNC('day', created_at) as date, COUNT(1) AS issues FROM issues GROUP BY 1 ORDER BY 1 ASC;
       `,
@@ -16,7 +16,17 @@ class StatisticController {
         }
       );
 
-      return http.ok(query);
+      const issuesStatusIstatistics = await sequelize.query(
+        `
+        SELECT status, COUNT(*) FROM issues GROUP BY status;
+      `,
+        {
+          type: sequelize.QueryTypes.SELECT,
+          raw: true,
+        }
+      );
+
+      return http.ok({ issuesStatistics, issuesStatusIstatistics });
     } catch (err) {
       return http.serverError();
     }

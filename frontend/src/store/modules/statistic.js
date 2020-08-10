@@ -3,6 +3,7 @@ import moment from 'moment';
 
 const state = {
   issuesIstatistics: [],
+  issuesStatusIstatistics: [],
   loaded: false
 };
 
@@ -25,11 +26,17 @@ const actions = {
 
 const mutations = {
   setStatistics(state, statistics) {
-    statistics.forEach((d) => {
+    statistics.issuesStatistics.forEach((d) => {
       const date = moment(d.date, 'YYYYMMDD').format('DD/MM/YYYY');
       const issues = parseInt(d.issues, 10);
 
       state.issuesIstatistics.push({ date, total: issues });
+    });
+
+    statistics.issuesStatusIstatistics.forEach((d) => {
+      const { status, count } = d;
+
+      state.issuesStatusIstatistics.push({ label: status, total: parseInt(count, 10) });
     });
   },
   setLoaded(state, isLoaded) {
