@@ -3,7 +3,7 @@ const User = require('../models/User');
 const ApiResponse = require('../helpers/apiResponse');
 
 class SessionController {
-  async store(req, res) {
+  async login(req, res) {
     const { email, password } = req.body;
     const http = new ApiResponse(res);
 

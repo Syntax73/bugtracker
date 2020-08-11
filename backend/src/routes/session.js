@@ -4,7 +4,7 @@ const validateDto = require('../middlewares/validateDto');
 
 const { sessionDto } = require('../dto');
 
-routes.post('/session', validateDto(sessionDto), SessionController.store);
+routes.post('/session', validateDto(sessionDto), SessionController.login);
 routes.post('/validate-session', SessionController.validateSession);
 
 module.exports = routes;
