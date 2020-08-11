@@ -6,24 +6,28 @@
     <v-col cols="8">
       <v-card>
         <v-card-title>Todas as issues reportadas</v-card-title>
-        <LineChart
-          v-if="loaded"
-          :chartData="issuesIstatistics"
-          :options="chartOptions"
-          label="Issues reportadas"
-        />
+        <v-card-text>
+          <LineChart
+            v-if="loaded"
+            :chartData="issuesIstatistics"
+            :options="chartOptions"
+            label="Issues reportadas"
+          />
+        </v-card-text>
       </v-card>
     </v-col>
     <v-col cols="4">
       <v-card>
         <v-card-title>Status das issues</v-card-title>
-        <PieChart
-          v-if="loaded"
-          :chartData="issuesStatusIstatistics"
-          :options="chartOptions"
-          :chartColors="issuesStatusColors"
-          label="Status das issues"
-        />
+        <v-card-text>
+          <PieChart
+            v-if="loaded"
+            :chartData="issuesStatusIstatistics"
+            :options="chartOptions"
+            :chartColors="issuesStatusColors"
+            label="Status das issues"
+          />
+        </v-card-text>
       </v-card>
     </v-col>
   </v-row>
