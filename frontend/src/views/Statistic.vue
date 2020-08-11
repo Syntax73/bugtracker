@@ -30,6 +30,19 @@
         </v-card-text>
       </v-card>
     </v-col>
+    <v-col>
+      <v-card>
+        <v-card-title>Minhas Issues</v-card-title>
+        <v-card-text>
+          <BarChart
+            v-if="loaded"
+            :chartData="userIssuesStatistics"
+            :options="chartOptions"
+            label="Issues reportadas"
+          />
+        </v-card-text>
+      </v-card>
+    </v-col>
   </v-row>
 </template>
 
@@ -37,10 +50,11 @@
 import { mapActions, mapState } from 'vuex';
 import LineChart from '@/components/charts/LineChart';
 import PieChart from '@/components/charts/PieChart';
+import BarChart from '@/components/charts/BarChart';
 
 export default {
   name: 'Statistic',
-  components: { LineChart, PieChart },
+  components: { LineChart, PieChart, BarChart },
   data() {
     return {
       chartOptions: {
@@ -60,6 +74,7 @@ export default {
     ...mapState({
       issuesIstatistics: (state) => state.statistic.issuesIstatistics,
       issuesStatusIstatistics: (state) => state.statistic.issuesStatusIstatistics,
+      userIssuesStatistics: (state) => state.statistic.userIssuesStatistics,
       loaded: (state) => state.statistic.loaded
     })
   },
