@@ -147,6 +147,10 @@ class IssueController {
         return http.badResquest('Projeto/Issue não encontrado');
       }
 
+      if (reqIssue.user_id !== id) {
+        return http.unauthorized('Issue pertence a outro usuário');
+      }
+
       await sequelize.transaction(async (transaction) => {
         const reqType = await IssueType.findByPk(reqIssue.type.id);
         const newType = type.type;
