@@ -4,6 +4,7 @@ const sequelize = require('../database');
 class StatisticController {
   async index(req, res) {
     const http = new ApiResponse(res);
+    const { id } = req.userData;
 
     try {
       const issuesStatistics = await sequelize.query(
@@ -26,7 +27,22 @@ class StatisticController {
         }
       );
 
-      return http.ok({ issuesStatistics, issuesStatusIstatistics });
+      const userIssuesStatistics = await sequelize.query(
+        `
+        SELECT DATE_TRUNC('day', created_at) as date, COUNT(1) AS issues FROM issues WHERE user_id = :user_id GROUP BY 1 ORDER BY 1 ASC;
+      `,
+        {
+          type: sequelize.QueryTypes.SELECT,
+          replacements: { user_id: id },
+          raw: true,
+        }
+      );
+
+      return http.ok({
+        issuesStatistics,
+        issuesStatusIstatistics,
+        userIssuesStatistics,
+      });
     } catch (err) {
       return http.serverError();
     }
