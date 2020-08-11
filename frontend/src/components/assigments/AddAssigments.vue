@@ -68,9 +68,13 @@ export default {
   },
   created() {
     this.persons = this.getPerson(this.assignedIds);
+    const id = this.$route.params.idProject;
+    const page = 1;
+    this.getTeam({ id, page });
   },
   methods: {
     ...mapActions('assigment', ['createAssigment', 'deleteAssigment']),
+    ...mapActions('team', ['getTeam']),
     ...mapMutations('assigment', ['setAssigment']),
 
     create() {

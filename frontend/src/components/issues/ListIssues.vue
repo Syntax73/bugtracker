@@ -80,7 +80,8 @@ export default {
       this.getIssue(item);
       this.setComments({ rows: [] });
       this.setLoadMore(true);
-      this.$router.push(`/projects/${item.id}/issue`);
+      const idProject = this.$route.params.id;
+      this.$router.push(`/projects/${idProject}/issue/${item.id}`);
     },
     newIssue() {
       const id = this.$route.params.id;

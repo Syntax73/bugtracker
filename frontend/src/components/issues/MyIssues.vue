@@ -75,7 +75,7 @@ export default {
       this.getIssue(item);
       this.setComments({ rows: [] });
       this.setLoadMore(true);
-      this.$router.push(`/projects/${item.id}/issue`);
+      this.$router.push(`/projects/${item.project_id}/issue/${item.id}`);
     },
     getItem(item) {
       this.getIssue(item);

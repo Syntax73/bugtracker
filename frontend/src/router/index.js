@@ -59,7 +59,7 @@ const routes = [
         meta: { requiresAdmin: true }
       },
       {
-        path: '/projects/:idIssue/issue',
+        path: '/projects/:idProject/issue/:idIssue',
         name: 'issue-details',
         component: () => import('@/views/IssueDetails.vue')
       },
