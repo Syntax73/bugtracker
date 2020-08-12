@@ -41,8 +41,7 @@ class SessionController {
     try {
       const decode = jwt.verify(token, process.env.APP_KEY);
 
-      const user = await User.findOne({
-        where: { id: decode.id },
+      const user = await User.findByPk(decode.id, {
         attributes: { exclude: ['password', 'createdAt', 'updatedAt'] },
       });
 
