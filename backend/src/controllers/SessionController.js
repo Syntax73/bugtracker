@@ -67,6 +67,8 @@ class SessionController {
         attributes: { exclude: ['password', 'createdAt', 'updatedAt'] },
       });
       const token = user.generateToken();
+      const refreshToken = rToken.createRefreshToken(user.id);
+      rToken.sendRefreshToken(refreshToken);
 
       return http.ok({ user, token });
     } catch (err) {
