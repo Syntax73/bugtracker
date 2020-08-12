@@ -75,6 +75,13 @@ class SessionController {
       return http.unauthorized('Sessão invalida');
     }
   }
+
+  async removeSession(req, res) {
+    const http = new ApiResponse(res);
+    const rToken = new RefreshToken(res);
+    rToken.removeRefreshToken();
+    return http.noContent();
+  }
 }
 
 module.exports = new SessionController();
