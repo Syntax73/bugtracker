@@ -1,5 +1,6 @@
 const express = require('express');
 const cors = require('cors');
+const cookieParser = require('cookie-parser');
 const routes = require('./routes');
 require('./database');
 
@@ -14,6 +15,7 @@ class AppController {
     this.express.use(express.json());
     this.express.use(express.urlencoded({ extended: true }));
     this.express.use(cors());
+    this.express.use(cookieParser());
   }
 
   routes() {

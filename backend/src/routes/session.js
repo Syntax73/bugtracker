@@ -6,5 +6,6 @@ const { sessionDto } = require('../dto');
 
 routes.post('/session', validateDto(sessionDto), SessionController.login);
 routes.post('/validate-session', SessionController.validateSession);
+routes.post('/refresh-token', SessionController.refreshSession);
 
 module.exports = routes;
