@@ -1,11 +1,14 @@
+const ApiResponse = require('../helpers/apiResponse');
+
 module.exports = (role) => {
   return (req, res, next) => {
     const user = req.userData;
+    const http = new ApiResponse(res);
 
     if (user.role === role) {
       return next();
     }
 
-    return res.status(401).json({ message: 'Ação não permitida' });
+    return http.unauthorized('Ação não permitida');
   };
 };

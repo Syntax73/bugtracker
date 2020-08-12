@@ -1,10 +1,12 @@
 const jwt = require('jsonwebtoken');
+const ApiResponse = require('../helpers/apiResponse');
 
 module.exports = (req, res, next) => {
   const reqHeader = req.headers.authorization;
+  const http = new ApiResponse(res);
 
   if (!reqHeader) {
-    return res.status(401).json({ message: 'Token não informado' });
+    return http.unauthorized('Token não informado');
   }
 
   const token = reqHeader.split(' ')[1];
@@ -14,6 +16,6 @@ module.exports = (req, res, next) => {
     req.userData = decode;
     return next();
   } catch (err) {
-    return res.status(401).json({ message: 'Token invalido' });
+    return http.unauthorized('Token não informado');
   }
 };
