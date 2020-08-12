@@ -14,11 +14,19 @@ class RefreshToken {
   sendRefreshToken(token) {
     this.response.cookie('wflas', token, {
       httpOnly: true,
+      path: '/refresh-token',
     });
   }
 
   verifyRefreshTokne(token) {
     return verify(token, process.env.RT_KEY);
+  }
+
+  removeRefreshToken() {
+    this.response.cookie('wflas', '', {
+      httpOnly: true,
+      path: '/refresh-token',
+    });
   }
 }
 

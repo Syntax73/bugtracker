@@ -21,43 +21,36 @@ const actions = {
         .post('/session', { email, password })
         .then((res) => {
           const { token, user } = res.data.data;
-          localStorage.setItem('token', token);
-          localStorage.setItem('user', JSON.stringify(user));
           axios.defaults.headers.common.Authorization = `Bearer ${token}`;
           commit('setToken', token);
           commit('setUserSession', user);
           resolve(res);
         })
         .catch((err) => {
-          localStorage.removeItem('token');
-          localStorage.removeItem('user');
           reject(err.response.data);
         });
     });
   },
-  singout({ commit, getters }) {
+  async singout({ commit, getters }) {
     if (getters.isAuth) {
-      localStorage.removeItem('token');
-      localStorage.removeItem('user');
+      await axios.post('/remove-token');
       commit('destroySession');
+      this.reset();
     }
   },
   validateToken({ commit }) {
     return new Promise((resolve, reject) => {
-      const token = localStorage.getItem('token');
-      axios.defaults.headers.common.Authorization = `Bearer ${token}`;
       axios
-        .post('/validate-session')
+        .post('/refresh-token')
         .then((res) => {
           const { token, user } = res.data.data;
+          axios.defaults.headers.common.Authorization = `Bearer ${token}`;
           commit('setToken', token);
           commit('setUserSession', user);
           resolve(res);
         })
         .catch((err) => {
           axios.defaults.headers.common.Authorization = '';
-          localStorage.removeItem('token');
-          localStorage.removeItem('user');
           reject(err);
         });
     });
