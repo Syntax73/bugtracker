@@ -1,18 +1,19 @@
 <template>
   <main>
     <transition mode="out-in">
-      <router-view />
+      <AppLoading size="50" v-if="isLoading" />
+      <router-view v-else />
     </transition>
   </main>
 </template>
 
 <script>
-import { mapActions } from 'vuex';
+import { mapActions, mapState } from 'vuex';
+import AppLoading from '@/components/material/AppLoading';
+
 export default {
   name: 'App',
-  data: () => ({
-    //
-  }),
+  components: { AppLoading },
   methods: {
     ...mapActions('auth', ['validateToken'])
   },
@@ -24,6 +25,11 @@ export default {
       .catch((err) => {
         this.$router.push('/');
       });
+  },
+  computed: {
+    ...mapState({
+      isLoading: (state) => state.app.isAppLoading
+    })
   }
 };
 </script>

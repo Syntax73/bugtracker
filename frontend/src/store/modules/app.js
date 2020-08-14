@@ -4,7 +4,8 @@ const state = {
   snackbarContent: {
     message: '',
     alertType: ''
-  }
+  },
+  isAppLoading: false
 };
 
 const getters = {};
