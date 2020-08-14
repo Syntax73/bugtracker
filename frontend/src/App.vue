@@ -1,7 +1,7 @@
 <template>
   <main>
     <transition mode="out-in">
-      <AppLoading size="50" v-if="isLoading" />
+      <AppLoading :size="size" v-if="isLoading" />
       <router-view v-else />
     </transition>
   </main>
@@ -14,6 +14,11 @@ import AppLoading from '@/components/material/AppLoading';
 export default {
   name: 'App',
   components: { AppLoading },
+  data() {
+    return {
+      size: 50
+    };
+  },
   methods: {
     ...mapActions('auth', ['validateToken'])
   },
