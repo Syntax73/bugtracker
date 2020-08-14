@@ -29,6 +29,7 @@ const actions = {
           resolve(res);
         })
         .catch((err) => {
+          rootState.app.isAppLoading = false;
           reject(err.response.data);
         });
     });
