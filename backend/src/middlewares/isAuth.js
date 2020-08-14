@@ -16,6 +16,6 @@ module.exports = (req, res, next) => {
     req.userData = decode;
     return next();
   } catch (err) {
-    return http.unauthorized('Token não informado');
+    return http.unauthorized('Token invalido');
   }
 };

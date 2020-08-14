@@ -17,7 +17,7 @@ class User extends Model {
       { sequelize }
     );
 
-    super.addHook('beforeCreate', async user => {
+    super.addHook('beforeCreate', async (user) => {
       if (user.password) {
         user.password = await bcrypt.hash(user.password, 10);
       }
@@ -49,7 +49,7 @@ class User extends Model {
     return jwt.sign(
       { id: this.id, email: this.email, role: this.role },
       process.env.APP_KEY,
-      { expiresIn: '2 days' }
+      { expiresIn: '15m' }
     );
   }
 }

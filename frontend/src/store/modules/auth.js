@@ -34,8 +34,8 @@ const actions = {
   async singout({ commit, getters }) {
     if (getters.isAuth) {
       await axios.post('/remove-token');
+      axios.defaults.headers.common.Authorization = '';
       commit('destroySession');
-      this.reset();
     }
   },
   validateToken({ commit }) {
