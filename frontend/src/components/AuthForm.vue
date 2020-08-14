@@ -49,17 +49,21 @@ export default {
   },
   methods: {
     ...mapActions('auth', ['signin']),
-    ...mapActions('app', ['toggleSnackbar']),
-    onSignin() {
+    ...mapActions('app', ['toggleSnackbar', 'appLoading']),
+    async onSignin() {
       const { email, password } = this;
-      this.signin({ email, password })
-        .then(() => this.$router.push('/dashboard'))
-        .catch((err) => {
-          this.toggleSnackbar({
-            message: err.message,
-            alertType: 'warning'
-          });
+      this.appLoading();
+      try {
+        await this.signin({ email, password });
+        this.$router.push('/dashboard');
+        this.appLoading();
+      } catch (err) {
+        this.appLoading();
+        this.toggleSnackbar({
+          message: err.message,
+          alertType: 'warning'
         });
+      }
     }
   }
 };

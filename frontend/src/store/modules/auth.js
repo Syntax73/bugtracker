@@ -15,9 +15,8 @@ const getters = {
 };
 
 const actions = {
-  signin({ commit, rootState }, { email, password }) {
+  signin({ commit }, { email, password }) {
     return new Promise((resolve, reject) => {
-      rootState.app.isAppLoading = true;
       axios
         .post('/session', { email, password })
         .then((res) => {
@@ -25,11 +24,9 @@ const actions = {
           axios.defaults.headers.common.Authorization = `Bearer ${token}`;
           commit('setToken', token);
           commit('setUserSession', user);
-          rootState.app.isAppLoading = false;
           resolve(res);
         })
         .catch((err) => {
-          rootState.app.isAppLoading = false;
           reject(err.response.data);
         });
     });
