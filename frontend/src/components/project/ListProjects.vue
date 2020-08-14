@@ -9,6 +9,12 @@
           <v-btn color="primary" dark class="mb-2" @click="newProject">Novo Projeto</v-btn>
         </v-toolbar>
       </template>
+      <template v-slot:item.createdAt="{ item }">
+        <DateFormater :date="item.createdAt" />
+      </template>
+      <template v-slot:item.updatedAt="{ item }">
+        <DateFormater :date="item.updatedAt" />
+      </template>
       <template v-slot:item.actions="{ item }">
         <v-icon class="mr-2" small @click="getItem(item)">mdi-pencil</v-icon>
         <v-icon class="mr-2" small @click="destroy(item)">mdi-trash-can</v-icon>
@@ -24,10 +30,11 @@
 <script>
 import { mapState, mapActions, mapGetters, mapMutations } from 'vuex';
 import Paginate from '../material/Paginate';
+import DateFormater from '../material/DateFormater';
 
 export default {
   name: 'ListProjects',
-  components: { Paginate },
+  components: { Paginate, DateFormater },
   data() {
     return {
       headers: [

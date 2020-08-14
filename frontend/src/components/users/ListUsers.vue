@@ -9,6 +9,12 @@
           <v-btn color="primary" dark class="mb-2" router to="/users/edit-user">Novo Usuario</v-btn>
         </v-toolbar>
       </template>
+      <template v-slot:item.createdAt="{ item }">
+        <DateFormater :date="item.createdAt" />
+      </template>
+      <template v-slot:item.updatedAt="{ item }">
+        <DateFormater :date="item.updatedAt" />
+      </template>
       <template v-slot:item.actions="{ item }">
         <v-icon @click="editItem(item)">mdi-pencil</v-icon>
       </template>
@@ -22,10 +28,11 @@
 <script>
 import { mapState, mapActions } from 'vuex';
 import Paginate from '../material/Paginate';
+import DateFormater from '../material/DateFormater';
 
 export default {
   name: 'ListUsers',
-  components: { Paginate },
+  components: { Paginate, DateFormater },
   data() {
     return {
       headers: [
