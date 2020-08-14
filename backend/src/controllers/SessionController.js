@@ -33,24 +33,6 @@ class SessionController {
     }
   }
 
-  async validateSession(req, res) {
-    const sessionHeader = req.headers.authorization;
-    const token = sessionHeader.split(' ')[1];
-    const http = new ApiResponse(res);
-
-    try {
-      const decode = jwt.verify(token, process.env.APP_KEY);
-
-      const user = await User.findByPk(decode.id, {
-        attributes: { exclude: ['password', 'createdAt', 'updatedAt'] },
-      });
-
-      return http.ok({ user, token });
-    } catch (err) {
-      return http.unauthorized('Sessão invalida');
-    }
-  }
-
   async refreshSession(req, res) {
     const rfToken = req.cookies.wflas;
     const http = new ApiResponse(res);
