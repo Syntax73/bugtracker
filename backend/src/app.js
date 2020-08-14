@@ -1,6 +1,7 @@
 const express = require('express');
 const cookieParser = require('cookie-parser');
 const cors = require('cors');
+const corsConfig = require('./config/cors');
 const routes = require('./routes');
 require('./database');
 
@@ -12,9 +13,7 @@ class AppController {
   }
 
   middleware() {
-    this.express.use(
-      cors({ credentials: true, origin: 'http://localhost:8080' })
-    );
+    this.express.use(cors(corsConfig));
     this.express.use(express.json());
     this.express.use(express.urlencoded({ extended: true }));
     this.express.use(cookieParser());
