@@ -101,6 +101,7 @@ export default {
   },
   methods: {
     ...mapActions('project', ['create', 'update', 'projectDialog']),
+    ...mapActions('app', ['toggleSnackbar']),
     ...mapActions('user', ['getUsers']),
     ...mapMutations('project', ['setProject', 'setTeam']),
 
@@ -109,17 +110,31 @@ export default {
       this.setTeam([]);
       this.projectDialog(true);
     },
-    createProject() {
-      const { project, teamMembers } = this;
-      this.create({ project, teamMembers });
-      this.$refs.form.reset();
-      this.$router.go(-1);
+    async createProject() {
+      try {
+        const { project, teamMembers } = this;
+        await this.create({ project, teamMembers });
+        this.$refs.form.reset();
+        this.$router.go(-1);
+      } catch (err) {
+        this.toggleSnackbar({
+          message: err,
+          alertType: 'warning'
+        });
+      }
     },
     async updateProject() {
-      const { project, teamMembers } = this;
-      await this.update({ project, teamMembers });
-      this.$refs.form.reset();
-      this.$router.go(-1);
+      try {
+        const { project, teamMembers } = this;
+        await this.update({ project, teamMembers });
+        this.$refs.form.reset();
+        this.$router.go(-1);
+      } catch (err) {
+        this.toggleSnackbar({
+          message: err,
+          alertType: 'warning'
+        });
+      }
     },
     reset() {
       this.setProject({});

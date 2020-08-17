@@ -22,41 +22,35 @@ const getters = {
 };
 
 const actions = {
-  async getProjects({ commit, rootState }, page) {
+  async getProjects({ commit }, page) {
     try {
       const { data } = await axios.get(`/projects?page=${page}`);
       commit('setProjects', data.data);
     } catch (err) {
-      rootState.app.snackbar = true;
-      rootState.app.snackbarContent.message = err.response.data.message;
-      rootState.app.snackbarContent.alertType = 'warning';
+      return Promise.reject(err.response.data.message);
     }
   },
-  async getProject({ commit, rootState }, project) {
+  async getProject({ commit }, project) {
     try {
       const { data } = await axios.get(`/projects/${project.id}`);
       commit('setProject', project);
       commit('setTeam', data.data.team);
     } catch (err) {
-      rootState.app.snackbar = true;
-      rootState.app.snackbarContent.message = err.response.data.message;
-      rootState.app.snackbarContent.alertType = 'warning';
+      return Promise.reject(err.response.data.message);
     }
   },
-  async getMyProjects({ commit, rootState }, page) {
+  async getMyProjects({ commit }, page) {
     try {
       const { data } = await axios.get(`/projects/my-projects?page=${page}`);
       commit('setProjects', data.data);
     } catch (err) {
-      rootState.app.snackbar = true;
-      rootState.app.snackbarContent.message = err.response.data.message;
-      rootState.app.snackbarContent.alertType = 'warning';
+      return Promise.reject(err.response.data.message);
     }
   },
   setTeam({ commit }, newTeam) {
     commit('setTeam', newTeam);
   },
-  async create({ commit, rootState }, { project, teamMembers }) {
+  async create({ commit }, { project, teamMembers }) {
     const { name, description } = project;
 
     const team = teamMembers.map((users) => {
@@ -69,12 +63,10 @@ const actions = {
       commit('setProject', {});
       commit('setTeam', []);
     } catch (err) {
-      rootState.app.snackbar = true;
-      rootState.app.snackbarContent.message = err.response.data.message;
-      rootState.app.snackbarContent.alertType = 'warning';
+      return Promise.reject(err.response.data.message);
     }
   },
-  async update({ commit, rootState }, { project, teamMembers }) {
+  async update({ commit }, { project, teamMembers }) {
     const { id, name, description } = project;
 
     const team = teamMembers.map((users) => {
@@ -87,23 +79,16 @@ const actions = {
       commit('setProject', {});
       commit('setTeam', []);
     } catch (err) {
-      rootState.app.snackbar = true;
-      rootState.app.snackbarContent.message = err.response.data.message;
-      rootState.app.snackbarContent.alertType = 'warning';
+      return Promise.reject(err.response.data.message);
     }
   },
-  async destroy({ commit, rootState }, { id }) {
+  async destroy({ commit }, { id }) {
     try {
       await axios.delete(`/projects/${id}`);
       commit('deleteProject', id);
     } catch (err) {
-      rootState.app.snackbar = true;
-      rootState.app.snackbarContent.message = err.response.data.message;
-      rootState.app.snackbarContent.alertType = 'warning';
+      return Promise.reject(err.response.data.message);
     }
-  },
-  projectDialog({ commit }, isOpen) {
-    commit('setProjectDialog', isOpen);
   }
 };
 
@@ -144,9 +129,6 @@ const mutations = {
   deleteProject(state, id) {
     const projects = state.projects.filter((p) => p.id != id);
     state.projects = projects;
-  },
-  setProjectDialog(state, isOpen) {
-    state.projectDialog = isOpen;
   },
   setTeam(state, newTeam) {
     state.team = newTeam;

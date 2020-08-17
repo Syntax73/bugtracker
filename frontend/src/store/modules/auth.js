@@ -58,12 +58,8 @@ const actions = {
 };
 
 const mutations = {
-  setToken(state, token) {
-    state.token = token;
-  },
-  setUserSession(state, user) {
-    state.userSession = user;
-  },
+  setToken: (state, token) => (state.token = token),
+  setUserSession: (state, user) => (state.userSession = user),
   destroySession(state) {
     state.userSession = {};
     state.token = null;
