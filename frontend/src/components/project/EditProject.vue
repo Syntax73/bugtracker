@@ -83,7 +83,6 @@ export default {
   computed: {
     ...mapState({
       project: (state) => state.project.project,
-      dialog: (state) => state.project.projectDialog,
       users: (state) => state.user.users
     }),
     ...mapGetters('project', ['getTeam']),
@@ -100,16 +99,11 @@ export default {
     this.getUsers(1);
   },
   methods: {
-    ...mapActions('project', ['create', 'update', 'projectDialog']),
+    ...mapActions('project', ['create', 'update']),
     ...mapActions('app', ['toggleSnackbar']),
     ...mapActions('user', ['getUsers']),
     ...mapMutations('project', ['setProject', 'setTeam']),
 
-    openDialog() {
-      this.setProject({});
-      this.setTeam([]);
-      this.projectDialog(true);
-    },
     async createProject() {
       try {
         const { project, teamMembers } = this;
@@ -139,7 +133,6 @@ export default {
     reset() {
       this.setProject({});
       this.setTeam([]);
-      this.projectDialog(false);
       this.$refs.form.reset();
       this.$router.go(-1);
     }

@@ -1,6 +1,11 @@
 <template>
   <div>
-    <v-data-table :headers="headers" :items="projects" hide-default-footer class="elevation-1">
+    <v-data-table
+      :headers="headers"
+      :items="getProjectsFormated"
+      hide-default-footer
+      class="elevation-1"
+    >
       <template v-slot:top>
         <v-toolbar flat color="white">
           <v-toolbar-title>Lista de Projetos</v-toolbar-title>
@@ -8,12 +13,6 @@
           <v-spacer></v-spacer>
           <v-btn color="primary" dark class="mb-2" @click="newProject">Novo Projeto</v-btn>
         </v-toolbar>
-      </template>
-      <template v-slot:item.createdAt="{ item }">
-        <DateFormater :date="item.createdAt" />
-      </template>
-      <template v-slot:item.updatedAt="{ item }">
-        <DateFormater :date="item.updatedAt" />
       </template>
       <template v-slot:item.actions="{ item }">
         <v-icon class="mr-2" small @click="getItem(item)">mdi-pencil</v-icon>
@@ -30,11 +29,10 @@
 <script>
 import { mapState, mapActions, mapGetters, mapMutations } from 'vuex';
 import Paginate from '../material/Paginate';
-import DateFormater from '../material/DateFormater';
 
 export default {
   name: 'ListProjects',
-  components: { Paginate, DateFormater },
+  components: { Paginate },
   data() {
     return {
       headers: [
@@ -68,7 +66,8 @@ export default {
     ...mapState({
       projects: (state) => state.project.projects,
       pages: (state) => state.project.pages
-    })
+    }),
+    ...mapGetters('project', ['getProjectsFormated'])
   },
   mounted() {
     this.getProjects(1);

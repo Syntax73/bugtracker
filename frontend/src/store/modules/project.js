@@ -1,4 +1,5 @@
 import axios from '@/services/axios';
+import moment from 'moment';
 
 const state = {
   projects: [],
@@ -18,6 +19,15 @@ const getters = {
   },
   getPageCount: (state) => {
     return state.pagination.pageCount;
+  },
+  getProjectsFormated: (state) => {
+    return state.projects.map((data) => {
+      return {
+        ...data,
+        createdAt: moment(data.createdAt).format('DD-MM-YYYY HH:mm'),
+        updatedAt: moment(data.updatedAt).format('DD-MM-YYYY HH:mm')
+      };
+    });
   }
 };
 
