@@ -31,11 +31,19 @@ export default {
   },
   methods: {
     ...mapActions('comment', ['createComment']),
+    ...mapActions('app', ['toggleSnackbar']),
 
-    addComment() {
-      const id = this.$route.params.idIssue;
-      const comment = this.comment;
-      this.createComment({ id, comment });
+    async addComment() {
+      try {
+        const id = this.$route.params.idIssue;
+        const comment = this.comment;
+        this.createComment({ id, comment });
+      } catch (err) {
+        this.toggleSnackbar({
+          message: err,
+          alertType: 'warning'
+        });
+      }
     }
   }
 };

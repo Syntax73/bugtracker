@@ -15,25 +15,21 @@ const state = {
 const getters = {};
 
 const actions = {
-  async getComments({ commit, rootState }, { id, page }) {
+  async getComments({ commit }, { id, page }) {
     try {
       const { data } = await axios.get(`issues/${id}/comment?page=${page}`);
       commit('setComments', data.data);
     } catch (err) {
       commit('setLoadMore', false);
-      rootState.app.snackbar = true;
-      rootState.app.snackbarContent.message = err.response.data.message;
-      rootState.app.snackbarContent.alertType = 'warning';
+      return false;
     }
   },
-  async createComment({ commit, rootState }, { id, comment }) {
+  async createComment({ commit }, { id, comment }) {
     try {
       const { data } = await axios.post(`issues/${id}/comment`, comment);
       commit('createComment', data.data);
     } catch (err) {
-      rootState.app.snackbar = true;
-      rootState.app.snackbarContent.message = err.response.data.message;
-      rootState.app.snackbarContent.alertType = 'warning';
+      return Promise.reject(err.response.data.message);
     }
   },
   getComment({ commit }, comment) {
