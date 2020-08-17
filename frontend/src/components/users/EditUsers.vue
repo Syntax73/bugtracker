@@ -93,17 +93,32 @@ export default {
   }),
   methods: {
     ...mapActions('user', ['createUser', 'updateUser']),
+    ...mapActions('app', ['toggleSnackbar']),
     ...mapMutations('user', ['setUser']),
 
-    submit() {
-      this.createUser(this.user);
-      this.$refs.form.reset();
-      this.$router.go(-1);
+    async submit() {
+      try {
+        await this.createUser(this.user);
+        this.$refs.form.reset();
+        this.$router.go(-1);
+      } catch (err) {
+        this.toggleSnackbar({
+          message: err,
+          alertType: 'warning'
+        });
+      }
     },
     async update() {
-      await this.updateUser(this.user);
-      this.$refs.form.reset();
-      this.$router.go(-1);
+      try {
+        await this.updateUser(this.user);
+        this.$refs.form.reset();
+        this.$router.go(-1);
+      } catch (err) {
+        this.toggleSnackbar({
+          message: err,
+          alertType: 'warning'
+        });
+      }
     },
     reset() {
       this.setUser({});

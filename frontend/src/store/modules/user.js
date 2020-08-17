@@ -1,4 +1,5 @@
 import axios from '@/services/axios';
+import moment from 'moment';
 
 const state = {
   user: {},
@@ -14,21 +15,28 @@ const state = {
 const getters = {
   getPageCount: (state) => {
     return state.pagination.pageCount;
+  },
+  getUsersFormated: (state) => {
+    return state.users.map((data) => {
+      return {
+        ...data,
+        createdAt: moment(data.createdAt).format('DD-MM-YYYY HH:mm'),
+        updatedAt: moment(data.updatedAt).format('DD-MM-YYYY HH:mm')
+      };
+    });
   }
 };
 
 const actions = {
-  async getUsers({ commit, rootState }, page) {
+  async getUsers({ commit }, page) {
     try {
       const { data } = await axios.get(`/users?page=${page}`);
       commit('setUsers', data.data);
     } catch (err) {
-      rootState.app.snackbar = true;
-      rootState.app.snackbarContent.message = err.response.data.message;
-      rootState.app.snackbarContent.alertType = 'warning';
+      return Promise.reject(err.response.data.message);
     }
   },
-  async createUser({ commit, rootState }, newUser) {
+  async createUser({ commit }, newUser) {
     try {
       const formData = new FormData();
 
@@ -45,31 +53,25 @@ const actions = {
       commit('setUserDialog', false);
       commit('setUser', {});
     } catch (err) {
-      rootState.app.snackbar = true;
-      rootState.app.snackbarContent.message = err.response.data.message;
-      rootState.app.snackbarContent.alertType = 'warning';
+      return Promise.reject(err.response.data.message);
     }
   },
-  async updateUser({ commit, rootState }, user) {
+  async updateUser({ commit }, user) {
     try {
       const { data } = await axios.put(`/users/${user.id}`, user);
       commit('updateUser', data.data);
       commit('setUserDialog', false);
       commit('setUser', {});
     } catch (err) {
-      rootState.app.snackbar = true;
-      rootState.app.snackbarContent.message = err.response.data.message;
-      rootState.app.snackbarContent.alertType = 'warning';
+      return Promise.reject(err.response.data.message);
     }
   },
-  async showUser({ commit, rootState }, id) {
+  async showUser({ commit }, id) {
     try {
       const { data } = await axios.get(`/users/${id}`);
       commit('setUser', data.data);
     } catch (err) {
-      rootState.app.snackbar = true;
-      rootState.app.snackbarContent.message = err.response.data.message;
-      rootState.app.snackbarContent.alertType = 'warning';
+      return Promise.reject(err.response.data.message);
     }
   },
   getItem({ commit }, user) {

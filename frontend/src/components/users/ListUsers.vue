@@ -1,6 +1,11 @@
 <template>
   <div>
-    <v-data-table :headers="headers" :items="users" hide-default-footer class="elevation-1">
+    <v-data-table
+      :headers="headers"
+      :items="getUsersFormated"
+      hide-default-footer
+      class="elevation-1"
+    >
       <template v-slot:top>
         <v-toolbar flat color="white">
           <v-toolbar-title>Lista de Usuarios</v-toolbar-title>
@@ -8,12 +13,6 @@
           <v-spacer></v-spacer>
           <v-btn color="primary" dark class="mb-2" router to="/users/edit-user">Novo Usuario</v-btn>
         </v-toolbar>
-      </template>
-      <template v-slot:item.createdAt="{ item }">
-        <DateFormater :date="item.createdAt" />
-      </template>
-      <template v-slot:item.updatedAt="{ item }">
-        <DateFormater :date="item.updatedAt" />
       </template>
       <template v-slot:item.actions="{ item }">
         <v-icon @click="editItem(item)">mdi-pencil</v-icon>
@@ -26,13 +25,12 @@
 </template>
 
 <script>
-import { mapState, mapActions } from 'vuex';
+import { mapState, mapActions, mapGetters } from 'vuex';
 import Paginate from '../material/Paginate';
-import DateFormater from '../material/DateFormater';
 
 export default {
   name: 'ListUsers',
-  components: { Paginate, DateFormater },
+  components: { Paginate },
   data() {
     return {
       headers: [
@@ -57,7 +55,8 @@ export default {
   computed: {
     ...mapState({
       users: (state) => state.user.users
-    })
+    }),
+    ...mapGetters('user', ['getUsersFormated'])
   },
   mounted() {
     this.getUsers(1);
