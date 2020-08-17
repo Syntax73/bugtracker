@@ -18,15 +18,9 @@ const getters = {
 };
 
 const actions = {
-  async getTeam({ commit, rootState }, { id, page }) {
-    try {
-      const { data } = await axios.get(`/projects/${id}/team?page=${page}`);
-      commit('setTeam', data.data);
-    } catch (err) {
-      rootState.app.snackbar = true;
-      rootState.app.snackbarContent.message = err.response.data.message;
-      rootState.app.snackbarContent.alertType = 'warning';
-    }
+  async getTeam({ commit }, { id, page }) {
+    const { data } = await axios.get(`/projects/${id}/team?page=${page}`);
+    commit('setTeam', data.data);
   }
 };
 
