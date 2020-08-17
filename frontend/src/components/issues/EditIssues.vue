@@ -173,19 +173,34 @@ export default {
 
   methods: {
     ...mapActions('issue', ['create', 'update']),
+    ...mapActions('app', ['toggleSnackbar']),
     ...mapMutations('issue', ['setIssue']),
 
-    createIssue() {
-      const id = this.$route.params.idProject;
-      const newIssue = this.issue;
-      this.create({ id, newIssue });
-      this.$router.go(-1);
+    async createIssue() {
+      try {
+        const id = this.$route.params.idProject;
+        const newIssue = this.issue;
+        this.create({ id, newIssue });
+        this.$router.go(-1);
+      } catch (err) {
+        this.toggleSnackbar({
+          message: err,
+          alertType: 'warning'
+        });
+      }
     },
-    updateIssue() {
-      const id = this.$route.params.idProject;
-      const editedIssue = this.issue;
-      this.update({ id, editedIssue });
-      this.$router.go(-1);
+    async updateIssue() {
+      try {
+        const id = this.$route.params.idProject;
+        const editedIssue = this.issue;
+        this.update({ id, editedIssue });
+        this.$router.go(-1);
+      } catch (err) {
+        this.toggleSnackbar({
+          message: err,
+          alertType: 'warning'
+        });
+      }
     },
     reset() {
       this.$router.go(-1);

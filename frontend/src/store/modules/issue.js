@@ -14,44 +14,36 @@ const state = {
 const getters = {};
 
 const actions = {
-  async getIssues({ commit, rootState }, { id, page }) {
+  async getIssues({ commit }, { id, page }) {
     try {
       const { data } = await axios.get(`/projects/${id}/issues?page=${page}`);
       commit('setIssues', data.data);
     } catch (err) {
-      rootState.app.snackbar = true;
-      rootState.app.snackbarContent.message = err.response.data.message;
-      rootState.app.snackbarContent.alertType = 'warning';
+      return Promise.reject(err.response.data);
     }
   },
-  async getMyIssues({ commit, rootState }, page) {
+  async getMyIssues({ commit }, page) {
     try {
       const { data } = await axios.get(`/issues?page=${page}`);
       commit('setIssues', data.data);
     } catch (err) {
-      rootState.app.snackbar = true;
-      rootState.app.snackbarContent.message = err.response.data.message;
-      rootState.app.snackbarContent.alertType = 'warning';
+      return Promise.reject(err.response.data);
     }
   },
-  async create({ commit, rootState }, { id, newIssue }) {
+  async create({ commit }, { id, newIssue }) {
     try {
       const { data } = await axios.post(`/projects/${id}/issues`, newIssue);
       commit('createIssue', data.data);
     } catch (err) {
-      rootState.app.snackbar = true;
-      rootState.app.snackbarContent.message = err.response.data.message;
-      rootState.app.snackbarContent.alertType = 'warning';
+      return Promise.reject(err.response.data);
     }
   },
-  async update({ rootState }, { id, editedIssue }) {
+  async update({ commit }, { id, editedIssue }) {
     try {
       await axios.put(`/projects/${id}/issues/${editedIssue.id}`, editedIssue);
       // commit('updateIssue', data.data);
     } catch (err) {
-      rootState.app.snackbar = true;
-      rootState.app.snackbarContent.message = err.response.data.message;
-      rootState.app.snackbarContent.alertType = 'warning';
+      return Promise.reject(err.response.data);
     }
   },
   getIssue({ commit }, issue) {
