@@ -7,7 +7,7 @@ const state = {
 const getters = {};
 
 const actions = {
-  async createAssigment({ commit, rootState, rootGetters }, { issueId, assigned }) {
+  async createAssigment({ commit, rootGetters }, { issueId, assigned }) {
     try {
       const payload = assigned
         .map((value) => {
@@ -19,22 +19,17 @@ const actions = {
         .pop();
 
       const { data } = await axios.post(`/issues/${issueId}/assigned`, { assigned: payload });
-      const ids = data.data;
-      commit('createAssigment', rootGetters['team/getPerson'](ids));
+      commit('createAssigment', rootGetters['team/getPerson'](data.data));
     } catch (err) {
-      rootState.app.snackbar = true;
-      rootState.app.snackbarContent.message = err.response.data.message;
-      rootState.app.snackbarContent.alertType = 'warning';
+      return Promise.reject(err.response.data.message);
     }
   },
-  async deleteAssigment({ commit, rootState }, { issueId, userId }) {
+  async deleteAssigment({ commit }, { issueId, userId }) {
     try {
       await axios.delete(`/issues/${issueId}/assigned/${userId.id}`);
       commit('deleteAssigment', userId);
     } catch (err) {
-      rootState.app.snackbar = true;
-      rootState.app.snackbarContent.message = err.response.data.message;
-      rootState.app.snackbarContent.alertType = 'warning';
+      return Promise.reject(err.response.data.message);
     }
   }
 };

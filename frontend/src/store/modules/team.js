@@ -11,16 +11,23 @@ const state = {
 };
 
 const getters = {
-  getPerson: (state) => (assigned) => {
+  getPersons: (state) => (assigned) => {
     const ids = assigned.map((id) => id.user_id);
     return state.team.filter((person) => ids.includes(person.id));
+  },
+  getPerson: (state) => (assigned) => {
+    return state.team.filter((person) => person.id === assigned.user_id);
   }
 };
 
 const actions = {
-  async getTeam({ commit }, { id, page }) {
-    const { data } = await axios.get(`/projects/${id}/team?page=${page}`);
-    commit('setTeam', data.data);
+  async getTeam({ commit }, { idProject, page }) {
+    try {
+      const { data } = await axios.get(`/projects/${idProject}/team?page=${page}`);
+      commit('setTeam', data.data);
+    } catch (err) {
+      return false;
+    }
   }
 };
 

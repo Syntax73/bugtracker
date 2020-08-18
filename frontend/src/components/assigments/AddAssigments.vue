@@ -51,7 +51,7 @@ export default {
   name: 'AddAssigments',
   components: { Avatar },
   computed: {
-    ...mapGetters('team', ['getPerson']),
+    ...mapGetters('team', ['getPersons']),
     ...mapState({
       team: (state) => state.team.team,
       assignedIds: (state) => state.issue.issue.assigned,
@@ -66,25 +66,40 @@ export default {
       }
     }
   },
-  created() {
-    this.persons = this.getPerson(this.assignedIds);
-    const id = this.$route.params.idProject;
+  mounted() {
+    this.persons = this.getPersons(this.assignedIds);
+    const idProject = this.$route.params.idProject;
     const page = 1;
-    this.getTeam({ id, page });
+    this.getTeam({ idProject, page });
   },
   methods: {
     ...mapActions('assigment', ['createAssigment', 'deleteAssigment']),
     ...mapActions('team', ['getTeam']),
+    ...mapActions('app', ['toggleSnackbar']),
     ...mapMutations('assigment', ['setAssigment']),
 
-    create() {
-      const issueId = this.$route.params.idIssue;
-      const assigned = this.persons;
-      this.createAssigment({ issueId, assigned });
+    async create() {
+      try {
+        const issueId = this.$route.params.idIssue;
+        const assigned = this.persons;
+        await this.createAssigment({ issueId, assigned });
+      } catch (err) {
+        this.toggleSnackbar({
+          message: err,
+          alertType: 'warning'
+        });
+      }
     },
     remove(userId) {
-      const issueId = this.$route.params.idIssue;
-      this.deleteAssigment({ issueId, userId });
+      try {
+        const issueId = this.$route.params.idIssue;
+        this.deleteAssigment({ issueId, userId });
+      } catch (err) {
+        this.toggleSnackbar({
+          message: err,
+          alertType: 'warning'
+        });
+      }
     }
   }
 };
