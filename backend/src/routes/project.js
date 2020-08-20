@@ -11,13 +11,13 @@ routes.get('/my-projects', isAuth, ProjectController.myProjects);
 routes.post(
   '/',
   isAuth,
-  role('admin'),
+  role(['admin']),
   validateDto(projectDto),
   ProjectController.store
 );
-routes.put('/:id', isAuth, role('admin'), ProjectController.update);
+routes.put('/:id', isAuth, role(['admin']), ProjectController.update);
 routes.get('/', isAuth, ProjectController.index);
 routes.get('/:id', isAuth, ProjectController.show);
-routes.delete('/:id', isAuth, role('admin'), ProjectController.destroy);
+routes.delete('/:id', isAuth, role(['admin']), ProjectController.destroy);
 
 module.exports = routes;

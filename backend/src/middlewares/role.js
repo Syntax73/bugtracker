@@ -5,7 +5,7 @@ module.exports = (role) => {
     const user = req.userData;
     const http = new ApiResponse(res);
 
-    if (user.role === role) {
+    if (role.includes(user.role)) {
       return next();
     }
 
