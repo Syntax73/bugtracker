@@ -17,19 +17,24 @@
         <IssueDetails />
       </div>
       <div>
-        <AddAssigments />
+        <AddAssigments
+          v-if="userRole === 'project_lead' || userRole === 'test_lead' || userRole === 'admin'"
+        />
+        <ListAssigments v-else />
       </div>
     </v-col>
   </v-row>
 </template>
 
 <script>
+import { mapState } from 'vuex';
 import IssueDetails from '../components/issues/IssueDetails';
 import IssueDescription from '../components/issues/IssueDescription';
 import ListComments from '../components/comments/ListComments';
 import AddComment from '../components/comments/AddComment';
 import MessageSnackBar from '../components/material/MessageSnackBar';
 import AddAssigments from '../components/assigments/AddAssigments';
+import ListAssigments from '../components/assigments/ListAssigments';
 
 export default {
   name: 'IssuesDetails',
@@ -39,7 +44,13 @@ export default {
     ListComments,
     AddComment,
     MessageSnackBar,
-    AddAssigments
+    AddAssigments,
+    ListAssigments
+  },
+  computed: {
+    ...mapState({
+      userRole: (state) => state.auth.userSession.role
+    })
   }
 };
 </script>
