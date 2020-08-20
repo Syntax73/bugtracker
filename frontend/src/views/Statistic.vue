@@ -5,7 +5,9 @@
     </v-col>
     <v-col cols="8">
       <v-card>
-        <v-card-title>Todas as issues reportadas</v-card-title>
+        <v-toolbar>
+          <v-toolbar-title>Todas as issues reportadas</v-toolbar-title>
+        </v-toolbar>
         <v-card-text>
           <LineChart
             v-if="loaded"
@@ -18,7 +20,9 @@
     </v-col>
     <v-col cols="4">
       <v-card>
-        <v-card-title>Status das issues</v-card-title>
+        <v-toolbar>
+          <v-toolbar-title>Status das issues</v-toolbar-title>
+        </v-toolbar>
         <v-card-text>
           <PieChart
             v-if="loaded"
@@ -32,7 +36,9 @@
     </v-col>
     <v-col>
       <v-card>
-        <v-card-title>Minhas Issues</v-card-title>
+        <v-toolbar>
+          <v-toolbar-title>Minhas Issues</v-toolbar-title>
+        </v-toolbar>
         <v-card-text>
           <BarChart
             v-if="loaded"
