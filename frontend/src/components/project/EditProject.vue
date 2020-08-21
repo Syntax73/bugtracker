@@ -50,7 +50,7 @@
         <v-btn v-if="project.id" :disabled="!valid" color="success" @click="updateProject"
           >Editar</v-btn
         >
-        <v-btn v-else color="success" @click="createProject">Criar</v-btn>
+        <v-btn v-else color="success" :disabled="!valid" @click="createProject">Criar</v-btn>
         <v-btn class="ml-2" color="error" @click="reset">Cancelar</v-btn>
       </div>
     </v-card-actions>

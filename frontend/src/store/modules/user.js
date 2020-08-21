@@ -1,4 +1,5 @@
 import { SET_USER, SET_USERS, CREATE_USER, UPDATE_USER } from '../multation-types';
+import { userService } from '../../services/user-service';
 
 import axios from '@/services/axios';
 import moment from 'moment';
@@ -31,48 +32,22 @@ const getters = {
 
 const actions = {
   async getUsers({ commit }, page) {
-    try {
-      const { data } = await axios.get(`/users?page=${page}`);
-      commit(SET_USERS, data.data);
-    } catch (err) {
-      return Promise.reject(err.response.data.message);
-    }
+    const response = await userService.getAll(page);
+    commit(SET_USERS, response);
+  },
+  async getUser({ commit }, id) {
+    const response = await userService.getOne(id);
+    commit(SET_USER, response);
   },
   async createUser({ commit }, newUser) {
-    try {
-      const formData = new FormData();
-
-      formData.append('avatar', newUser.avatar);
-      formData.append('name', newUser.name);
-      formData.append('email', newUser.email);
-      formData.append('password', newUser.password);
-      formData.append('confirmPassword', newUser.confirmPassword);
-      formData.append('role', newUser.role);
-
-      const { data } = await axios.post('/users', formData);
-
-      commit(CREATE_USER, data.data);
-      commit(SET_USER, {});
-    } catch (err) {
-      return Promise.reject(err.response.data.message);
-    }
+    const response = await userService.create(newUser);
+    commit(CREATE_USER, response);
+    commit(SET_USER, {});
   },
   async updateUser({ commit }, user) {
-    try {
-      const { data } = await axios.put(`/users/${user.id}`, user);
-      commit(UPDATE_USER, data.data);
-      commit(SET_USER, {});
-    } catch (err) {
-      return Promise.reject(err.response.data.message);
-    }
-  },
-  async showUser({ commit }, id) {
-    try {
-      const { data } = await axios.get(`/users/${id}`);
-      commit(SET_USER, data.data);
-    } catch (err) {
-      return Promise.reject(err.response.data.message);
-    }
+    const response = await userService.update(user);
+    commit(CREATE_USER, response);
+    commit(SET_USER, {});
   },
   getItem({ commit }, user) {
     commit(SET_USER, user);
