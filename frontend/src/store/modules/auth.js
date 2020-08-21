@@ -1,4 +1,5 @@
 import axios from '@/services/axios';
+import { SET_TOKEN, SET_USER_SESSION, DESTROY_SESSION } from '../multation-types';
 
 const state = {
   token: null,
@@ -22,8 +23,8 @@ const actions = {
         .then((res) => {
           const { token, user } = res.data.data;
           axios.defaults.headers.common.Authorization = `Bearer ${token}`;
-          commit('setToken', token);
-          commit('setUserSession', user);
+          commit(SET_TOKEN, token);
+          commit(SET_USER_SESSION, user);
           resolve(res);
         })
         .catch((err) => {
@@ -35,7 +36,7 @@ const actions = {
     if (getters.isAuth) {
       await axios.post('/remove-token');
       axios.defaults.headers.common.Authorization = '';
-      commit('destroySession');
+      commit(DESTROY_SESSION);
     }
   },
   validateToken({ commit }) {
@@ -45,8 +46,8 @@ const actions = {
         .then((res) => {
           const { token, user } = res.data.data;
           axios.defaults.headers.common.Authorization = `Bearer ${token}`;
-          commit('setToken', token);
-          commit('setUserSession', user);
+          commit(SET_TOKEN, token);
+          commit(SET_USER_SESSION, user);
           resolve(res);
         })
         .catch((err) => {
@@ -58,9 +59,13 @@ const actions = {
 };
 
 const mutations = {
-  setToken: (state, token) => (state.token = token),
-  setUserSession: (state, user) => (state.userSession = user),
-  destroySession(state) {
+  [SET_TOKEN](state, token) {
+    state.token = token;
+  },
+  [SET_USER_SESSION](state, user) {
+    state.userSession = user;
+  },
+  [DESTROY_SESSION](state) {
     state.userSession = {};
     state.token = null;
   }

@@ -61,13 +61,14 @@
 
 <script>
 import { mapMutations, mapState } from 'vuex';
+import { SET_DRAWER } from '@/store/multation-types';
 import Avatar from '@/components/material/Avatar';
 
 export default {
   name: 'Drawer',
   components: { Avatar },
   methods: {
-    ...mapMutations('app', ['setDrawer'])
+    ...mapMutations('app', [SET_DRAWER])
   },
   computed: {
     ...mapState({
@@ -78,7 +79,7 @@ export default {
         return this.$store.state.app.drawer;
       },
       set(val) {
-        this.setDrawer(val);
+        this.SET_DRAWER(val);
       }
     }
   }

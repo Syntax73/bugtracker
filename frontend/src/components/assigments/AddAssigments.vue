@@ -45,6 +45,7 @@
 
 <script>
 import { mapState, mapActions, mapMutations, mapGetters } from 'vuex';
+import { SET_ASSIGMENT } from '@/store/multation-types';
 import Avatar from '../material/Avatar.vue';
 
 export default {
@@ -62,7 +63,7 @@ export default {
         return this.assigments;
       },
       set(val) {
-        this.setAssigment(val);
+        this.SET_ASSIGMENT(val);
       }
     }
   },
@@ -76,7 +77,7 @@ export default {
     ...mapActions('assigment', ['createAssigment', 'deleteAssigment']),
     ...mapActions('team', ['getTeam']),
     ...mapActions('app', ['toggleSnackbar']),
-    ...mapMutations('assigment', ['setAssigment']),
+    ...mapMutations('assigment', [SET_ASSIGMENT]),
 
     async create() {
       try {

@@ -1,3 +1,4 @@
+import { SET_ISSUE, SET_ISSUES, CREATE_ISSUE, UPDATE_ISSUE } from '../multation-types';
 import axios from '@/services/axios';
 
 const state = {
@@ -17,7 +18,7 @@ const actions = {
   async getIssues({ commit }, { id, page }) {
     try {
       const { data } = await axios.get(`/projects/${id}/issues?page=${page}`);
-      commit('setIssues', data.data);
+      commit(SET_ISSUES, data.data);
     } catch (err) {
       return Promise.reject(err.response.data);
     }
@@ -25,7 +26,7 @@ const actions = {
   async getMyIssues({ commit }, page) {
     try {
       const { data } = await axios.get(`/issues?page=${page}`);
-      commit('setIssues', data.data);
+      commit(SET_ISSUES, data.data);
     } catch (err) {
       return Promise.reject(err.response.data);
     }
@@ -33,7 +34,7 @@ const actions = {
   async create({ commit }, { id, newIssue }) {
     try {
       const { data } = await axios.post(`/projects/${id}/issues`, newIssue);
-      commit('createIssue', data.data);
+      commit(CREATE_ISSUE, data.data);
     } catch (err) {
       return Promise.reject(err.response.data);
     }
@@ -41,18 +42,18 @@ const actions = {
   async update({ commit }, { id, editedIssue }) {
     try {
       const { data } = await axios.put(`/projects/${id}/issues/${editedIssue.id}`, editedIssue);
-      commit('updateIssue', data.data);
+      commit(UPDATE_ISSUE, data.data);
     } catch (err) {
       return Promise.reject(err.response.data);
     }
   },
   getIssue({ commit }, issue) {
-    commit('setIssue', issue);
+    commit(SET_ISSUE, issue);
   }
 };
 
 const mutations = {
-  setIssues(state, issues) {
+  [SET_ISSUES](state, issues) {
     const { rows, count, page, pages, limit } = issues;
     state.issues = rows;
     state.pagination.page = page;
@@ -60,13 +61,13 @@ const mutations = {
     state.pagination.itemsPerPage = limit;
     state.pagination.itemsLenght = count;
   },
-  setIssue(state, issue) {
+  [SET_ISSUE](state, issue) {
     state.issue = issue;
   },
   setPage(state, page) {
     state.pagination.page = page;
   },
-  createIssue(state, issue) {
+  [CREATE_ISSUE](state, issue) {
     if (state.issues.length < 10) {
       state.issues = state.issues.concat(issue);
       state.pagination.itemsLenght++;
@@ -81,7 +82,7 @@ const mutations = {
       state.pagination.page = state.pagination.pageCount;
     }
   },
-  updateIssue(state, issue) {
+  [UPDATE_ISSUE](state, issue) {
     const issues = state.issues;
     const item = issues.find((i) => i.id === issue.id);
     const index = issues.indexOf(item);

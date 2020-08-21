@@ -1,3 +1,4 @@
+import { SET_STATISTIC, IS_STATISTIC_LOADED, RESET_STATISTIC } from '../multation-types';
 import axios from '@/services/axios';
 import moment from 'moment';
 
@@ -11,22 +12,20 @@ const state = {
 const getters = {};
 
 const actions = {
-  async getStatistics({ commit, rootState }) {
+  async getStatistics({ commit }) {
     try {
-      commit('emptyStatistics');
+      commit(RESET_STATISTIC);
       const { data } = await axios.get('/statistics');
-      commit('setStatistics', data.data);
-      commit('setLoaded', true);
+      commit(SET_STATISTIC, data.data);
+      commit(IS_STATISTIC_LOADED, true);
     } catch (err) {
-      rootState.app.snackbar = true;
-      rootState.app.snackbarContent.message = err.response.data.message;
-      rootState.app.snackbarContent.alertType = 'warning';
+      false;
     }
   }
 };
 
 const mutations = {
-  setStatistics(state, statistics) {
+  [SET_STATISTIC](state, statistics) {
     statistics.issuesStatistics.forEach((d) => {
       const date = moment(d.date, 'YYYYMMDD').format('DD/MM/YYYY');
       const issues = parseInt(d.issues, 10);
@@ -47,10 +46,10 @@ const mutations = {
       state.userIssuesStatistics.push({ date, total: issues });
     });
   },
-  setLoaded(state, isLoaded) {
+  [IS_STATISTIC_LOADED](state, isLoaded) {
     state.loaded = isLoaded;
   },
-  emptyStatistics(state) {
+  [RESET_STATISTIC](state) {
     state.issuesIstatistics = [];
     state.issuesStatusIstatistics = [];
     state.userIssuesStatistics = [];

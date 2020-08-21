@@ -28,6 +28,7 @@
 
 <script>
 import { mapState, mapActions, mapGetters, mapMutations } from 'vuex';
+import { SET_PROJECT } from '@/store/multation-types';
 import Paginate from '../material/Paginate';
 
 export default {
@@ -47,7 +48,7 @@ export default {
   },
   methods: {
     ...mapActions('project', ['getProjects', 'destroy', 'getProject']),
-    ...mapMutations('project', ['setPage', 'setLimit', 'setProject']),
+    ...mapMutations('project', ['setPage', SET_PROJECT]),
 
     getItem(item) {
       this.getProject(item);
@@ -58,7 +59,7 @@ export default {
       this.$router.push(`/projects/${item.id}/details`);
     },
     newProject() {
-      this.setProject({});
+      this.SET_PROJECT({});
       this.$router.push('/projects/edit-project');
     }
   },

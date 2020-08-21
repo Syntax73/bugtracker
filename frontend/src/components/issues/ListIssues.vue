@@ -38,6 +38,7 @@ import TypeChip from '../material/TypeChip';
 import PriorityChip from '../material/PriorityChip';
 import SeverityChip from '../material/SeverityChip';
 import { mapActions, mapState, mapMutations } from 'vuex';
+import { SET_ISSUE, SET_COMMENTS, LOAD_MORE_COMMENTS } from '@/store/multation-types';
 
 export default {
   name: 'ListIssues',
@@ -73,19 +74,19 @@ export default {
   },
   methods: {
     ...mapActions('issue', ['getIssues', 'getIssue']),
-    ...mapMutations('comment', ['setComments', 'setLoadMore']),
-    ...mapMutations('issue', ['setIssue']),
+    ...mapMutations('comment', [SET_COMMENTS, LOAD_MORE_COMMENTS]),
+    ...mapMutations('issue', [SET_ISSUE]),
 
     detailsItem(item) {
       this.getIssue(item);
-      this.setComments({ rows: [] });
-      this.setLoadMore(true);
+      this.SET_COMMENTS({ rows: [] });
+      this.LOAD_MORE_COMMENTS(true);
       const idProject = this.$route.params.id;
       this.$router.push(`/projects/${idProject}/issue/${item.id}`);
     },
     newIssue() {
       const id = this.$route.params.id;
-      this.setIssue({});
+      this.SET_ISSUE({});
       this.$router.push(`/projects/${id}/edit-issue`);
     }
   }

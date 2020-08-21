@@ -64,6 +64,7 @@
 
 <script>
 import { mapState, mapActions, mapMutations } from 'vuex';
+import { SET_USER } from '@/store/multation-types';
 import MessageSnackBar from '../material/MessageSnackBar';
 
 export default {
@@ -94,7 +95,7 @@ export default {
   methods: {
     ...mapActions('user', ['createUser', 'updateUser']),
     ...mapActions('app', ['toggleSnackbar']),
-    ...mapMutations('user', ['setUser']),
+    ...mapMutations('user', [SET_USER]),
 
     async submit() {
       try {
@@ -121,7 +122,7 @@ export default {
       }
     },
     reset() {
-      this.setUser({});
+      this.SET_USER({});
       this.$refs.form.reset();
       this.$router.go(-1);
     }

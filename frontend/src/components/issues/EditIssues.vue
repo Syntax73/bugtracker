@@ -94,6 +94,7 @@
 
 <script>
 import { mapState, mapActions, mapMutations } from 'vuex';
+import { SET_ISSUE } from '@/store/multation-types';
 import MessageSnackBar from '@/components/material/MessageSnackBar';
 
 export default {
@@ -174,7 +175,7 @@ export default {
   methods: {
     ...mapActions('issue', ['create', 'update']),
     ...mapActions('app', ['toggleSnackbar']),
-    ...mapMutations('issue', ['setIssue']),
+    ...mapMutations('issue', [SET_ISSUE]),
 
     async createIssue() {
       try {
@@ -205,7 +206,7 @@ export default {
     reset() {
       this.$router.go(-1);
       this.$refs.form.reset();
-      this.setIssue({});
+      this.SET_ISSUE({});
     }
   }
 };

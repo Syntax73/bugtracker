@@ -1,3 +1,4 @@
+import { SET_TEAM } from '../multation-types';
 import axios from '@/services/axios';
 
 const state = {
@@ -24,7 +25,7 @@ const actions = {
   async getTeam({ commit }, { idProject, page }) {
     try {
       const { data } = await axios.get(`/projects/${idProject}/team?page=${page}`);
-      commit('setTeam', data.data);
+      commit(SET_TEAM, data.data);
     } catch (err) {
       return false;
     }
@@ -32,7 +33,7 @@ const actions = {
 };
 
 const mutations = {
-  setTeam(state, team) {
+  [SET_TEAM](state, team) {
     const { rows, count, page, pages, limit } = team;
     state.team = rows;
     state.pagination.page = page;

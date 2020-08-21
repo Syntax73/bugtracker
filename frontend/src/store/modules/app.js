@@ -1,3 +1,10 @@
+import {
+  SET_DRAWER,
+  SET_SNACKBAR,
+  SET_SNACKBAR_CONTENT,
+  SET_APP_LOADING
+} from '../multation-types';
+
 const state = {
   drawer: null,
   snackbar: false,
@@ -12,25 +19,31 @@ const getters = {};
 
 const actions = {
   toggleDrawer({ commit, state }) {
-    commit('setDrawer', !state.drawer);
+    commit(SET_DRAWER, !state.drawer);
   },
   toggleSnackbar({ commit, state }, content) {
-    commit('setSnackbar', !state.snackbar);
-    commit('setSnackbarContent', content);
+    commit(SET_SNACKBAR, !state.snackbar);
+    commit(SET_SNACKBAR_CONTENT, content);
   },
   appLoading({ commit, state }) {
-    commit('setAppLoading', !state.isAppLoading);
+    commit(SET_APP_LOADING, !state.isAppLoading);
   }
 };
 
 const mutations = {
-  setDrawer: (state, drawer) => (state.drawer = drawer),
-  setSnackbar: (state, snackbar) => (state.snackbar = snackbar),
-  setSnackbarContent(state, snackbar) {
+  [SET_DRAWER](state, drawer) {
+    state.drawer = drawer;
+  },
+  [SET_SNACKBAR](state, snackbar) {
+    state.snackbar = snackbar;
+  },
+  [SET_SNACKBAR_CONTENT](state, snackbar) {
     state.snackbarContent.message = snackbar.message;
     state.snackbarContent.alertType = snackbar.alertType;
   },
-  setAppLoading: (state, isLoading) => (state.isAppLoading = isLoading)
+  [SET_APP_LOADING](state, isLoading) {
+    state.isAppLoading = isLoading;
+  }
 };
 
 export default {

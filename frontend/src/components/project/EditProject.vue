@@ -59,6 +59,7 @@
 
 <script>
 import { mapActions, mapState, mapMutations, mapGetters } from 'vuex';
+import { SET_PROJECT } from '@/store/multation-types';
 import Paginate from '../material/Paginate';
 import MessageSnackBar from '../material/MessageSnackBar';
 
@@ -102,7 +103,7 @@ export default {
     ...mapActions('project', ['create', 'update']),
     ...mapActions('app', ['toggleSnackbar']),
     ...mapActions('user', ['getUsers']),
-    ...mapMutations('project', ['setProject', 'setTeam']),
+    ...mapMutations('project', [SET_PROJECT, 'setTeam']),
 
     async createProject() {
       try {
@@ -131,7 +132,7 @@ export default {
       }
     },
     reset() {
-      this.setProject({});
+      this.SET_PROJECT({});
       this.setTeam([]);
       this.$refs.form.reset();
       this.$router.go(-1);

@@ -37,9 +37,9 @@ export default {
     })
   },
   mounted() {
-    const id = this.project.id;
+    const idProject = this.project.id;
     const page = 1;
-    this.getTeam({ id, page });
+    this.getTeam({ idProject, page });
   },
   methods: {
     ...mapActions('team', ['getTeam'])

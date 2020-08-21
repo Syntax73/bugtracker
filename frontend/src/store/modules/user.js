@@ -1,3 +1,5 @@
+import { SET_USER, SET_USERS, CREATE_USER, UPDATE_USER } from '../multation-types';
+
 import axios from '@/services/axios';
 import moment from 'moment';
 
@@ -31,7 +33,7 @@ const actions = {
   async getUsers({ commit }, page) {
     try {
       const { data } = await axios.get(`/users?page=${page}`);
-      commit('setUsers', data.data);
+      commit(SET_USERS, data.data);
     } catch (err) {
       return Promise.reject(err.response.data.message);
     }
@@ -49,9 +51,8 @@ const actions = {
 
       const { data } = await axios.post('/users', formData);
 
-      commit('createUser', data.data);
-      commit('setUserDialog', false);
-      commit('setUser', {});
+      commit(CREATE_USER, data.data);
+      commit(SET_USER, {});
     } catch (err) {
       return Promise.reject(err.response.data.message);
     }
@@ -59,9 +60,8 @@ const actions = {
   async updateUser({ commit }, user) {
     try {
       const { data } = await axios.put(`/users/${user.id}`, user);
-      commit('updateUser', data.data);
-      commit('setUserDialog', false);
-      commit('setUser', {});
+      commit(UPDATE_USER, data.data);
+      commit(SET_USER, {});
     } catch (err) {
       return Promise.reject(err.response.data.message);
     }
@@ -69,18 +69,18 @@ const actions = {
   async showUser({ commit }, id) {
     try {
       const { data } = await axios.get(`/users/${id}`);
-      commit('setUser', data.data);
+      commit(SET_USER, data.data);
     } catch (err) {
       return Promise.reject(err.response.data.message);
     }
   },
   getItem({ commit }, user) {
-    commit('setUser', user);
+    commit(SET_USER, user);
   }
 };
 
 const mutations = {
-  setUsers(state, users) {
+  [SET_USERS](state, users) {
     const { rows, count, page, pages, limit } = users;
     state.users = rows;
     state.pagination.page = page;
@@ -91,10 +91,10 @@ const mutations = {
   setPage(state, page) {
     state.pagination.page = page;
   },
-  setUser(state, user) {
+  [SET_USER](state, user) {
     state.user = user;
   },
-  createUser(state, user) {
+  [CREATE_USER](state, user) {
     if (state.users.length < 10) {
       state.users = state.users.concat(user);
       state.pagination.itemsLenght++;
@@ -109,7 +109,7 @@ const mutations = {
       state.pagination.page = state.pagination.pageCount;
     }
   },
-  updateUser(state, user) {
+  [UPDATE_USER](state, user) {
     const users = state.users;
     const item = users.find((i) => i.id == user.id);
     const index = users.indexOf(item);

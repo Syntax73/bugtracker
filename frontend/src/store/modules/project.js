@@ -1,3 +1,11 @@
+import {
+  SET_PROJECT,
+  SET_PROJECTS,
+  CREATE_PROJECT,
+  UPDATE_PROJECT,
+  REMOVE_PROJECT
+} from '../multation-types';
+
 import axios from '@/services/axios';
 import moment from 'moment';
 
@@ -35,7 +43,7 @@ const actions = {
   async getProjects({ commit }, page) {
     try {
       const { data } = await axios.get(`/projects?page=${page}`);
-      commit('setProjects', data.data);
+      commit(SET_PROJECTS, data.data);
     } catch (err) {
       return Promise.reject(err.response.data.message);
     }
@@ -43,7 +51,7 @@ const actions = {
   async getProject({ commit }, project) {
     try {
       const { data } = await axios.get(`/projects/${project.id}`);
-      commit('setProject', project);
+      commit(SET_PROJECT, project);
       commit('setTeam', data.data.team);
     } catch (err) {
       return Promise.reject(err.response.data.message);
@@ -52,7 +60,7 @@ const actions = {
   async getMyProjects({ commit }, page) {
     try {
       const { data } = await axios.get(`/projects/my-projects?page=${page}`);
-      commit('setProjects', data.data);
+      commit(SET_PROJECTS, data.data);
     } catch (err) {
       return Promise.reject(err.response.data.message);
     }
@@ -69,8 +77,8 @@ const actions = {
 
     try {
       const { data } = await axios.post('/projects', { name, description, team });
-      commit('createProject', data.data);
-      commit('setProject', {});
+      commit(CREATE_PROJECT, data.data);
+      commit(SET_PROJECT, {});
       commit('setTeam', []);
     } catch (err) {
       return Promise.reject(err.response.data.message);
@@ -85,8 +93,8 @@ const actions = {
 
     try {
       const { data } = await axios.put(`/projects/${id}`, { name, description, team });
-      commit('updateProject', data.data);
-      commit('setProject', {});
+      commit(UPDATE_PROJECT, data.data);
+      commit(SET_PROJECT, {});
       commit('setTeam', []);
     } catch (err) {
       return Promise.reject(err.response.data.message);
@@ -95,7 +103,7 @@ const actions = {
   async destroy({ commit }, { id }) {
     try {
       await axios.delete(`/projects/${id}`);
-      commit('deleteProject', id);
+      commit(REMOVE_PROJECT, id);
     } catch (err) {
       return Promise.reject(err.response.data.message);
     }
@@ -103,7 +111,7 @@ const actions = {
 };
 
 const mutations = {
-  setProjects(state, projects) {
+  [SET_PROJECTS](state, projects) {
     const { rows, count, page, pages, limit } = projects;
     state.projects = rows;
     state.pagination.page = page;
@@ -111,11 +119,11 @@ const mutations = {
     state.pagination.itemsPerPage = limit;
     state.pagination.itemsLenght = count;
   },
-  setProject(state, project) {
+  [SET_PROJECT](state, project) {
     state.project = project;
   },
   // Talvez não é a melhor maneira de lidar com paginação
-  createProject(state, project) {
+  [CREATE_PROJECT](state, project) {
     if (state.projects.length < 10) {
       state.projects = state.projects.concat(project);
       state.pagination.itemsLenght++;
@@ -130,13 +138,13 @@ const mutations = {
       state.pagination.page = state.pagination.pageCount;
     }
   },
-  updateProject(state, project) {
+  [UPDATE_PROJECT](state, project) {
     const projects = state.projects;
     const item = projects.find((i) => i.id === project.id);
     const index = projects.indexOf(item);
     projects.splice(index, 1, project);
   },
-  deleteProject(state, id) {
+  [REMOVE_PROJECT](state, id) {
     const projects = state.projects.filter((p) => p.id != id);
     state.projects = projects;
   },
