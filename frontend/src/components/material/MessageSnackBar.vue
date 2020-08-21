@@ -7,11 +7,12 @@
 
 <script>
 import { mapState, mapMutations } from 'vuex';
+import { SET_SNACKBAR } from '@/store/multation-types';
 
 export default {
   name: 'MessageSnackBar',
   methods: {
-    ...mapMutations('app', ['setSnackbar'])
+    ...mapMutations('app', [SET_SNACKBAR])
   },
   computed: {
     ...mapState({
@@ -25,7 +26,7 @@ export default {
         return this.snackbar;
       },
       set(value) {
-        this.setSnackbar(value);
+        this.SET_SNACKBAR(value);
       }
     }
   }
