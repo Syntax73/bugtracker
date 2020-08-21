@@ -5,8 +5,7 @@ import {
   UPDATE_PROJECT,
   REMOVE_PROJECT
 } from '../multation-types';
-
-import axios from '@/services/axios';
+import { projectService } from '../../services/project-service';
 import moment from 'moment';
 
 const state = {
@@ -41,72 +40,36 @@ const getters = {
 
 const actions = {
   async getProjects({ commit }, page) {
-    try {
-      const { data } = await axios.get(`/projects?page=${page}`);
-      commit(SET_PROJECTS, data.data);
-    } catch (err) {
-      return Promise.reject(err.response.data.message);
-    }
+    const response = await projectService.getAll(page);
+    commit(SET_PROJECTS, response);
   },
   async getProject({ commit }, project) {
-    try {
-      const { data } = await axios.get(`/projects/${project.id}`);
-      commit(SET_PROJECT, project);
-      commit('setTeam', data.data.team);
-    } catch (err) {
-      return Promise.reject(err.response.data.message);
-    }
+    const response = await projectService.getOne(project.id);
+    commit(SET_PROJECT, project);
+    commit('setTeam', response.team);
   },
   async getMyProjects({ commit }, page) {
-    try {
-      const { data } = await axios.get(`/projects/my-projects?page=${page}`);
-      commit(SET_PROJECTS, data.data);
-    } catch (err) {
-      return Promise.reject(err.response.data.message);
-    }
+    const response = await projectService.getUserProjects(page);
+    commit(SET_PROJECTS, response);
   },
   setTeam({ commit }, newTeam) {
     commit('setTeam', newTeam);
   },
   async create({ commit }, { project, teamMembers }) {
-    const { name, description } = project;
-
-    const team = teamMembers.map((users) => {
-      return users.id;
-    });
-
-    try {
-      const { data } = await axios.post('/projects', { name, description, team });
-      commit(CREATE_PROJECT, data.data);
-      commit(SET_PROJECT, {});
-      commit('setTeam', []);
-    } catch (err) {
-      return Promise.reject(err.response.data.message);
-    }
+    const response = await projectService.create(project, teamMembers);
+    commit(CREATE_PROJECT, response);
+    commit(SET_PROJECT, {});
+    commit('setTeam', []);
   },
   async update({ commit }, { project, teamMembers }) {
-    const { id, name, description } = project;
-
-    const team = teamMembers.map((users) => {
-      return users.id;
-    });
-
-    try {
-      const { data } = await axios.put(`/projects/${id}`, { name, description, team });
-      commit(UPDATE_PROJECT, data.data);
-      commit(SET_PROJECT, {});
-      commit('setTeam', []);
-    } catch (err) {
-      return Promise.reject(err.response.data.message);
-    }
+    const response = await projectService.update(project, teamMembers);
+    commit(UPDATE_PROJECT, response);
+    commit(SET_PROJECT, {});
+    commit('setTeam', []);
   },
   async destroy({ commit }, { id }) {
-    try {
-      await axios.delete(`/projects/${id}`);
-      commit(REMOVE_PROJECT, id);
-    } catch (err) {
-      return Promise.reject(err.response.data.message);
-    }
+    await projectService.destroy(id);
+    commit(REMOVE_PROJECT, id);
   }
 };
 
