@@ -40,8 +40,8 @@ const actions = {
   },
   async update({ commit }, { id, editedIssue }) {
     try {
-      await axios.put(`/projects/${id}/issues/${editedIssue.id}`, editedIssue);
-      // commit('updateIssue', data.data);
+      const { data } = await axios.put(`/projects/${id}/issues/${editedIssue.id}`, editedIssue);
+      commit('updateIssue', data.data);
     } catch (err) {
       return Promise.reject(err.response.data);
     }
@@ -85,7 +85,7 @@ const mutations = {
     const issues = state.issues;
     const item = issues.find((i) => i.id === issue.id);
     const index = issues.indexOf(item);
-    issues.splice(index, 1, issues);
+    issues.splice(index, 1, issue);
   }
 };
 

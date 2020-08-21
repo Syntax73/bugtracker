@@ -180,7 +180,7 @@ export default {
       try {
         const id = this.$route.params.idProject;
         const newIssue = this.issue;
-        this.create({ id, newIssue });
+        await this.create({ id, newIssue });
         this.$router.go(-1);
       } catch (err) {
         this.toggleSnackbar({
@@ -193,7 +193,7 @@ export default {
       try {
         const id = this.$route.params.idProject;
         const editedIssue = this.issue;
-        this.update({ id, editedIssue });
+        await this.update({ id, editedIssue });
         this.$router.go(-1);
       } catch (err) {
         this.toggleSnackbar({
