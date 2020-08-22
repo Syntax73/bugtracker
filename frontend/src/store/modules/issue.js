@@ -1,5 +1,5 @@
 import { SET_ISSUE, SET_ISSUES, CREATE_ISSUE, UPDATE_ISSUE } from '../multation-types';
-import axios from '@/services/axios';
+import issueService from '../../services/issue-service';
 
 const state = {
   issue: {},
@@ -16,36 +16,20 @@ const getters = {};
 
 const actions = {
   async getIssues({ commit }, { id, page }) {
-    try {
-      const { data } = await axios.get(`/projects/${id}/issues?page=${page}`);
-      commit(SET_ISSUES, data.data);
-    } catch (err) {
-      return Promise.reject(err.response.data);
-    }
+    const response = await issueService.getAll(id, page);
+    commit(SET_ISSUES, response);
   },
   async getMyIssues({ commit }, page) {
-    try {
-      const { data } = await axios.get(`/issues?page=${page}`);
-      commit(SET_ISSUES, data.data);
-    } catch (err) {
-      return Promise.reject(err.response.data);
-    }
+    const response = await issueService.getUserIssues(page);
+    commit(SET_ISSUES, response);
   },
   async create({ commit }, { id, newIssue }) {
-    try {
-      const { data } = await axios.post(`/projects/${id}/issues`, newIssue);
-      commit(CREATE_ISSUE, data.data);
-    } catch (err) {
-      return Promise.reject(err.response.data);
-    }
+    const response = await issueService.create(id, newIssue);
+    commit(CREATE_ISSUE, response);
   },
   async update({ commit }, { id, editedIssue }) {
-    try {
-      const { data } = await axios.put(`/projects/${id}/issues/${editedIssue.id}`, editedIssue);
-      commit(UPDATE_ISSUE, data.data);
-    } catch (err) {
-      return Promise.reject(err.response.data);
-    }
+    const response = await issueService.update(id, editedIssue);
+    commit(UPDATE_ISSUE, response);
   },
   getIssue({ commit }, issue) {
     commit(SET_ISSUE, issue);

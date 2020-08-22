@@ -5,7 +5,7 @@ import {
   UPDATE_PROJECT,
   REMOVE_PROJECT
 } from '../multation-types';
-import { projectService } from '../../services/project-service';
+import projectService from '../../services/project-service';
 import moment from 'moment';
 
 const state = {

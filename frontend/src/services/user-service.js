@@ -1,6 +1,6 @@
 import axios from './axios';
 
-export const userService = {
+const userService = {
   async getAll(page) {
     try {
       const { data } = await axios.get(`/users?page=${page}`);
@@ -44,3 +44,5 @@ export const userService = {
     }
   }
 };
+
+export default userService;

@@ -1,5 +1,5 @@
 import { SET_USER, SET_USERS, CREATE_USER, UPDATE_USER } from '../multation-types';
-import { userService } from '../../services/user-service';
+import userService from '../../services/user-service';
 
 import axios from '@/services/axios';
 import moment from 'moment';
