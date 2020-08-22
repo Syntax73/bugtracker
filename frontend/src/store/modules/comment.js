@@ -1,5 +1,5 @@
 import { SET_COMMENT, SET_COMMENTS, CREATE_COMMENT, LOAD_MORE_COMMENTS } from '../multation-types';
-import axios from '@/services/axios';
+import commentService from '../../services/comment-service';
 
 const state = {
   comment: {},
@@ -17,21 +17,16 @@ const getters = {};
 
 const actions = {
   async getComments({ commit }, { id, page }) {
-    try {
-      const { data } = await axios.get(`issues/${id}/comment?page=${page}`);
-      commit(SET_COMMENTS, data.data);
-    } catch (err) {
+    const response = await commentService.getAll(id, page);
+    if (response) {
+      commit(SET_COMMENTS, response);
+    } else {
       commit(LOAD_MORE_COMMENTS, false);
-      return false;
     }
   },
   async createComment({ commit }, { id, comment }) {
-    try {
-      const { data } = await axios.post(`issues/${id}/comment`, comment);
-      commit(CREATE_COMMENT, data.data);
-    } catch (err) {
-      return Promise.reject(err.response.data.message);
-    }
+    const response = await commentService.create(id, comment);
+    commit(CREATE_COMMENT, response);
   },
   getComment({ commit }, comment) {
     commit(SET_COMMENT, comment);

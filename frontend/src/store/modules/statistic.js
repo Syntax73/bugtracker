@@ -1,5 +1,5 @@
 import { SET_STATISTIC, IS_STATISTIC_LOADED, RESET_STATISTIC } from '../multation-types';
-import axios from '@/services/axios';
+import statisticService from '../../services/statistic-service';
 import moment from 'moment';
 
 const state = {
@@ -13,14 +13,10 @@ const getters = {};
 
 const actions = {
   async getStatistics({ commit }) {
-    try {
-      commit(RESET_STATISTIC);
-      const { data } = await axios.get('/statistics');
-      commit(SET_STATISTIC, data.data);
-      commit(IS_STATISTIC_LOADED, true);
-    } catch (err) {
-      false;
-    }
+    commit(RESET_STATISTIC);
+    const response = await statisticService.getAll();
+    commit(SET_STATISTIC, response);
+    commit(IS_STATISTIC_LOADED, true);
   }
 };
 

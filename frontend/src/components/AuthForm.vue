@@ -52,15 +52,13 @@ export default {
     ...mapActions('app', ['toggleSnackbar', 'appLoading']),
     async onSignin() {
       const { email, password } = this;
-      this.appLoading();
       try {
         await this.signin({ email, password });
         this.$router.push('/dashboard');
-        this.appLoading();
       } catch (err) {
         this.appLoading();
         this.toggleSnackbar({
-          message: err.message,
+          message: err,
           alertType: 'warning'
         });
       }

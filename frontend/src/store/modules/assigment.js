@@ -1,5 +1,5 @@
 import { SET_ASSIGMENT, REMOVE_ASSIGMENT, CREATE_ASSIGMENT } from '../multation-types';
-import axios from '@/services/axios';
+import assigmentService from '../../services/assigment-service';
 
 const state = {
   assigments: []
@@ -9,29 +9,12 @@ const getters = {};
 
 const actions = {
   async createAssigment({ commit, rootGetters }, { issueId, assigned }) {
-    try {
-      const payload = assigned
-        .map((value) => {
-          return {
-            issue_id: issueId,
-            user_id: value.id
-          };
-        })
-        .pop();
-
-      const { data } = await axios.post(`/issues/${issueId}/assigned`, { assigned: payload });
-      commit(CREATE_ASSIGMENT, rootGetters['team/getPerson'](data.data));
-    } catch (err) {
-      return Promise.reject(err.response.data.message);
-    }
+    const response = await assigmentService.create(issueId, assigned);
+    commit(CREATE_ASSIGMENT, rootGetters['team/getPerson'](response));
   },
   async deleteAssigment({ commit }, { issueId, userId }) {
-    try {
-      await axios.delete(`/issues/${issueId}/assigned/${userId.id}`);
-      commit(REMOVE_ASSIGMENT, userId);
-    } catch (err) {
-      return Promise.reject(err.response.data.message);
-    }
+    await assigmentService.destroy(issueId, userId);
+    commit(REMOVE_ASSIGMENT, userId);
   }
 };
 

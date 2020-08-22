@@ -1,5 +1,5 @@
 import { SET_TEAM } from '../multation-types';
-import axios from '@/services/axios';
+import teamService from '../../services/team-service';
 
 const state = {
   team: [],
@@ -23,12 +23,8 @@ const getters = {
 
 const actions = {
   async getTeam({ commit }, { idProject, page }) {
-    try {
-      const { data } = await axios.get(`/projects/${idProject}/team?page=${page}`);
-      commit(SET_TEAM, data.data);
-    } catch (err) {
-      return false;
-    }
+    const response = await teamService.getAll(idProject, page);
+    commit(SET_TEAM, response);
   }
 };
 

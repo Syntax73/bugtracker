@@ -1,5 +1,6 @@
 import axios from '@/services/axios';
-import { SET_TOKEN, SET_USER_SESSION, DESTROY_SESSION } from '../multation-types';
+import { SET_TOKEN, SET_USER_SESSION, DESTROY_SESSION, SET_APP_LOADING } from '../multation-types';
+import authService from '../../services/auth-service';
 
 const state = {
   token: null,
@@ -16,26 +17,16 @@ const getters = {
 };
 
 const actions = {
-  signin({ commit }, { email, password }) {
-    return new Promise((resolve, reject) => {
-      axios
-        .post('/session', { email, password })
-        .then((res) => {
-          const { token, user } = res.data.data;
-          axios.defaults.headers.common.Authorization = `Bearer ${token}`;
-          commit(SET_TOKEN, token);
-          commit(SET_USER_SESSION, user);
-          resolve(res);
-        })
-        .catch((err) => {
-          reject(err.response.data);
-        });
-    });
+  async signin({ commit }, { email, password }) {
+    commit(SET_APP_LOADING);
+    const { token, user } = await authService.signin(email, password);
+    commit(SET_TOKEN, token);
+    commit(SET_USER_SESSION, user);
+    commit(SET_APP_LOADING);
   },
   async singout({ commit, getters }) {
     if (getters.isAuth) {
-      await axios.post('/remove-token');
-      axios.defaults.headers.common.Authorization = '';
+      await authService.singout();
       commit(DESTROY_SESSION);
     }
   },
