@@ -1,4 +1,4 @@
-import { SET_TEAM } from '../multation-types';
+import { SET_TEAM, SET_PAGE } from '../multation-types';
 import teamService from '../../services/team-service';
 
 const state = {
@@ -37,7 +37,7 @@ const mutations = {
     state.pagination.itemsPerPage = limit;
     state.pagination.itemsLenght = count;
   },
-  setPage(state, page) {
+  [SET_PAGE](state, page) {
     state.pagination.page = page;
   }
 };

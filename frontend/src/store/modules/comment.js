@@ -1,4 +1,10 @@
-import { SET_COMMENT, SET_COMMENTS, CREATE_COMMENT, LOAD_MORE_COMMENTS } from '../multation-types';
+import {
+  SET_COMMENT,
+  SET_COMMENTS,
+  CREATE_COMMENT,
+  LOAD_MORE_COMMENTS,
+  SET_PAGE
+} from '../multation-types';
 import commentService from '../../services/comment-service';
 
 const state = {
@@ -59,7 +65,7 @@ const mutations = {
   [SET_COMMENT](state, comment) {
     state.comment = comment;
   },
-  setPage(state, page) {
+  [SET_PAGE](state, page) {
     state.pagination.page = page;
   },
   [LOAD_MORE_COMMENTS](state, value) {

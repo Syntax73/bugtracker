@@ -3,7 +3,8 @@ import {
   SET_PROJECTS,
   CREATE_PROJECT,
   UPDATE_PROJECT,
-  REMOVE_PROJECT
+  REMOVE_PROJECT,
+  SET_PAGE
 } from '../multation-types';
 import projectService from '../../services/project-service';
 import moment from 'moment';
@@ -23,9 +24,6 @@ const state = {
 const getters = {
   getTeam: (state) => {
     return state.team;
-  },
-  getPageCount: (state) => {
-    return state.pagination.pageCount;
   },
   getProjectsFormated: (state) => {
     return state.projects.map((data) => {
@@ -114,7 +112,7 @@ const mutations = {
   setTeam(state, newTeam) {
     state.team = newTeam;
   },
-  setPage(state, page) {
+  [SET_PAGE](state, page) {
     state.pagination.page = page;
   }
 };

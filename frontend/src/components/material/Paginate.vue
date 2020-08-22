@@ -3,6 +3,8 @@
 </template>
 
 <script>
+import { SET_PAGE } from '@/store/multation-types';
+
 export default {
   name: 'Paginate',
   props: ['store', 'listMethod', 'idValue'],
@@ -17,7 +19,7 @@ export default {
         return this.$store.state[this.store].pagination.page;
       },
       set(value) {
-        this.$store.commit(`${this.store}/setPage`, value);
+        this.$store.commit(`${this.store}/${SET_PAGE}`, value);
       }
     },
     pageTotal: {

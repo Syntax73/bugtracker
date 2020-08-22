@@ -1,7 +1,6 @@
-import { SET_USER, SET_USERS, CREATE_USER, UPDATE_USER } from '../multation-types';
+import { SET_USER, SET_USERS, CREATE_USER, UPDATE_USER, SET_PAGE } from '../multation-types';
 import userService from '../../services/user-service';
 
-import axios from '@/services/axios';
 import moment from 'moment';
 
 const state = {
@@ -16,9 +15,6 @@ const state = {
 };
 
 const getters = {
-  getPageCount: (state) => {
-    return state.pagination.pageCount;
-  },
   getUsersFormated: (state) => {
     return state.users.map((data) => {
       return {
@@ -63,9 +59,6 @@ const mutations = {
     state.pagination.itemsPerPage = limit;
     state.pagination.itemsLenght = count;
   },
-  setPage(state, page) {
-    state.pagination.page = page;
-  },
   [SET_USER](state, user) {
     state.user = user;
   },
@@ -89,6 +82,9 @@ const mutations = {
     const item = users.find((i) => i.id == user.id);
     const index = users.indexOf(item);
     users.splice(index, 1, user);
+  },
+  [SET_PAGE](state, page) {
+    state.pagination.page = page;
   }
 };
 

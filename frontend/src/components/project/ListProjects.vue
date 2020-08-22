@@ -48,7 +48,7 @@ export default {
   },
   methods: {
     ...mapActions('project', ['getProjects', 'destroy', 'getProject']),
-    ...mapMutations('project', ['setPage', SET_PROJECT]),
+    ...mapMutations('project', [SET_PROJECT]),
 
     getItem(item) {
       this.getProject(item);

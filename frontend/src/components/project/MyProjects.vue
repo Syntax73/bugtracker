@@ -38,7 +38,6 @@ export default {
   },
   methods: {
     ...mapActions('project', ['getMyProjects', 'getProject']),
-    ...mapMutations('project', ['setPage']),
 
     detailsItem(item) {
       this.getProject(item);

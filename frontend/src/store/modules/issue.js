@@ -1,4 +1,4 @@
-import { SET_ISSUE, SET_ISSUES, CREATE_ISSUE, UPDATE_ISSUE } from '../multation-types';
+import { SET_ISSUE, SET_ISSUES, CREATE_ISSUE, UPDATE_ISSUE, SET_PAGE } from '../multation-types';
 import issueService from '../../services/issue-service';
 
 const state = {
@@ -48,9 +48,6 @@ const mutations = {
   [SET_ISSUE](state, issue) {
     state.issue = issue;
   },
-  setPage(state, page) {
-    state.pagination.page = page;
-  },
   [CREATE_ISSUE](state, issue) {
     if (state.issues.length < 10) {
       state.issues = state.issues.concat(issue);
@@ -71,6 +68,9 @@ const mutations = {
     const item = issues.find((i) => i.id === issue.id);
     const index = issues.indexOf(item);
     issues.splice(index, 1, issue);
+  },
+  [SET_PAGE](state, page) {
+    state.pagination.page = page;
   }
 };
 

@@ -1,3 +1,6 @@
+// Common tyeps
+export const SET_PAGE = 'SET_PAGE';
+
 // App types
 export const SET_DRAWER = 'SET_DRAWER';
 export const SET_SNACKBAR = 'SET_SNACKBAR';
