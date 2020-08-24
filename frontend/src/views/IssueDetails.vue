@@ -4,7 +4,7 @@
     <v-col cols="12">
       <IssueDescription />
     </v-col>
-    <v-col cols="8">
+    <v-col md="8" xs="12">
       <div class="mb-2">
         <ListComments />
       </div>
@@ -12,7 +12,7 @@
         <AddComment />
       </div>
     </v-col>
-    <v-col cols="4">
+    <v-col md="4" xs="12">
       <div class="mb-2">
         <IssueDetails />
       </div>
