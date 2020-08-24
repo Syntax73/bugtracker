@@ -19,6 +19,17 @@ const authService = {
     } catch (err) {
       return false;
     }
+  },
+  async validateToken() {
+    try {
+      const { data } = await axios.post('/refresh-token');
+      const { token, user } = data.data;
+      axios.defaults.headers.common.Authorization = `Bearer ${token}`;
+      return { token, user };
+    } catch (err) {
+      axios.defaults.headers.common.Authorization = '';
+      return Promise.reject(err.response.data.message);
+    }
   }
 };
 

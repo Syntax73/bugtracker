@@ -20,16 +20,17 @@ export default {
     };
   },
   methods: {
-    ...mapActions('auth', ['validateToken'])
+    ...mapActions('auth', ['validateToken']),
+    ...mapActions('app', ['appLoading'])
   },
-  created() {
-    this.validateToken()
-      .then((res) => {
-        this.$router.push('/dashboard');
-      })
-      .catch((err) => {
-        this.$router.push('/');
-      });
+  async created() {
+    try {
+      await this.validateToken();
+      this.$router.push('/dashboard');
+    } catch (err) {
+      this.appLoading();
+      this.$router.push('/');
+    }
   },
   computed: {
     ...mapState({

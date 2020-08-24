@@ -18,11 +18,11 @@ const getters = {
 
 const actions = {
   async signin({ commit }, { email, password }) {
-    commit(`app/${SET_APP_LOADING}`, null, { root: true });
+    commit(`app/${SET_APP_LOADING}`, true, { root: true });
     const { token, user } = await authService.signin(email, password);
     commit(SET_TOKEN, token);
     commit(SET_USER_SESSION, user);
-    commit(`app/${SET_APP_LOADING}`, null, { root: true });
+    commit(`app/${SET_APP_LOADING}`, false, { root: true });
   },
   async singout({ commit, getters }) {
     if (getters.isAuth) {
@@ -30,22 +30,12 @@ const actions = {
       commit(DESTROY_SESSION);
     }
   },
-  validateToken({ commit }) {
-    return new Promise((resolve, reject) => {
-      axios
-        .post('/refresh-token')
-        .then((res) => {
-          const { token, user } = res.data.data;
-          axios.defaults.headers.common.Authorization = `Bearer ${token}`;
-          commit(SET_TOKEN, token);
-          commit(SET_USER_SESSION, user);
-          resolve(res);
-        })
-        .catch((err) => {
-          axios.defaults.headers.common.Authorization = '';
-          reject(err);
-        });
-    });
+  async validateToken({ commit }) {
+    commit(`app/${SET_APP_LOADING}`, true, { root: true });
+    const { token, user } = await authService.validateToken();
+    commit(SET_TOKEN, token);
+    commit(SET_USER_SESSION, user);
+    commit(`app/${SET_APP_LOADING}`, false, { root: true });
   }
 };
 
