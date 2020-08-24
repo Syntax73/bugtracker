@@ -18,11 +18,11 @@ const getters = {
 
 const actions = {
   async signin({ commit }, { email, password }) {
-    commit(SET_APP_LOADING);
+    commit(`app/${SET_APP_LOADING}`, null, { root: true });
     const { token, user } = await authService.signin(email, password);
     commit(SET_TOKEN, token);
     commit(SET_USER_SESSION, user);
-    commit(SET_APP_LOADING);
+    commit(`app/${SET_APP_LOADING}`, null, { root: true });
   },
   async singout({ commit, getters }) {
     if (getters.isAuth) {

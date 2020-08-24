@@ -1,4 +1,3 @@
-const jwt = require('jsonwebtoken');
 const User = require('../models/User');
 const ApiResponse = require('../helpers/apiResponse');
 const RefreshToken = require('../helpers/refreshToken');

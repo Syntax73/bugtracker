@@ -1,1 +1,3 @@
-module.exports = { credentials: true, origin: 'http://localhost:8080' };
+require('dotenv').config();
+
+module.exports = { credentials: true, origin: process.env.CORS_URL };
