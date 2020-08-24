@@ -3,7 +3,7 @@
     <v-col cols="12">
       <h1>Statisticas</h1>
     </v-col>
-    <v-col cols="8">
+    <v-col md="8" xs="12">
       <v-card>
         <v-toolbar>
           <v-toolbar-title>Todas as issues reportadas</v-toolbar-title>
@@ -18,7 +18,7 @@
         </v-card-text>
       </v-card>
     </v-col>
-    <v-col cols="4">
+    <v-col md="4" xs="12">
       <v-card>
         <v-toolbar>
           <v-toolbar-title>Status das issues</v-toolbar-title>
