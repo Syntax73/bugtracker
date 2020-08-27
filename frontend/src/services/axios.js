@@ -2,13 +2,10 @@ import axios from 'axios';
 import store from '../store';
 import jwtDecode from 'jwt-decode';
 
-const axiosInstance = axios.create({
-  baseURL: process.env.VUE_APP_API,
-  withCredentials: true
-});
+const apiUrl = process.env.VUE_APP_API;
 
-const refresh = axios.create({
-  baseURL: process.env.VUE_APP_API,
+const axiosInstance = axios.create({
+  baseURL: apiUrl,
   withCredentials: true
 });
 
@@ -19,7 +16,10 @@ axiosInstance.interceptors.request.use(
     if (token) {
       const { exp } = jwtDecode(token);
       if (Date.now() >= exp * 1000) {
-        const { data } = await refresh.post('/refresh-token');
+        const { data } = await fetch(`${apiUrl}/refresh-token`, {
+          method: 'POST',
+          credentials: 'include'
+        });
         originalRequest.headers.Authorization = `Bearer ${data.data.token}`;
         store.commit('auth/setToken', data.data.token);
       } else {
