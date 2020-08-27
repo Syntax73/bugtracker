@@ -7,7 +7,7 @@ const role = require('../middlewares/role');
 const UserController = require('../controllers/UserController');
 
 const validateDto = require('../middlewares/validateDto');
-const { userDto } = require('../dto');
+const { createUserDto, updateUserDto } = require('../dto');
 
 routes.get('/', isAuth, role(['admin']), UserController.index);
 routes.get('/:id', isAuth, role(['admin']), UserController.show);
@@ -16,9 +16,15 @@ routes.post(
   isAuth,
   role(['admin']),
   multer(mConfig).single('avatar'),
-  validateDto(userDto),
+  validateDto(createUserDto),
   UserController.store
 );
-routes.put('/:id', isAuth, role(['admin']), UserController.update);
+routes.put(
+  '/:id',
+  isAuth,
+  role(['admin']),
+  validateDto(updateUserDto),
+  UserController.update
+);
 
 module.exports = routes;

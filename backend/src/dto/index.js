@@ -3,18 +3,29 @@ const ptBr = require('../locales/pt-br');
 
 setLocale(ptBr);
 
-const sessionDto = require('./session');
-const projectDto = require('./project');
-const issueDto = require('./issue');
-const commentDto = require('./comment');
-const assignedDto = require('./assigned');
-const userDto = require('./user');
+const sessionDto = require('./sessionDto');
+const createProjectDto = require('./createProjectDto');
+const createIssueDto = require('./createIssueDto');
+const createCommentDto = require('./createCommentDto');
+const createAssignedDto = require('./createAssignedDto');
+const createUserDto = require('./createUserDto');
+
+const updateProjectDto = require('./updateProjectDto');
+const updateIssueDto = require('./updateIssueDto');
+const updateCommentDto = require('./updateCommentDto');
+const updateAssignedDto = require('./updateAssignedDto');
+const updateUserDto = require('./updateUserDto');
 
 module.exports = {
   sessionDto,
-  projectDto,
-  issueDto,
-  commentDto,
-  assignedDto,
-  userDto,
+  createProjectDto,
+  createIssueDto,
+  createCommentDto,
+  createAssignedDto,
+  createUserDto,
+  updateProjectDto,
+  updateIssueDto,
+  updateCommentDto,
+  updateAssignedDto,
+  updateUserDto,
 };

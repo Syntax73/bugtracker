@@ -4,13 +4,13 @@ const role = require('../middlewares/role');
 
 const IssueAssignedController = require('../controllers/IssueAssignedController');
 const validateDto = require('../middlewares/validateDto');
-const { assignedDto } = require('../dto');
+const { createAssignedDto } = require('../dto');
 
 routes.post(
   '/issues/:issue_id/assigned',
   isAuth,
   role(['project_lead', 'test_lead', 'admin']),
-  validateDto(assignedDto),
+  validateDto(createAssignedDto),
   IssueAssignedController.store
 );
 routes.delete(

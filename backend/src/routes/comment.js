@@ -3,7 +3,7 @@ const isAuth = require('../middlewares/isAuth');
 const IssueCommentController = require('../controllers/IssueCommentController');
 
 const validateDto = require('../middlewares/validateDto');
-const { commentDto } = require('../dto');
+const { createCommentDto, updateCommentDto } = require('../dto');
 
 routes.get('/issues/:issue_id/comment', isAuth, IssueCommentController.index);
 routes.get(
@@ -14,12 +14,13 @@ routes.get(
 routes.post(
   '/issues/:issue_id/comment',
   isAuth,
-  validateDto(commentDto),
+  validateDto(createCommentDto),
   IssueCommentController.store
 );
 routes.put(
   '/issues/:issue_id/comment/:comment_id',
   isAuth,
+  validateDto(updateCommentDto),
   IssueCommentController.update
 );
 routes.delete(

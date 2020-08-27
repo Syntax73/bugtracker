@@ -49,7 +49,7 @@ class UserController {
   // TODO fazer o usuario atualizar o avatar
   async update(req, res) {
     const { id } = req.params;
-    const { name, email, password, role } = req.body;
+    const { name, email, role } = req.body;
     const http = new ApiResponse(res);
 
     try {
@@ -59,7 +59,7 @@ class UserController {
         return http.badResquest('Usuario não encontrado');
       }
 
-      const user = await reqUser.update({ name, email, password, role });
+      const user = await reqUser.update({ name, email, role });
 
       return http.ok(user);
     } catch (err) {
