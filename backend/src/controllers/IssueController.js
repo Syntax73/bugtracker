@@ -125,13 +125,12 @@ class IssueController {
   }
 
   async update(req, res) {
-    const { project_id: projectId, issue_id: issueId } = req.params;
+    const { issue_id: issueId } = req.params;
     const { title, priority, description, severity, status, type } = req.body;
     const { id } = req.userData;
     const http = new ApiResponse(res);
 
     try {
-      const project = await Project.findByPk(projectId);
       const reqIssue = await Issue.findByPk(issueId, {
         include: [
           {
@@ -144,8 +143,8 @@ class IssueController {
         ],
       });
 
-      if (!project || !reqIssue) {
-        return http.badResquest('Projeto/Issue não encontrado');
+      if (!reqIssue) {
+        return http.badResquest('Issue não encontrado');
       }
 
       if (reqIssue.user_id !== id) {
@@ -155,19 +154,22 @@ class IssueController {
       await sequelize.transaction(async (transaction) => {
         const reqType = await IssueType.findByPk(reqIssue.type.id);
         const newType = type.type;
-        await reqType.update({ issue_id: issueId, newType }, { transaction });
+        await reqType.update(
+          { issue_id: issueId, type: newType },
+          { transaction }
+        );
 
         const reqPriority = await IssuePriority.findByPk(reqIssue.priority.id);
         const newPriority = priority.priority;
         await reqPriority.update(
-          { issue_id: issueId, newPriority },
+          { issue_id: issueId, priority: newPriority },
           { transaction }
         );
 
         const reqSeverity = await IssueSeverity.findByPk(reqIssue.severity.id);
         const newSeverity = severity.severity;
         await reqSeverity.update(
-          { issue_id: issueId, newSeverity },
+          { issue_id: issueId, severity: newSeverity },
           { transaction }
         );
 
@@ -177,8 +179,8 @@ class IssueController {
         );
       });
 
-      const reIssue = await reqIssue.reload();
-      return http.ok(reIssue);
+      const response = await reqIssue.reload();
+      return http.ok(response);
     } catch (err) {
       return http.serverError();
     }
