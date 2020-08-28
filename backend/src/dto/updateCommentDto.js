@@ -1,5 +1,5 @@
 const yup = require('yup');
 
 module.exports = yup.object().shape({
-  comment: yup.string(),
+  comment: yup.string().min(1),
 });

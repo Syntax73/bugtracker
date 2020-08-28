@@ -6,7 +6,7 @@ module.exports = {
   username: process.env.DB_USER,
   password: process.env.DB_PASS,
   dialect: process.env.DB_DIALECT,
-  logging: true,
+  logging: false,
   define: {
     underscored: true,
     timestamps: true,

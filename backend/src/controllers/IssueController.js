@@ -88,6 +88,7 @@ class IssueController {
 
       return http.created(issue);
     } catch (err) {
+      console.log(err);
       return http.serverError();
     }
   }
