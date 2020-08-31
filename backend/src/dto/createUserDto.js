@@ -10,6 +10,6 @@ module.exports = yup.object().shape({
     .required(),
   role: yup
     .string()
-    .matches(/(developer|test_lead|project_lead|admin)/)
+    .matches(/(developer|test_lead|project_lead|admin|test)/)
     .default('developer'),
 });

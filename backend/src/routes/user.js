@@ -3,6 +3,7 @@ const multer = require('multer');
 const mConfig = require('../config/multer');
 const isAuth = require('../middlewares/isAuth');
 const role = require('../middlewares/role');
+const testAccounts = require('../middlewares/testAccounts');
 
 const UserController = require('../controllers/UserController');
 
@@ -14,6 +15,7 @@ routes.get('/:id', isAuth, role(['admin']), UserController.show);
 routes.post(
   '/',
   isAuth,
+  testAccounts(),
   role(['admin']),
   multer(mConfig).single('avatar'),
   validateDto(createUserDto),

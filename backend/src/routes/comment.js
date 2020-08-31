@@ -1,5 +1,6 @@
 const routes = require('express').Router();
 const isAuth = require('../middlewares/isAuth');
+const testAccounts = require('../middlewares/testAccounts');
 const IssueCommentController = require('../controllers/IssueCommentController');
 
 const validateDto = require('../middlewares/validateDto');
@@ -14,18 +15,21 @@ routes.get(
 routes.post(
   '/issues/:issue_id/comment',
   isAuth,
+  testAccounts(),
   validateDto(createCommentDto),
   IssueCommentController.store
 );
 routes.put(
   '/issues/:issue_id/comment/:comment_id',
   isAuth,
+  testAccounts(),
   validateDto(updateCommentDto),
   IssueCommentController.update
 );
 routes.delete(
   '/issues/:issue_id/comment/:comment_id',
   isAuth,
+  testAccounts(),
   IssueCommentController.destroy
 );
 

@@ -5,6 +5,6 @@ module.exports = yup.object().shape({
   email: yup.string().email().required(),
   role: yup
     .string()
-    .matches(/(developer|test_lead|project_lead|admin)/)
+    .matches(/(developer|test_lead|project_lead|admin|test)/)
     .default('developer'),
 });
