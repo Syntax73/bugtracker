@@ -26,6 +26,7 @@
           </v-form>
         </v-card-text>
         <v-card-actions>
+          <v-btn router to="/test-accounts">Contas de teste</v-btn>
           <v-spacer />
           <v-btn align-center justify-center @click="onSignin">Entrar</v-btn>
         </v-card-actions>
