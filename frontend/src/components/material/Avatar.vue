@@ -13,7 +13,11 @@ export default {
   },
   methods: {
     concatUrl() {
-      this.newAvatar = `${this.newAvatar}/files/${this.avatar}`;
+      if (this.avatar) {
+        this.newAvatar = `${this.newAvatar}/files/${this.avatar}`;
+      } else {
+        this.newAvatar = require('@/assets/default_avatar.svg');
+      }
     }
   },
   mounted() {
